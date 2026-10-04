@@ -9,3 +9,36 @@
 {"scenario": "spill_density", "rep": 0, "seconds": 6.3, "n_cells": 40000, "n_perturbed": 2557, "n_ntc": 643, "n_misassigned": 0}
 {"scenario": "spill_density", "rep": 1, "seconds": 5.6, "n_cells": 40000, "n_perturbed": 2566, "n_ntc": 634, "n_misassigned": 0}
 {"scenario": "spill_batch", "rep": 0, "seconds": 5.9, "n_cells": 40000, "n_perturbed": 2557, "n_ntc": 643, "n_misassigned": 0}
+{"scenario": "spill_batch", "rep": 1, "seconds": 6.3, "n_cells": 40000, "n_perturbed": 2566, "n_ntc": 634, "n_misassigned": 0}
+{"scenario": "spill_clonal", "rep": 0, "seconds": 9.2, "n_cells": 40000, "n_perturbed": 2198, "n_ntc": 512, "n_misassigned": 0}
+{"scenario": "spill_clonal", "rep": 1, "seconds": 8.9, "n_cells": 40000, "n_perturbed": 1994, "n_ntc": 667, "n_misassigned": 0}
+{"scenario": "spill_misassign", "rep": 0, "seconds": 6.8, "n_cells": 40000, "n_perturbed": 2967, "n_ntc": 754, "n_misassigned": 521}
+{"scenario": "spill_misassign", "rep": 1, "seconds": 6.7, "n_cells": 40000, "n_perturbed": 2993, "n_ntc": 741, "n_misassigned": 534}
+{"scenario": "everything", "rep": 0, "seconds": 10.3, "n_cells": 40000, "n_perturbed": 2255, "n_ntc": 529, "n_misassigned": 74}
+{"scenario": "everything", "rep": 1, "seconds": 10.0, "n_cells": 40000, "n_perturbed": 2057, "n_ntc": 685, "n_misassigned": 81}
+           scenario estimator        kind  ring  null_fpr_q  null_cov95  power_q  auroc  fdp_q  n_tests
+0         auto_only        E1  autonomous    -1         0.0       0.913      0.0  0.936    NaN    900.0
+1         auto_only        E1   spillover     1         0.0       0.908      NaN    NaN    NaN    150.0
+2         auto_only        E1   spillover     2         0.0       0.912      NaN    NaN    NaN    900.0
+3        everything        E1   spillover     2         0.0       0.898      0.0  0.496    NaN    330.0
+4         no_effect        E1  autonomous    -1         0.0       0.958      NaN    NaN    NaN    900.0
+5         no_effect        E1   spillover     1         0.0       0.893      NaN    NaN    NaN    150.0
+6         no_effect        E1   spillover     2         0.0       0.918      NaN    NaN    NaN    900.0
+7             spill        E1  autonomous    -1         0.0       0.890      0.0  0.913    NaN    900.0
+8             spill        E1   spillover     1         0.0       0.879      0.0  0.399    NaN    150.0
+9             spill        E1   spillover     2         0.0       0.909      0.0  0.499    NaN    900.0
+10      spill_batch        E1  autonomous    -1         0.0       0.897      0.0  0.902    NaN    900.0
+11      spill_batch        E1   spillover     1         0.0       0.899      0.0  0.459    NaN    150.0
+12      spill_batch        E1   spillover     2         0.0       0.911      0.0  0.515    NaN    900.0
+13      spill_bleed        E1  autonomous    -1         0.0       0.886      0.0  0.913    NaN    900.0
+14      spill_bleed        E1   spillover     1         0.0       0.846      0.0  0.444    NaN    150.0
+15      spill_bleed        E1   spillover     2         0.0       0.924      0.0  0.504    NaN    900.0
+16     spill_clonal        E1   spillover     2         0.0       0.886      0.0  0.380    NaN    270.0
+17    spill_density        E1  autonomous    -1         0.0       0.885      0.0  0.905    NaN    900.0
+18    spill_density        E1   spillover     1         0.0       0.896      0.0  0.313    NaN    150.0
+19    spill_density        E1   spillover     2         0.0       0.915      0.0  0.422    NaN    900.0
+20  spill_misassign        E1  autonomous    -1         0.0       0.904      0.0  0.912    NaN    900.0
+21  spill_misassign        E1   spillover     1         0.0       0.880      0.0  0.612    NaN    210.0
+22  spill_misassign        E1   spillover     2         0.0       0.916      0.0  0.532    NaN    900.0
+results in results/2b9e829ad9
+DONE_BENCH

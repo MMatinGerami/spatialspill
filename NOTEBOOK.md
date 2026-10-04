@@ -148,3 +148,24 @@ hepatocyte clones (daughter cells stay adjacent) and with local vector spread; b
 undetected g cells next to detected ones. ADR-003 applies. For Perturb-Multi the pool of
 confirmed non-g recipients is the 3,828 control cells plus cells with other guides (option
 `control_policy: any_other_guide`, to be added to the group definitions).
+
+## 2026-10-05 First pre-registered E1 run on Perturb-FISH, and amendment A1
+
+results/5d30bb4682 (config e1_perturb_fish.yaml, 200 permutations, 98,000 identified tests).
+- H1 passes: NTC pseudo-targets give p < 0.05 in 5.2% of tests (autonomous 8.1%, ring 0 7.0%,
+  ring 1 3.4%, ring 2 2.4%) and 0% at q < 0.10.
+- H2 fails trivially: zero autonomous hits at q < 0.10, and zero spillover hits. The cause is
+  resolution, not biology: with 200 permutations the smallest p is 1/201 = 0.005, and BH over
+  86,500 tests requires p below 0.1 x k / 86,500 for the k-th smallest p, which 0.005 can reach
+  only if about 4,300 tests are all at the floor. The pre-registered design could not have
+  detected anything. (Raw rates: 9.2% of autonomous target tests at p < 0.05 versus 8.1% for
+  NTC, so the autonomous signal is weak in any case; median 21 treated cells per target.)
+- Positivity: ring 0 (0 to 15 um) has a median of 5.5 recipients per target; rings 1 and 2
+  have 10.5 and 32.
+
+Amendment A1 (declared before re-running): p-values are permutation-calibrated z-scores. For
+each test the permutation null's mean and standard deviation are accumulated, z = (observed
+minus null mean) / null sd, and p is two-sided normal. The exact permutation p-value is kept in
+the table as `pvalue_perm`. Calibration is re-checked on NTC pseudo-targets (fraction at
+p < 0.05 and at q < 0.10) before any hit is interpreted; H1 applies to the z p-values.
+H2, H3 and H4 are unchanged.

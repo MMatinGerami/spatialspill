@@ -56,6 +56,9 @@ def test_e1_recovers_planted_autonomous_effect():
     ].iloc[0]
     assert row["estimate"] > 0.5
     assert row["pvalue"] < 0.1
+    assert row["pvalue_perm"] <= 1 / 21 + 1e-9  # floor with 20 permutations
+    tab_p = E1Stratified(n_perm=20, min_cells=3, pvalue="perm").fit(a, exp, Y, list(a.var_names))
+    assert (tab_p.df.loc[tab_p.df.identified, "pvalue"] >= 1 / 21 - 1e-9).all()
     # and no autonomous effect on G1 for GENE_A at the same scale
     row1 = df[
         (df.target == "GENE_A")

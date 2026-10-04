@@ -5,6 +5,11 @@ the weighted average over strata s in c (strata = sample x cell type) of the mea
 between treated and control cells, weights w_s = n_T n_C / (n_T + n_C). Standard errors use
 within-group variances; p-values come from re-randomising guide labels within strata and
 recomputing exposures and the statistic (so the null respects geometry and composition).
+Two p-values are reported: the exact permutation p-value with the +1 correction
+(``pvalue_perm``, floor 1/(n_perm+1)) and, by default, a permutation-calibrated z p-value
+(``pvalue``): z = (observed - null mean) / null sd with a two-sided normal tail. The z version
+has no floor and is what BH-FDR over tens of thousands of tests needs; its calibration is
+checked on NTC pseudo-targets (NOTEBOOK amendment A1).
 """
 
 from __future__ import annotations
@@ -13,6 +18,7 @@ import numpy as np
 import pandas as pd
 import scipy.sparse as sp
 from anndata import AnnData
+from scipy import stats
 
 from spatialspill.estimators.base import EstimateTable, Estimator
 from spatialspill.estimators.groups import GroupConfig, group_masks
@@ -105,7 +111,11 @@ class E1Stratified(Estimator):
         min_cells: int = 5,
         groups: GroupConfig | None = None,
         report_by_cell_type: bool = True,
+        pvalue: str = "z",
     ) -> None:
+        if pvalue not in ("z", "perm"):
+            raise ValueError("pvalue must be 'z' or 'perm'")
+        self.pvalue = pvalue
         self.n_perm = n_perm
         self.seed = seed
         self.strata_keys = strata_keys
@@ -156,6 +166,8 @@ class E1Stratified(Estimator):
         # permutation null: re-randomise labels within strata, recompute exposure + statistic
         exceed = np.zeros_like(E)
         n_valid = np.zeros_like(E)
+        null_sum = np.zeros_like(E)
+        null_sq = np.zeros_like(E)
         rng = np.random.default_rng(self.seed)
         labels0 = exposure.labels.copy()
         is_ntc_lab = np.array([t.startswith("NTC:") for t in labels0])
@@ -173,9 +185,22 @@ class E1Stratified(Estimator):
                 fin = np.isfinite(e) & np.isfinite(E[ki])
                 exceed[ki] += fin & (np.abs(e) >= np.abs(E[ki]))
                 n_valid[ki] += fin
+                e0 = np.where(fin, e, 0.0)
+                null_sum[ki] += e0
+                null_sq[ki] += e0 * e0
         exposure.recompute(labels0)
         del is_ntc_lab
-        pvals = (exceed + 1) / (n_valid + 1)
+        pvals_perm = (exceed + 1) / (n_valid + 1)
+        with np.errstate(invalid="ignore", divide="ignore"):
+            null_mean = null_sum / n_valid
+            null_sd = np.sqrt(
+                np.maximum(null_sq / n_valid - null_mean**2, 0)
+                * n_valid
+                / np.maximum(n_valid - 1, 1)
+            )
+            z = (E - null_mean) / null_sd
+        pvals_z = 2 * stats.norm.sf(np.abs(z))
+        pvals = pvals_z if self.pvalue == "z" else pvals_perm
 
         rows: list[dict[str, object]] = []
         se = np.sqrt(V)
@@ -203,6 +228,8 @@ class E1Stratified(Estimator):
                                 "ci_low": est - 1.96 * s,
                                 "ci_high": est + 1.96 * s,
                                 "pvalue": pvals[ki, gi, k, g] if ident else np.nan,
+                                "pvalue_perm": pvals_perm[ki, gi, k, g] if ident else np.nan,
+                                "null_sd": null_sd[ki, gi, k, g] if ident else np.nan,
                                 "n_treated": int(NT[ki, gi, k]),
                                 "n_control": int(NC[ki, gi, k]),
                                 "identified": bool(ident),
