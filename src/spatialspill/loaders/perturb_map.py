@@ -30,8 +30,8 @@ Coordinates
 pixel scale must be recovered from the known geometry. Two anchors are available:
 
 - ``"pitch"`` (default): the median nearest-neighbour distance between spot centres in pixel
-  space equals 100 um on the Visium array. In all four sections this is 49.2 px, so
-  1 um = 0.492 px.
+  space (over all 4992 array positions) equals 100 um on the Visium array. In all four
+  sections this is 49.0 px, so 1 um = 0.490 px.
 - ``"spot_diameter"``: ``spot_diameter_fullres`` from ``scalefactors_json`` taken as 55 um
   (32.3 px, so 1 um = 0.588 px). In Space Ranger output the ratio spot diameter / pitch is
   0.656 rather than 0.55, meaning the reported diameter corresponds to about 65 um. Using it

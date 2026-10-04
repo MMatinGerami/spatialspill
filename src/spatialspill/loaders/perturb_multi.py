@@ -60,23 +60,38 @@ def read_obs(path: Path) -> pd.DataFrame:
     return df
 
 
-def recover_counts(lognorm_block: np.ndarray, tol: float = 1e-6) -> np.ndarray:
+def recover_counts(
+    lognorm_block: np.ndarray, tol: float = 1e-6, max_min_count: int = 20
+) -> np.ndarray:
     """Invert scanpy's normalize_total + log1p exactly.
 
-    The deposited ``raw.X`` is log1p(count * target_sum / total). For every cell the smallest
-    non-zero value corresponds to a count of 1, which gives the cell's size factor; dividing
-    by it returns integers (verified to 1e-13 on the deposited data, target_sum = 93).
-    Raises if any recovered value is further than ``tol`` from an integer.
+    The deposited ``raw.X`` is log1p(count * target_sum / total). For a cell whose smallest
+    non-zero count is 1, the smallest non-zero value gives the size factor directly; for cells
+    whose smallest count is k > 1 the candidate size factor is divided by k = 2, 3, ... until all
+    recovered values are integers (verified to 1e-13 on the deposited data, target_sum = 93).
+    Raises if no k up to ``max_min_count`` works.
     """
     E = np.expm1(lognorm_block.astype(np.float64))
     pos = np.where(E > 0, E, np.inf)
-    sf = pos.min(axis=1)
-    sf = np.where(np.isfinite(sf), sf, 1.0)
-    C = E / sf[:, None]
-    R = np.round(C)
-    if np.abs(C - R).max() > tol:
-        raise ValueError("recovered counts are not integers; the normalisation assumption failed")
-    return R.astype(np.float32)
+    vmin = pos.min(axis=1)
+    vmin = np.where(np.isfinite(vmin), vmin, 1.0)
+    out = np.zeros_like(E)
+    unresolved = np.ones(E.shape[0], dtype=bool)
+    for k in range(1, max_min_count + 1):
+        if not unresolved.any():
+            break
+        idx = np.flatnonzero(unresolved)
+        C = E[idx] * (k / vmin[idx])[:, None]
+        R = np.round(C)
+        ok = np.abs(C - R).max(axis=1) <= tol
+        out[idx[ok]] = R[ok]
+        unresolved[idx[ok]] = False
+    if unresolved.any():
+        raise ValueError(
+            f"{unresolved.sum()} cells: recovered counts are not integers for any minimum count"
+            f" up to {max_min_count}"
+        )
+    return out.astype(np.float32)
 
 
 def _read_rows(ds: h5py.Dataset, rows: np.ndarray, chunk: int = 100_000) -> sp.csr_matrix:

@@ -87,8 +87,10 @@ exists, so `is_ntc` is False everywhere.
 - 40 gene symbols are duplicated in the Space Ranger feature list (32289 features, reference
   `refdata-gex-mm10-2020-A-mCherry`, which includes an mCherry transgene);
   `var_names_make_unique()` is applied and Ensembl ids are kept in `var["gene_ids"]`.
-- `nCount_Spatial` in the annotation equals the row sum of the filtered matrix (same median, to
-  within rounding of the medians across different spot sets), so X is unnormalised.
+- `nCount_Spatial` and `nFeature_Spatial` in the annotation equal the row sums and non-zero
+  counts of the filtered matrix exactly (checked for KP_4 with `numpy.array_equal`), so X holds
+  the same raw counts the authors annotated. The loader recomputes them as `n_counts` and
+  `n_features`.
 - Edge distance uses the bounding-box proxy from `schema.edge_distance_from_coords`; no tissue
   mask is parsed from the images.
 

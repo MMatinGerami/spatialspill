@@ -13,6 +13,12 @@ def test_recover_counts_inverts_normalisation():
     assert np.array_equal(rec, counts)
 
 
+def test_recover_counts_handles_min_count_above_one():
+    counts = np.array([[2.0, 4.0, 0.0, 6.0], [3.0, 0.0, 3.0, 9.0]])
+    ln = np.log1p(counts * 93.0 / counts.sum(1)[:, None])
+    assert np.array_equal(recover_counts(ln), counts)
+
+
 def test_recover_counts_rejects_non_integer():
     import pytest
 
