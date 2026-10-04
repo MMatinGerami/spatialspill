@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/Users/matin/projects/bioinfo/spatialspill/scripts/audit_datasets.py", line 219, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/Users/matin/projects/bioinfo/spatialspill/scripts/audit_datasets.py", line 214, in main
+    audit(d, Path(a.out), a.n_perm)
+  File "/Users/matin/projects/bioinfo/spatialspill/scripts/audit_datasets.py", line 46, in audit
+    adata = load_dataset(name, **DATASET_KWARGS.get(name, {}))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/matin/projects/bioinfo/spatialspill/src/spatialspill/loaders/registry.py", line 23, in load_dataset
+    return load_perturb_multi(**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/matin/projects/bioinfo/spatialspill/src/spatialspill/loaders/perturb_multi.py", line 128, in load_perturb_multi
+    X = _read_rows(f["raw"]["X"], rows)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/matin/projects/bioinfo/spatialspill/src/spatialspill/loaders/perturb_multi.py", line 93, in _read_rows
+    blocks.append(sp.csr_matrix(recover_counts(block[sel - start])))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/matin/projects/bioinfo/spatialspill/src/spatialspill/loaders/perturb_multi.py", line 78, in recover_counts
+    raise ValueError("recovered counts are not integers; the normalisation assumption failed")
+ValueError: recovered counts are not integers; the normalisation assumption failed
+DONE_AUDIT

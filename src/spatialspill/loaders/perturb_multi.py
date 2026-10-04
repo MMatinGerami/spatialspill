@@ -116,12 +116,12 @@ def load_perturb_multi(
     if max_cells_per_batch is not None:
         keep_idx: list[np.ndarray] = []
         for _, sub in obs.groupby("batch", sort=False):
-            assigned = sub.index[sub["singlet_gene"] != ""]
-            other = sub.index[sub["singlet_gene"] == ""]
+            assigned = sub.index[sub["singlet_gene"] != ""].to_numpy()
+            other = sub.index[sub["singlet_gene"] == ""].to_numpy()
             n_other = max(0, max_cells_per_batch - len(assigned))
             if len(other) > n_other:
-                other = rng.choice(other.to_numpy(), size=n_other, replace=False)
-            keep_idx.append(np.concatenate([assigned.to_numpy(), np.asarray(other)]))
+                other = rng.choice(other, size=n_other, replace=False)
+            keep_idx.append(np.concatenate([assigned, other]))
         obs = obs.loc[np.sort(np.concatenate(keep_idx))]
     rows = obs.index.to_numpy()
     with h5py.File(path, "r") as f:
