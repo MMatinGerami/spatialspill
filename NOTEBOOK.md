@@ -53,3 +53,26 @@ Verified by probing (details, URLs and sizes in data/README.md):
 Open question: at 3.6% assigned cells, how many Perturb-Multi recipients have exactly one
 perturbed neighbour of a given gene within 30 um? The audit and the first E1 run answer this
 (positivity table).
+
+## 2026-10-04 Perturb-Multi audit: same-guide cells are strongly clustered
+
+Audit of sections 4, 5, 8, 9, 10 (750,000 cells after capping at 150,000 per section;
+reports/audit/perturb_multi/). Density is balanced between perturbed, NTC and unassigned cells
+(5.53, 5.54, 5.48 neighbours within 30 um), so delivery is not density-biased. But the number
+of graph edges joining two cells with the same target is 24,856 on the pruned Delaunay graph
+against a stratified-permutation null of 181 (sd 15): z about 1,700, and similar on the radius
+and kNN graphs. Same-target cells are about 140 times more often adjacent than chance.
+
+Candidate explanations, to be separated before any spillover claim:
+1. Clonal expansion of transduced hepatocytes (biology; would make neighbours siblings).
+2. Local spread of the viral vector along sinusoids (delivery; neighbours independently
+   perturbed with the same guide; still breaks A3 within strata).
+3. Barcode misassignment: RCA amplicons from one cell detected in a neighbour (measurement;
+   the "neighbour" is not perturbed at all, and its "autonomous" effect is bleed-through).
+
+Consequence: a recipient's exposure to gene g is strongly correlated with being itself a
+(possibly unlabelled) g-cell. Spillover estimates that do not model this will be inflated by
+the autonomous effect. Planned analysis (exploratory, then pre-registered tests):
+distance-decay of same-guide pairs vs same-gene-different-guide pairs (clonality and delivery
+predict same-guide; misassignment predicts same-guide too but confined to the first ring), and
+whether unassigned cells adjacent to g-cells show g's autonomous expression signature.

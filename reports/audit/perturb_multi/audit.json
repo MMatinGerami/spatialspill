@@ -1,0 +1,174 @@
+{
+  "dataset": "perturb_multi",
+  "technology": "Perturb-Multi (MERFISH)",
+  "units": "um",
+  "n_units": 750000,
+  "n_features": 209,
+  "n_samples": 5,
+  "guide_call_rate": 0.095384,
+  "n_perturbed": 67710,
+  "n_ntc": 3828,
+  "n_ntc_guides": 50,
+  "n_targets": 202,
+  "cells_per_target": {
+    "count": 202.0,
+    "mean": 335.2,
+    "std": 321.7,
+    "min": 29.0,
+    "25%": 119.0,
+    "50%": 216.0,
+    "75%": 448.2,
+    "max": 1860.0
+  },
+  "cell_types": {
+    "Hep": 679536,
+    "Kuppfer": 32942,
+    "Endo": 25343,
+    "Fibro": 7334,
+    "NK cell": 2531,
+    "B cell": 1330,
+    "Stromal": 550,
+    "Monocyte": 221,
+    "T cell": 213
+  },
+  "area_um2": {
+    "count": 750000.0,
+    "mean": 210.0,
+    "std": 118.1,
+    "min": 15.7,
+    "25%": 114.2,
+    "50%": 186.5,
+    "75%": 279.0,
+    "max": 1839.3
+  },
+  "total_counts": {
+    "count": 750000.0,
+    "mean": 169.6,
+    "std": 166.0,
+    "min": 1.0,
+    "25%": 49.0,
+    "50%": 107.0,
+    "75%": 236.0,
+    "max": 1500.0
+  },
+  "barcodes_per_cell_lenient": {
+    "0": 239764,
+    "1": 201945,
+    "2": 122373,
+    "3": 74221,
+    "4": 45644,
+    "5": 27300,
+    "6": 16338,
+    "7": 9478
+  },
+  "local_density": {
+    "radius": 30.0,
+    "count": 750000.0,
+    "mean": 5.49,
+    "std": 2.42,
+    "min": 0.0,
+    "25%": 4.0,
+    "50%": 5.0,
+    "75%": 7.0,
+    "max": 19.0
+  },
+  "density_by_group": {
+    "perturbed": 5.526731649682469,
+    "ntc": 5.53944618599791,
+    "unassigned": 5.481724842364053
+  },
+  "graphs": {
+    "delaunay_pruned": {
+      "mean_degree": 5.670293333333333,
+      "isolated_fraction": 0.0007,
+      "median_edge_length": 23.14615865283359,
+      "same_target_edges_observed": 24856.0,
+      "same_target_edges_null_mean": 180.96,
+      "same_target_edges_null_sd": 14.672368588608999,
+      "clonality_z": 1681.735287045382
+    },
+    "radius": {
+      "mean_degree": 5.486082666666666,
+      "isolated_fraction": 0.0077213333333333335,
+      "median_edge_length": 21.716356222434737,
+      "same_target_edges_observed": 26477.0,
+      "same_target_edges_null_mean": 168.61,
+      "same_target_edges_null_sd": 11.042549524453127,
+      "clonality_z": 2382.456147626189
+    },
+    "knn10": {
+      "mean_degree": 11.342368,
+      "isolated_fraction": 0.0,
+      "median_edge_length": 30.53754028245347,
+      "same_target_edges_observed": 37055.0,
+      "same_target_edges_null_mean": 360.89,
+      "same_target_edges_null_sd": 19.260786588299034,
+      "clonality_z": 1905.1200132341296
+    }
+  },
+  "batch_structure": {
+    "B cell": {
+      "10": 82,
+      "4": 208,
+      "5": 371,
+      "8": 413,
+      "9": 256
+    },
+    "Endo": {
+      "10": 1462,
+      "4": 12810,
+      "5": 4726,
+      "8": 3481,
+      "9": 2864
+    },
+    "Fibro": {
+      "10": 472,
+      "4": 3129,
+      "5": 1297,
+      "8": 1377,
+      "9": 1059
+    },
+    "Hep": {
+      "10": 145317,
+      "4": 123639,
+      "5": 133572,
+      "8": 137862,
+      "9": 139146
+    },
+    "Kuppfer": {
+      "10": 2432,
+      "4": 10056,
+      "5": 7583,
+      "8": 6375,
+      "9": 6496
+    },
+    "Monocyte": {
+      "10": 91,
+      "4": 22,
+      "5": 34,
+      "8": 47,
+      "9": 27
+    },
+    "NK cell": {
+      "10": 60,
+      "4": 69,
+      "5": 2219,
+      "8": 133,
+      "9": 50
+    },
+    "Stromal": {
+      "10": 71,
+      "4": 43,
+      "5": 128,
+      "8": 260,
+      "9": 48
+    },
+    "T cell": {
+      "10": 13,
+      "4": 24,
+      "5": 70,
+      "8": 52,
+      "9": 54
+    }
+  }
+}

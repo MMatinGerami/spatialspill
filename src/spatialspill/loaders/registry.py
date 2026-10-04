@@ -9,6 +9,7 @@ import anndata as ad
 from anndata import AnnData
 
 from spatialspill.loaders.perturb_dbit import load_perturb_dbit
+from spatialspill.loaders.perturb_map import load_perturb_map
 from spatialspill.loaders.perturb_multi import load_perturb_multi
 
 BUNDLED = Path(__file__).resolve().parents[3] / "data" / "bundled"
@@ -21,4 +22,6 @@ def load_dataset(name: str, **kwargs: Any) -> AnnData:
         return load_perturb_dbit(**kwargs)
     if name == "perturb_multi":
         return load_perturb_multi(**kwargs)
+    if name == "perturb_map":
+        return load_perturb_map(**kwargs)
     raise KeyError(f"unknown dataset {name!r}")
