@@ -9,3 +9,4 @@
 {"scenario": "spill_clonal", "rep": 0, "seconds": 33.9, "n_cells": 40000, "n_perturbed": 7765, "n_ntc": 1677, "n_misassigned": 0}
 {"scenario": "spill_clonal", "rep": 1, "seconds": 33.3, "n_cells": 40000, "n_perturbed": 7575, "n_ntc": 1883, "n_misassigned": 0}
 {"scenario": "spill_misassign", "rep": 0, "seconds": 26.2, "n_cells": 40000, "n_perturbed": 10822, "n_ntc": 2712, "n_misassigned": 1534}
+{"scenario": "spill_misassign", "rep": 1, "seconds": 27.8, "n_cells": 40000, "n_perturbed": 10738, "n_ntc": 2794, "n_misassigned": 1532}

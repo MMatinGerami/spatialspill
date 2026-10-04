@@ -129,6 +129,8 @@ def main() -> int:
         .agg(
             null_fpr_q=("null_fpr_q", "mean"),
             null_cov95=("null_coverage95", "mean"),
+            ntc_cov95=("ntc_coverage95", "mean"),
+            ntc_fpr_p05=("ntc_fpr_p05", "mean"),
             power_q=("power_q", "mean"),
             auroc=("auroc", "mean"),
             fdp_q=("fdp_q", "mean"),
