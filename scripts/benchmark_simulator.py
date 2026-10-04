@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from spatialspill.benchmark import score
 from spatialspill.config import load_config, results_dir
-from spatialspill.estimators import E1Stratified
+from spatialspill.estimators import E2GLM, E1Stratified, E3DoublyRobust
 from spatialspill.estimators.groups import GroupConfig
 from spatialspill.exposure import compute_exposure
 from spatialspill.outcomes import lognorm
@@ -58,14 +58,13 @@ def main() -> int:
     all_scores, meta = [], []
     for name in names:
         s = scen[name]
-        sc = SimConfig(
-            **{
-                **s.cfg.__dict__,
-                "n_genes": int(cfg.n_genes),
-                "n_targets": int(cfg.n_targets),
-                "frac_assigned": float(cfg.frac_assigned),
-            }
-        )
+        overrides = {
+            "n_genes": int(cfg.n_genes),
+            "n_targets": int(cfg.n_targets),
+            "frac_assigned": float(cfg.frac_assigned),
+        }
+        overrides.update(dict(cfg.get("sim_overrides", {})))
+        sc = SimConfig(**{**s.cfg.__dict__, **overrides})
         for rep in range(int(cfg.n_reps)):
             sc.seed = int(cfg.seed) * 1000 + rep
             t0 = time.time()
@@ -73,15 +72,34 @@ def main() -> int:
             exp = compute_exposure(sim, list(cfg.distance_bins_um))
             Y = lognorm(sim)
             for est_name in cfg.estimators:
+                gcfg = GroupConfig(
+                    control_policy=str(cfg.control_policy),
+                    clean_controls=bool(cfg.clean_controls),
+                )
                 if est_name == "E1":
                     est = E1Stratified(
                         n_perm=int(cfg.n_perm),
                         seed=sc.seed,
                         min_cells=int(cfg.min_cells),
-                        groups=GroupConfig(
-                            control_policy=str(cfg.control_policy),
-                            clean_controls=bool(cfg.clean_controls),
-                        ),
+                        groups=gcfg,
+                    )
+                elif est_name == "E1_analytic":
+                    est = E1Stratified(
+                        n_perm=int(cfg.n_perm),
+                        seed=sc.seed,
+                        min_cells=int(cfg.min_cells),
+                        groups=gcfg,
+                        ci="analytic",
+                    )
+                elif est_name == "E2":
+                    est = E2GLM(min_cells=int(cfg.min_cells), groups=gcfg)
+                elif est_name == "E3":
+                    est = E3DoublyRobust(
+                        n_draws=int(cfg.n_perm),
+                        seed=sc.seed,
+                        min_cells=int(cfg.min_cells),
+                        groups=gcfg,
+                        n_boot=100,
                     )
                 else:
                     raise KeyError(est_name)

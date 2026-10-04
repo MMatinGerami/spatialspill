@@ -5,14 +5,15 @@ the weighted average over strata s in c (strata = sample x cell type) of the mea
 between treated and control cells, weights w_s = n_T n_C / (n_T + n_C). Standard errors use
 within-group variances; p-values come from re-randomising guide labels within strata and
 recomputing exposures and the statistic (so the null respects geometry and composition).
-Two p-values are reported: the exact permutation p-value with the +1 correction
-(``pvalue_perm``, floor 1/(n_perm+1)) and, by default, a permutation-calibrated z p-value
-(``pvalue``): z = (observed - null mean) / null sd with a two-sided normal tail. The z version
-has no floor and is what BH-FDR over tens of thousands of tests needs; its calibration is
-checked on NTC pseudo-targets (NOTEBOOK amendment A1). Confidence intervals use the
-permutation-null sd by default (``ci="perm"``), which the simulator benchmark showed to be
-better calibrated than the analytic within-group variance (``ci="analytic"``, 89 to 92%
-coverage at nominal 95%).
+The permutation statistic is studentized (estimate / analytic SE), so draws with different
+exposed-group sizes are comparable. Two p-values are reported: the exact permutation p-value
+with the +1 correction (``pvalue_perm``, floor 1/(n_perm+1)) and, by default, a
+permutation-calibrated z p-value (``pvalue``): z = (t_obs - null mean of t) / null sd of t,
+two-sided normal tail. The z version has no floor and is what BH-FDR over tens of thousands of
+tests needs; its calibration is checked on NTC pseudo-targets (NOTEBOOK amendments A1, A2).
+A test is identified only if at least ``min_valid_perm`` permutations produced a valid
+statistic (default max(20, n_perm / 2)). Confidence intervals use the analytic SE rescaled by
+the null sd of t by default (``ci="perm"``); ``ci="analytic"`` uses the analytic SE alone.
 """
 
 from __future__ import annotations
@@ -116,7 +117,9 @@ class E1Stratified(Estimator):
         report_by_cell_type: bool = True,
         pvalue: str = "z",
         ci: str = "perm",
+        min_valid_perm: int | None = None,
     ) -> None:
+        self.min_valid_perm = min_valid_perm if min_valid_perm is not None else max(20, n_perm // 2)
         if ci not in ("perm", "analytic"):
             raise ValueError("ci must be 'perm' or 'analytic'")
         self.ci = ci
@@ -169,6 +172,8 @@ class E1Stratified(Estimator):
         V = np.stack(obs_var)
         NT = np.stack(obs_nt)
         NC = np.stack(obs_nc)
+        with np.errstate(invalid="ignore", divide="ignore"):
+            T_obs = E / np.sqrt(V)
 
         # permutation null: re-randomise labels within strata, recompute exposure + statistic
         exceed = np.zeros_like(E)
@@ -186,15 +191,17 @@ class E1Stratified(Estimator):
             exposure.recompute(perm)
             pm = self._masks(exposure, p_ntc, p_pert)
             for ki, M in enumerate(pm[:-1]):
-                e, _, _, _ = stratified_dim(
+                e, v, _, _ = stratified_dim(
                     M, pm[-1], Y, strata, stratum_group, n_groups, self.min_cells
                 )
-                fin = np.isfinite(e) & np.isfinite(E[ki])
-                exceed[ki] += fin & (np.abs(e) >= np.abs(E[ki]))
+                with np.errstate(invalid="ignore", divide="ignore"):
+                    t = e / np.sqrt(v)  # studentized: comparable across permutations
+                fin = np.isfinite(t) & np.isfinite(T_obs[ki])
+                exceed[ki] += fin & (np.abs(t) >= np.abs(T_obs[ki]))
                 n_valid[ki] += fin
-                e0 = np.where(fin, e, 0.0)
-                null_sum[ki] += e0
-                null_sq[ki] += e0 * e0
+                t0 = np.where(fin, t, 0.0)
+                null_sum[ki] += t0
+                null_sq[ki] += t0 * t0
         exposure.recompute(labels0)
         del is_ntc_lab
         pvals_perm = (exceed + 1) / (n_valid + 1)
@@ -205,14 +212,17 @@ class E1Stratified(Estimator):
                 * n_valid
                 / np.maximum(n_valid - 1, 1)
             )
-            z = (E - null_mean) / null_sd
+            z = (T_obs - null_mean) / null_sd
         pvals_z = 2 * stats.norm.sf(np.abs(z))
         pvals = pvals_z if self.pvalue == "z" else pvals_perm
+        enough = n_valid >= self.min_valid_perm
 
         rows: list[dict[str, object]] = []
-        # standard error: permutation-null sd (default) or analytic within-group variance
-        se = null_sd if self.ci == "perm" else np.sqrt(V)
-        se = np.where(np.isfinite(se), se, np.sqrt(V))
+        # standard error: analytic within-group SE, rescaled by the permutation-null sd of the
+        # studentized statistic (default), or the analytic SE alone
+        se_an = np.sqrt(V)
+        se = se_an * null_sd if self.ci == "perm" else se_an
+        se = np.where(np.isfinite(se), se, se_an)
         for ki, kind in enumerate(kinds):
             for gi, grp in enumerate(groups):
                 for k, target in enumerate(exposure.targets):
@@ -220,6 +230,7 @@ class E1Stratified(Estimator):
                         np.isfinite(E[ki, gi, k, 0])
                         and NT[ki, gi, k] >= self.min_cells
                         and NC[ki, gi, k] >= self.min_cells
+                        and bool(enough[ki, gi, k, 0])
                     )
                     for g, oname in enumerate(outcome_names):
                         est = E[ki, gi, k, g]

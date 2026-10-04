@@ -169,3 +169,20 @@ minus null mean) / null sd, and p is two-sided normal. The exact permutation p-v
 the table as `pvalue_perm`. Calibration is re-checked on NTC pseudo-targets (fraction at
 p < 0.05 and at q < 0.10) before any hit is interpreted; H1 applies to the z p-values.
 H2, H3 and H4 are unchanged.
+
+## 2026-10-05 Amendment A2 (declared before re-running): studentized permutation statistic
+
+The A1 run (results/5d30bb4682, z on raw differences) produced spillover "hits" with
+estimate 0.32 and analytic SE 0.33 but p = 1e-72: for sparse exposures (5 recipients in one
+stratum) few permutations yield an identified statistic, and the permuted exposed groups have
+different sizes from the observed one, so the null sd of the raw difference is not the
+sampling sd of the observed statistic (ratio null sd / analytic SE ranged from 0.04 to 70).
+Those hits are discarded.
+
+Fix, now the default: the permutation statistic is studentized, t = estimate / analytic SE,
+and z = (t_obs - mean t_null) / sd t_null. A test is identified only if at least
+max(20, n_perm / 2) permutations produced a valid t. The CI uses the analytic SE rescaled by
+sd t_null. On a pure-null toy (4,000 cells, 30 genes, 3 samples, 100 permutations) the
+fraction of tests with p < 0.05 is 0.042 (autonomous), 0.047 (ring 0), 0.084 (ring 1), the
+exact permutation p gives 0.029, 0.044, 0.078, and 95% CIs cover zero in 93.5% of tests.
+H1 to H4 unchanged; H1 is evaluated on these p-values.

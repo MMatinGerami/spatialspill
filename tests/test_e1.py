@@ -27,7 +27,7 @@ def test_group_masks_are_disjoint_and_consistent(toy):
 def test_e1_runs_and_has_expected_rows(toy):
     exp = compute_exposure(toy, [0, 20, 40])
     Y = lognorm(toy)[:, :3]
-    tab = E1Stratified(n_perm=5, min_cells=2).fit(toy, exp, Y, ["G0", "G1", "G2"])
+    tab = E1Stratified(n_perm=5, min_cells=2, min_valid_perm=2).fit(toy, exp, Y, ["G0", "G1", "G2"])
     df = tab.df
     assert set(df["kind"]) == {"autonomous", "spillover"}
     assert df["ring"].max() == 1
