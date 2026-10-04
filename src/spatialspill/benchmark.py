@@ -38,7 +38,7 @@ def score(
         sub = e[e["kind"] == kind]
         if sub.empty:
             continue
-        for ring, s in sub.groupby("ring"):
+        for _ring, s in sub.groupby("ring"):
             m = s.merge(tt, on=["target", "outcome"], how="inner")
             m = m[m["identified"].astype(bool)]
             if m.empty:
@@ -49,7 +49,7 @@ def score(
             rows.append(
                 {
                     "kind": kind,
-                    "ring": int(ring),  # type: ignore[call-overload]
+                    "ring": int(s["ring"].iloc[0]),
                     "n_tests": len(m),
                     "n_nonnull": int((~null).sum()),
                     "null_mean_estimate": float(m.loc[null, "estimate"].mean()),

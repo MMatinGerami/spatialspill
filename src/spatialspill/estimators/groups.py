@@ -12,7 +12,10 @@ from spatialspill.exposure import NTC_PREFIX, Exposure
 
 @dataclass(frozen=True)
 class GroupConfig:
-    control_policy: str = "ntc"  # "ntc": NTC cells are the reference; "unperturbed": any cell without a targeting guide
+    # "ntc": NTC cells are recipients/controls; "any_other_guide": any cell with a confirmed guide
+    # other than the target (NTC or another targeting guide); "unperturbed": any cell without a
+    # targeting guide (includes cells with no call; not recommended under clonal growth, ADR-003)
+    control_policy: str = "ntc"
     clean_controls: bool = (
         True  # recipients/controls must have no other perturbed neighbour within D_max
     )
@@ -25,6 +28,8 @@ def eligible_recipients(
         return is_ntc.copy()
     if cfg.control_policy == "unperturbed":
         return ~is_perturbed
+    if cfg.control_policy == "any_other_guide":
+        return is_ntc | is_perturbed  # own-target cells are removed per target below
     raise ValueError(cfg.control_policy)
 
 
@@ -57,7 +62,8 @@ def group_masks(
 
     tot_d = tot.toarray()
     T_auto = sp.csr_matrix(Z.multiply(sp.csr_matrix((tot_d == 0) & clean_other)))
-    C_d = elig[:, None] & (tot_d == 0) & clean_other
+    Z_d = Z.toarray() > 0
+    C_d = elig[:, None] & (tot_d == 0) & clean_other & ~Z_d
     # NTC pseudo-targets: a cell carrying that very guide is not a control for itself
     for k, t in enumerate(exp.targets):
         if t.startswith(NTC_PREFIX):
@@ -66,6 +72,6 @@ def group_masks(
     rings = []
     for b in range(exp.n_bins):
         cb = exp.counts[b].toarray()
-        m = elig[:, None] & (cb >= 1) & (tot_d == cb) & clean_other & (Z.toarray() == 0)
+        m = elig[:, None] & (cb >= 1) & (tot_d == cb) & clean_other & ~Z_d
         rings.append(sp.csr_matrix(m.astype(float)))
     return T_auto, rings, C

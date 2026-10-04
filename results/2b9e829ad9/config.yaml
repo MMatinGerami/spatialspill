@@ -1,0 +1,29 @@
+clean_controls: true
+control_policy: ntc
+distance_bins_um:
+- 0
+- 15
+- 30
+- 60
+estimators:
+- E1
+fdr: 0.1
+frac_assigned: 0.08
+geometry: perturb_fish
+min_cells: 5
+n_cells: 40000
+n_genes: 60
+n_perm: 100
+n_reps: 2
+n_targets: 15
+scenarios:
+- no_effect
+- auto_only
+- spill
+- spill_bleed
+- spill_density
+- spill_batch
+- spill_clonal
+- spill_misassign
+- everything
+seed: 0

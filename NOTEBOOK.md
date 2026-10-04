@@ -133,3 +133,18 @@ reported as artifact-dominated for that dataset.
 
 Analysis script: scripts/run_pipeline.py with configs/e1_perturb_fish.yaml and
 configs/e1_perturb_multi.yaml, committed before the results are produced.
+
+## 2026-10-05 Perturb-Multi clonality (exploratory)
+
+reports/audit/perturb_multi/clonality.md (sections 4, 5, 8, 9, 10; 750,000 cells).
+Same-guide pair enrichment over the stratified null: 260x within 15 um, 250x at 15 to 30 um,
+81x at 30 to 50 um, 23x at 50 to 75 um, 6.8x at 75 to 100 um. Same-target-other-guide pairs
+are not enriched (0.7 to 1.3x), so the excess is guide-specific. 47% of assigned cells sit in
+same-guide connected components. Unassigned neighbours of g cells carry g's autonomous
+signature (median r 0.71 over 60 targets, 95% above 0.3).
+
+Interpretation: a steep, guide-specific decay over about 50 um is consistent with compact
+hepatocyte clones (daughter cells stay adjacent) and with local vector spread; both put
+undetected g cells next to detected ones. ADR-003 applies. For Perturb-Multi the pool of
+confirmed non-g recipients is the 3,828 control cells plus cells with other guides (option
+`control_policy: any_other_guide`, to be added to the group definitions).

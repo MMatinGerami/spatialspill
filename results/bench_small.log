@@ -1,9 +1,11 @@
-Traceback (most recent call last):
-  File "/Users/matin/projects/bioinfo/spatialspill/scripts/benchmark_simulator.py", line 134, in <module>
-    raise SystemExit(main())
-                     ^^^^^^
-  File "/Users/matin/projects/bioinfo/spatialspill/scripts/benchmark_simulator.py", line 60, in main
-    s = scen[name]
-        ~~~~^^^^^^
-KeyError: None
-DONE_BENCH
+{"scenario": "no_effect", "rep": 0, "seconds": 6.0, "n_cells": 40000, "n_perturbed": 2557, "n_ntc": 643, "n_misassigned": 0}
+{"scenario": "no_effect", "rep": 1, "seconds": 5.9, "n_cells": 40000, "n_perturbed": 2566, "n_ntc": 634, "n_misassigned": 0}
+{"scenario": "auto_only", "rep": 0, "seconds": 5.8, "n_cells": 40000, "n_perturbed": 2557, "n_ntc": 643, "n_misassigned": 0}
+{"scenario": "auto_only", "rep": 1, "seconds": 5.7, "n_cells": 40000, "n_perturbed": 2566, "n_ntc": 634, "n_misassigned": 0}
+{"scenario": "spill", "rep": 0, "seconds": 5.6, "n_cells": 40000, "n_perturbed": 2557, "n_ntc": 643, "n_misassigned": 0}
+{"scenario": "spill", "rep": 1, "seconds": 5.6, "n_cells": 40000, "n_perturbed": 2566, "n_ntc": 634, "n_misassigned": 0}
+{"scenario": "spill_bleed", "rep": 0, "seconds": 5.9, "n_cells": 40000, "n_perturbed": 2557, "n_ntc": 643, "n_misassigned": 0}
+{"scenario": "spill_bleed", "rep": 1, "seconds": 6.3, "n_cells": 40000, "n_perturbed": 2566, "n_ntc": 634, "n_misassigned": 0}
+{"scenario": "spill_density", "rep": 0, "seconds": 6.3, "n_cells": 40000, "n_perturbed": 2557, "n_ntc": 643, "n_misassigned": 0}
+{"scenario": "spill_density", "rep": 1, "seconds": 5.6, "n_cells": 40000, "n_perturbed": 2566, "n_ntc": 634, "n_misassigned": 0}
+{"scenario": "spill_batch", "rep": 0, "seconds": 5.9, "n_cells": 40000, "n_perturbed": 2557, "n_ntc": 643, "n_misassigned": 0}

@@ -318,7 +318,7 @@ class Scenario:
 def default_scenarios(seed: int = 0) -> list[Scenario]:
     return [
         Scenario(
-            "null",
+            "no_effect",
             SimConfig(frac_spill_targets=0.0, frac_auto_nonzero=0.0, seed=seed),
             "no effects at all",
         ),

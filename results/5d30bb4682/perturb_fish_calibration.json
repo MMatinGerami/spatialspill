@@ -1,0 +1,13 @@
+{
+  "n_tests": 98000,
+  "n_ntc_tests": 11500,
+  "n_target_tests": 86500,
+  "fdr": 0.1,
+  "ntc_fraction_q_below_fdr": 0.0,
+  "ntc_fraction_p_below_0.05": 0.05208695652173913,
+  "target_fraction_q_below_fdr": 0.0,
+  "n_autonomous_hits": 0,
+  "n_spillover_hits": 0,
+  "dataset": "perturb_fish",
+  "targets": 39
+}
