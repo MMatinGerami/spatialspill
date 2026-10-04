@@ -80,3 +80,44 @@ Nothing in `data/raw` is tracked by git.
 
 ## Supporting data
 (Filled in when verification completes.)
+
+### Perturb-FISH (Binan et al.), Cell 2025. Accessible: yes (Brain Image Library)
+- Paper: doi:10.1016/j.cell.2025.02.012 (CC BY). PMID 40081369. Preprint doi:10.1101/2023.11.30.569494.
+- Data: Brain Image Library doi:10.35077/ace-gem-get (CC BY 4.0), anonymous HTTPS directory
+  `https://download.brainimagelibrary.org/0c/bd/0cbd479c521afff9/`. About 26 TB in total (raw
+  images); the processed "finaltables" are small. GEO GSE221321 is the matched compressed
+  Perturb-seq (scRNA-seq), not spatial. No h5ad is provided; tables are linked by row order.
+  - Tumour xenograft (human melanoma, NF-kB pathway knockouts, humanised NSG mice, FFPE, 500-gene
+    immuno-oncology MERFISH panel): `coordinates.csv` (187,214 cells, x/y in microns),
+    `merfishcounttable.csv` (212 MB), `allcellsPerturbationTable.csv` (77 binary columns), design
+    matrices for pooled/neighbour analyses, FR-Perturb effect tables, and MERSCOPE
+    `cell_metadata.csv` (113 MB; volume, centre, fov). This is the in vivo dataset with
+    published intercellular effects and anchors C3/C4.
+  - THP-1 (LPS-stimulated, 74 gRNAs / 35 targets, 129 genes): count tables for 7,088 and
+    8,097 cells with target-level design matrices; per-cell coordinates are not deposited
+    (only `numberofneighbors` for sample 2); would need re-segmentation from raw images.
+  - Astrocytes (iPSC-derived CRISPRi, 127 genes, 277-gene panel): 14,926 cells, design matrix,
+    MERSCOPE cell_metadata with centroids; calcium clusters.
+- Code: github.com/lbinan/Perturb-FISH (GPL-3.0), github.com/douglasyao/FR-Perturb.
+- Download: `scripts/download_perturb_fish.sh` (final tables + cell metadata only).
+- Caveat: guide-level calls are not in the tables (target level only); linkage of counts,
+  coordinates and design is by row order as documented in the README and the MATLAB scripts.
+
+## Supporting data (verified 2026-10-04)
+
+| Resource | Location | Size | Licence | Use |
+|---|---|---|---|---|
+| Replogle 2022 pseudobulk (K562 essential, K562 gwps, RPE1; raw and normalised) | figshare doi:10.25452/figshare.plus.20029387, files 35773070 / 35780870 / 35774443 / 35773217 / 35775581 / 35775512 | 80 to 375 MB each | CC BY 4.0 | priors on autonomous effects; perturbation-derived gene embeddings |
+| Replogle 2022 single cell via scPerturb | Zenodo doi:10.5281/zenodo.13350497 (`ReplogleWeissman2022_*.h5ad`) | 1.2 to 8.8 GB | CC BY 4.0 | not needed if pseudobulk suffices |
+| Allen Brain Cell Atlas MERFISH (Yao 2023, 500 genes), per-section h5ad | `s3://allen-brain-cell-atlas/expression_matrices/MERFISH-C57BL6J-638850-sections/20240330/` | 23 to 261 MB per section | Allen terms (CC BY 4.0) | empirical null spatial correlation (brain) |
+| 10x Xenium public: mouse brain (v1, 5K), human lung cancer FFPE (v1, 5K) | cf.10xgenomics.com/samples/xenium/... `cell_feature_matrix.h5`, `cells.parquet` | 3 to 104 MB (matrices) | 10x dataset terms (CC BY 4.0, not re-verified) | empirical null (lung, brain) |
+| Vizgen MERFISH mouse liver map | registration wall; GCS 401/403 | n/a | not verified | not usable without registration; Perturb-Multi's own unassigned cells serve as liver null |
+| OmniPath intercell + ligrecextra | omnipathdb.org (TSV) | 2 to 7 MB | academic | ligand-receptor enrichment |
+| CellChatDB human/mouse | github.com/jinworks/CellChat `data/*.rda` | 1.3 to 1.5 MB | GPL-3 | ligand-receptor enrichment |
+| CellPhoneDB v5 | github.com/ventolab/cellphonedb-data (`interaction_input.csv` etc.) | 0.5 MB | not stated | ligand-receptor enrichment |
+| NicheNet v2 ligand-target matrices (human, mouse) | Zenodo doi:10.5281/zenodo.7074291 | 191 to 262 MB | CC BY 4.0 | sender-receiver prior |
+| ESM2 checkpoints | huggingface.co/facebook/esm2_t12_35M_UR50D (136 MB), esm2_t6_8M (31 MB) | | MIT | protein embeddings for C5 |
+| GO annotations and ontology | current.geneontology.org `goa_human.gaf.gz` (15 MB), `go-basic.obo` (32 MB) | | CC BY 4.0 | GO embeddings for C5 |
+| DepMap 24Q4 CRISPRGeneEffect | figshare article 27993248, file 51064667 | 429 MB | CC BY 4.0 | target plausibility (newer releases are portal-only behind a bot check) |
+| Open Targets Platform 26.09 | GraphQL api.platform.opentargets.org/api/v4/graphql; bulk ftp.ebi.ac.uk/pub/databases/opentargets/platform/latest/ | | CC0 | target plausibility |
+| scPerturBench metrics | github.com/bm2-lab/scPerturBench `Perturbation_generalization/calPerformance_genetic.py` | | GPL-3 | C5 metric definitions (pertpy Distance on top DEGs) |

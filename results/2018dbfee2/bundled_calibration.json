@@ -1,0 +1,13 @@
+{
+  "n_tests": 19600,
+  "n_ntc_tests": 600,
+  "n_target_tests": 19000,
+  "fdr": 0.1,
+  "ntc_fraction_q_below_fdr": 0.0,
+  "ntc_fraction_p_below_0.05": 0.016666666666666666,
+  "target_fraction_q_below_fdr": 0.0,
+  "n_autonomous_hits": 0,
+  "n_spillover_hits": 0,
+  "dataset": "bundled",
+  "targets": 54
+}

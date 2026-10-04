@@ -1,0 +1,21 @@
+clean_controls: false
+control_policy: unperturbed
+datasets:
+- bundled
+distance_bins_um:
+- 0
+- 1.5
+- 2.5
+- 3.5
+fdr: 0.1
+graph:
+  kind: delaunay
+  max_edge_um: 50.0
+  radius_um: 30.0
+max_outcomes: 50
+min_cells: 5
+n_perm: 20
+seed: 0
+strata:
+- sample
+- cell_type

@@ -4,7 +4,13 @@ graph:
   kind: delaunay
   max_edge_um: 50.0
   radius_um: 30.0
-distance_bins_um: [0, 15, 30, 60, 100]
+# bundled Perturb-DBiT subset: coordinates are pixel indices, rings are 1, 2 and 3 pixels
+distance_bins_um: [0, 1.5, 2.5, 3.5]
 strata: [sample, cell_type]
+control_policy: unperturbed
+# 23% of pixels carry a guide, so almost no pixel has a perturbation-free 3-pixel neighbourhood
+clean_controls: false
+min_cells: 5
+max_outcomes: 50
 n_perm: 20
 fdr: 0.1

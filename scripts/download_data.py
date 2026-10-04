@@ -20,8 +20,9 @@ from pathlib import Path
 
 RAW = Path(__file__).resolve().parents[1] / "data" / "raw"
 
-GEO_SERIES = "https://ftp.ncbi.nlm.nih.gov/geo/series"
-GEO_SAMPLES = "https://ftp.ncbi.nlm.nih.gov/geo/samples"
+# GEO over plain FTP: the HTTPS front end of ftp.ncbi.nlm.nih.gov intermittently answers 403
+GEO_SERIES = "ftp://ftp.ncbi.nlm.nih.gov/geo/series"
+GEO_SAMPLES = "ftp://ftp.ncbi.nlm.nih.gov/geo/samples"
 HF = "https://huggingface.co/datasets/xingjiepan/PerturbMulti/resolve/main"
 BIA = "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/267/S-BIAD267/Files/bia_submission"
 
