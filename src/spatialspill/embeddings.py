@@ -156,11 +156,8 @@ def fetch_uniprot_sequences(
         if key in seqs:
             continue
         q = f"gene_exact:{s} AND organism_id:{organism_id} AND reviewed:true"
-        r = requests.get(
-            "https://rest.uniprot.org/uniprotkb/search",
-            params={"query": q, "fields": "sequence", "format": "json", "size": 1},
-            timeout=60,
-        )
+        params: dict[str, str] = {"query": q, "fields": "sequence", "format": "json", "size": "1"}
+        r = requests.get("https://rest.uniprot.org/uniprotkb/search", params=params, timeout=60)
         r.raise_for_status()
         res = r.json().get("results", [])
         seqs[key] = res[0]["sequence"]["value"] if res else ""
