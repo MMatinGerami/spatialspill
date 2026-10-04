@@ -222,3 +222,23 @@ counts, and size-factor normalisation moves every other gene (compositional bias
 benchmark now also scores NTC pseudo-targets, which are exact nulls, and the manuscript will
 report autonomous calibration on them. The compositional effect is itself a finding for
 panel-based assays (209 to 500 genes), where one gene can be a large share of the total.
+
+## 2026-10-05 E4 (GNN) implemented; its uncertainty is not usable
+
+E4 (src/spatialspill/estimators/e4_gnn.py): 2-layer message passing on the pruned Delaunay
+graph with own-guide one-hots as node features; spillover from single-neighbour interventional
+counterfactuals. On the simulator it recovers the direction and ranking of planted ring-0
+spillover (r = 0.91 over 20 target-gene pairs, 4,000 cells) but shrinks magnitudes (slope
+0.09), and its recipient-bootstrap standard errors ignore the variance of the fitted function:
+on a pure null 73% of identified tests have p < 0.05 (E2: 4.3%). E4 therefore enters the
+benchmark for ranking metrics (AUROC) only; its p-values and intervals are not reported as
+inference. Options noted for later: retraining ensembles, or calibrating against the NTC
+pseudo-target null.
+
+## 2026-10-05 Tile strata on Perturb-FISH (amendment A3), 250 um
+
+results/8c106a7091: 8,000 identified tests (from 95,000), NTC p < 0.05 fraction 0.036,
+q < 0.10 fraction 0; 0 autonomous hits, 4 spillover hits. Local strata remove the
+autocorrelation-driven false positives and most of the power with them. 150 and 400 um runs
+pending; whatever they show, E1 with global strata is not an acceptable spillover test on a
+single-section dataset with clonal structure, and the manuscript will say so.

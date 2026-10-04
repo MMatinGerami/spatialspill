@@ -58,3 +58,38 @@ z-calibration produced absurd hits." Resolution: both failures are recorded in N
 varying exposed-group sizes). The fix is a studentized permutation statistic with a minimum
 number of valid permutations, checked on a pure null before use. The discarded hits are not
 reported anywhere as findings.
+
+## Phase 2 (estimands and identification), 2026-10-05
+
+Objection 1. "Assumption A4 (no unmeasured spatial confounding) is untestable and, in your
+own data, false." Resolution: partly conceded. The Perturb-FISH A2 run showed that globally
+stratified permutation nulls are anticonservative because exposed recipients cluster around
+one clone and share its niche. Tested implication: NTC pseudo-targets at ring 0 gave 13.4% of
+tests at p < 0.05. Mitigation: spatial tile strata (A3) restore calibration (3.6%) at a large
+cost in identified tests. The estimand document now states that A4 must be checked with
+local nulls, and E2/E3 adjust for density and edge distance but not for unmeasured niche
+variables. Limitation recorded.
+
+Objection 2. "Recipients restricted to NTC cells are a tiny, possibly unrepresentative
+subset." Conceded as a power limitation (ADR-003). Unassigned cells cannot be recipients
+because many are undetected siblings. The `any_other_guide` policy enlarges the pool; its
+cost is that recipients carry their own autonomous effects, which strata and covariates do not
+remove and which the simulator's any_other_guide runs quantify.
+
+Objection 3. "Your exposure mapping (ring counts of g cells) ignores how many cells of *other*
+targets surround the recipient." Resolution: E1 and E3 use the clean-control restriction (no
+other perturbed neighbour) where positivity allows; E2 can include other-target counts as
+covariates; E4 models all guides jointly. Where the restriction is impossible (Perturb-DBiT,
+23% of pixels perturbed) it is dropped and said so.
+
+Objection 4. "The non-targeting calibration is only as good as the NTC guides: control
+guides can have effects (cutting, immune response to Cas9 expression)." Resolution: NTC
+pseudo-targets are tested against the other NTC guides, so a shared Cas9 or delivery effect
+cancels; a guide-specific control effect would appear as a calibration failure for that
+guide and is reported per guide (the pipeline table has one row per NTC guide).
+
+Objection 5. "A positivity failure is silently set to zero somewhere." Resolution: every
+(target, ring, cell type) with fewer than min_cells recipients or controls, or fewer than
+min_valid_perm valid permutations, is flagged `identified = False`, excluded from BH, and
+counted in the calibration JSON (`n_tests`). The number of identified tests per run is in
+every results directory and in the notebook (95,000 global vs 8,000 at 250 um tiles).
