@@ -36,7 +36,13 @@ Y_i(z) = Y_i(e_i(z)). In words: a cell's outcome depends on its own guide and on
 cells carrying guide g sit in each distance ring around it, and on nothing else about z.
 
 The same mapping with 1{z_j = g} replaced by an indicator 1{m_i^b >= 1} gives the binary
-exposure used by the simplest estimator (E1). Cells whose neighbours carry *other* targeting
+exposure used by the simplest estimator (E1).
+
+Recipient eligibility (ADR-003). A recipient of spillover from g must carry a confirmed guide
+that is not g (non-targeting by default). Cells without a guide call are not recipients and not
+controls: under clonal growth or local delivery, an unlabelled neighbour of a g cell is often
+an undetected g cell, and its outcome mixes the autonomous effect into the spillover estimand.
+This was observed directly (NOTEBOOK 2026-10-05). Cells whose neighbours carry *other* targeting
 guides are a nuisance exposure; at the guide multiplicities in real screens (one perturbed
 neighbour is already rare for most genes), E1 to E3 restrict recipients to cells with no
 perturbed neighbour of any other gene within D_max ("clean controls") and the manuscript

@@ -19,6 +19,12 @@ def test_recover_counts_common_factor_is_unidentifiable():
     assert np.array_equal(recover_counts(ln), counts / 2)
 
 
+def test_recover_counts_smallest_count_above_one():
+    counts = np.array([[2.0, 3.0, 0.0, 5.0], [3.0, 0.0, 4.0, 7.0]])
+    ln = np.log1p(counts * 93.0 / counts.sum(1)[:, None])
+    assert np.array_equal(recover_counts(ln), counts)
+
+
 def test_recover_counts_rejects_non_integer():
     bad = np.log1p(np.array([[1.0, np.sqrt(2.0), 0.0]]))
     with pytest.raises(ValueError):

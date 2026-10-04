@@ -60,28 +60,37 @@ def read_obs(path: Path) -> pd.DataFrame:
     return df
 
 
-def recover_counts(lognorm_block: np.ndarray, tol: float = 1e-3) -> np.ndarray:
+def recover_counts(
+    lognorm_block: np.ndarray, tol: float = 1e-3, max_min_count: int = 50
+) -> np.ndarray:
     """Invert scanpy's normalize_total + log1p.
 
-    The deposited ``raw.X`` is log1p(count * target_sum / total). The smallest non-zero value of
-    a cell corresponds to its smallest non-zero count; dividing by it and rounding returns the
-    counts divided by their greatest common divisor. Normalisation is invariant to that common
-    factor, so a cell whose non-zero counts are all multiples of some k > 1 is recovered as
-    counts / k; with 209 genes and median total 176 this is practically impossible except for
-    near-empty cells, and such cells are flagged in ``uns`` by the loader. On the deposited data
-    the rounding error is below 1e-12 (target_sum = 93). Raises if any value is further than
-    ``tol`` from an integer.
+    The deposited ``raw.X`` is log1p(count * target_sum / total). For each cell the smallest
+    non-zero value v corresponds to its smallest non-zero count k; the size factor is v / k.
+    k is found per cell as the smallest integer for which all values become integers (k = 1
+    for almost every cell). Normalisation is invariant to a common factor of all counts, so a
+    cell whose non-zero counts are all multiples of some m > 1 is recovered as counts / m;
+    with 209 genes this only happens for near-empty cells. On the deposited data the rounding
+    error is below 1e-12 (target_sum = 93). Raises if no k up to ``max_min_count`` works.
     """
     E = np.expm1(lognorm_block.astype(np.float64))
     pos = np.where(E > 0, E, np.inf)
     vmin = pos.min(axis=1)
     vmin = np.where(np.isfinite(vmin), vmin, 1.0)
-    C = E / vmin[:, None]
-    R = np.round(C)
-    err = np.abs(C - R).max()
-    if err > tol:
-        raise ValueError(f"recovered counts deviate from integers by {err:.3g} (> {tol})")
-    return R.astype(np.float32)
+    out = np.zeros_like(E)
+    unresolved = np.ones(E.shape[0], dtype=bool)
+    for k in range(1, max_min_count + 1):
+        idx = np.flatnonzero(unresolved)
+        if len(idx) == 0:
+            break
+        C = E[idx] * (k / vmin[idx])[:, None]
+        R = np.round(C)
+        ok = np.abs(C - R).max(axis=1) <= tol
+        out[idx[ok]] = R[ok]
+        unresolved[idx[ok]] = False
+    if unresolved.any():
+        raise ValueError(f"{int(unresolved.sum())} cells could not be resolved to integer counts")
+    return out.astype(np.float32)
 
 
 def _read_rows(ds: h5py.Dataset, rows: np.ndarray, chunk: int = 100_000) -> sp.csr_matrix:

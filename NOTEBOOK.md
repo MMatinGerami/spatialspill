@@ -76,3 +76,60 @@ the autonomous effect. Planned analysis (exploratory, then pre-registered tests)
 distance-decay of same-guide pairs vs same-gene-different-guide pairs (clonality and delivery
 predict same-guide; misassignment predicts same-guide too but confined to the first ring), and
 whether unassigned cells adjacent to g-cells show g's autonomous expression signature.
+
+## 2026-10-05 Clonality analysis (exploratory) and its consequence for the recipient policy
+
+reports/audit/perturb_fish/clonality.md, reports/audit/perturb_map/clonality.md.
+
+Perturb-FISH tumour (187,215 cells, 9,374 single-guide calls):
+- Same-guide pairs are 4.4 to 5.1 times more frequent than the stratified null in every
+  distance bin from 0 to 100 um, with no decay. Same-target-other-guide pairs are only 1.2 to
+  1.5 times enriched, different-target pairs 0.8 to 1.1. A flat, guide-specific excess is the
+  signature of clonal expansion of transduced tumour cells (the two guides of a target never
+  co-occur in a cell, so clones are guide-specific). First-ring-only excess, the misassignment
+  signature, is absent.
+- 16.8% of assigned cells sit in same-guide connected components of size 2 or more on the
+  pruned Delaunay graph (largest 13).
+- Unassigned cells adjacent to g cells are shifted towards g's autonomous profile: median
+  Pearson correlation 0.72 between (g minus NTC) and (unassigned neighbours of g minus
+  unassigned neighbours of NTC) over 30 targets, all above 0.3. Given a 5% guide-call rate and
+  clonal growth, most of this is undetected siblings in the "unassigned" pool, not spillover.
+
+Perturb-map: 98% of labelled spots sit in same-phenotype components, as expected for lesion
+labels; the unit is the lesion.
+
+Decision (ADR-003): recipients and controls for spillover estimands must carry a confirmed
+guide different from g (NTC by default, optionally any other targeting guide). Cells with no
+guide call are never recipients in the real-data analyses, because a missing call is
+uninformative about perturbation status under clonal growth. This costs power (recipients are
+restricted to the few percent of cells with calls) but removes the dominant confound. The
+simulator's "clonal" and "misassignment" scenarios test exactly this.
+
+## 2026-10-05 Pre-registration: first real-data spillover analysis (E1)
+
+Datasets: Perturb-FISH tumour (all cells), Perturb-Multi sections 4, 5, 8, 9, 10.
+Unit: cell. Strata: sample x cell type. Outcome: log1p size-factor-normalised counts, all
+panel genes. Exposure: ring counts of g-cells in bins [0, 15], (15, 30], (30, 60] um
+(Perturb-Multi: hepatocyte diameter about 25 um; Perturb-FISH similar), D_max = 60 um.
+Recipients: NTC cells (confirmed non-g guide). Controls: NTC cells with no g cell within 60 um.
+Clean-control restriction (no perturbed neighbour of any gene) is applied where it leaves at
+least 5 controls per stratum, otherwise reported as "not identified".
+
+H1 (calibration, mandatory): treating each NTC guide as a pseudo-target, the fraction of
+(guide, ring, cell type, gene) spillover tests with BH q < 0.10 is at most 0.10, and the
+fraction with permutation p < 0.05 is within [0.03, 0.07]. Failure means E1 is miscalibrated
+on that dataset and no spillover claim is made from E1 there.
+H2 (autonomous effects exist and are recoverable): at least 20% of targets in each dataset have
+at least one autonomous (gene) hit at q < 0.10 in the pooled cell-type group. This is a
+positive control for power, not a scientific hypothesis.
+H3 (spillover exists beyond artifacts): after H1 passes, the number of spillover hits at
+q < 0.10 for real targets exceeds the number for NTC pseudo-targets scaled by the ratio of
+tests, by at least a factor of 3. If not, the dataset's E1 result is "no detectable spillover".
+H4 (bleed-through signature): among first-ring spillover hits, the fraction whose gene is also
+an autonomous hit for the same target with the same sign is compared with the fraction in
+rings 2 and 3; the first-ring excess is the bleed-through estimate. Pre-specified: if the
+first-ring fraction exceeds the outer-ring fraction by more than 0.2, the first ring is
+reported as artifact-dominated for that dataset.
+
+Analysis script: scripts/run_pipeline.py with configs/e1_perturb_fish.yaml and
+configs/e1_perturb_multi.yaml, committed before the results are produced.

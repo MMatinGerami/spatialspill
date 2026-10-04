@@ -31,3 +31,20 @@ configs hashed to key results directories.
 
 Alternatives: snakemake (adds a dependency, same outcome); PyMC instead of numpyro (numpyro
 is lighter on Apple Silicon).
+
+## ADR-003 Recipients must carry a confirmed non-target guide (2026-10-05)
+
+Context: in every in vivo dataset, same-guide cells are spatially clustered (clonal growth or
+local delivery), and in Perturb-FISH unassigned cells adjacent to g cells carry g's autonomous
+expression signature (median r = 0.72). With guide-call rates of 4 to 5%, "no guide call" is
+uninformative about perturbation status.
+
+Decision: spillover recipients and controls are cells with a confirmed guide different from
+the target (default: NTC cells; option: any other guide). Cells without a call are excluded
+from recipient and control roles. The docs/estimands.md Section 3 definition is updated.
+
+Alternatives: use all unassigned cells (more power, confounded); model the probability of
+being an undetected sibling (future work, needs a detection-efficiency model).
+
+Consequences: power is limited by the number of NTC cells near perturbed cells; positivity
+failures are reported explicitly.

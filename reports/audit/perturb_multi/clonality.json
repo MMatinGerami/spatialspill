@@ -1,0 +1,91 @@
+{
+  "dataset": "perturb_multi",
+  "d_max": 100.0,
+  "n_assigned": 71538,
+  "pair_counts_observed": {
+    "(-0.001, 15.0]": {
+      "different_target": 1109,
+      "same_guide": 4735,
+      "same_target_other_guide": 14
+    },
+    "(15.0, 30.0]": {
+      "different_target": 14605,
+      "same_guide": 23232,
+      "same_target_other_guide": 95
+    },
+    "(30.0, 50.0]": {
+      "different_target": 38871,
+      "same_guide": 17223,
+      "same_target_other_guide": 239
+    },
+    "(50.0, 75.0]": {
+      "different_target": 77762,
+      "same_guide": 8798,
+      "same_target_other_guide": 467
+    },
+    "(75.0, 100.0]": {
+      "different_target": 105337,
+      "same_guide": 3563,
+      "same_target_other_guide": 647
+    }
+  },
+  "pair_ratio_obs_over_null": {
+    "(-0.001, 15.0]": {
+      "different_target": 0.34,
+      "same_guide": 260.16,
+      "same_target_other_guide": 0.71
+    },
+    "(15.0, 30.0]": {
+      "different_target": 0.96,
+      "same_guide": 250.48,
+      "same_target_other_guide": 1.08
+    },
+    "(30.0, 50.0]": {
+      "different_target": 1.17,
+      "same_guide": 81.22,
+      "same_target_other_guide": 1.23
+    },
+    "(50.0, 75.0]": {
+      "different_target": 1.24,
+      "same_guide": 22.7,
+      "same_target_other_guide": 1.24
+    },
+    "(75.0, 100.0]": {
+      "different_target": 1.23,
+      "same_guide": 6.78,
+      "same_target_other_guide": 1.26
+    }
+  },
+  "same_guide_components": {
+    "n_components": 50198,
+    "fraction_assigned_in_components_ge2": 0.4655847242025217,
+    "size_distribution": {
+      "1": 38231,
+      "2": 7415,
+      "3": 2421,
+      "4": 1007,
+      "5": 522,
+      "6": 251,
+      "7": 142,
+      "8": 91,
+      "9": 37,
+      "10": 30,
+      "11": 20,
+      "12": 7,
+      "13": 8,
+      "14": 5,
+      "15": 3,
+      "18": 1,
+      "20": 2,
+      "22": 1,
+      "23": 2,
+      "24": 1,
+      "42": 1
+    }
+  },
+  "misassignment_signature": {
+    "median_cor": 0.7055790015004464,
+    "n_targets": 60,
+    "frac_cor_above_0.3": 0.95
+  }
+}

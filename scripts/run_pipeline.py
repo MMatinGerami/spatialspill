@@ -55,7 +55,12 @@ def main() -> int:
     out = results_dir(cfg)
     rng_seed = int(cfg.seed)
     for name in cfg.datasets:
-        adata = load_dataset(name)
+        kw = dict(cfg.get("dataset_kwargs", {}).get(name, {})) if "dataset_kwargs" in cfg else {}
+        kw = {
+            k: (list(v) if hasattr(v, "__iter__") and not isinstance(v, str) else v)
+            for k, v in kw.items()
+        }
+        adata = load_dataset(name, **kw)
         print(f"[{name}] {adata.n_obs} units x {adata.n_vars} features", flush=True)
         bins = list(cfg.distance_bins_um)
         exp = compute_exposure(adata, bins)
