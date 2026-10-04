@@ -1,0 +1,94 @@
+{
+  "dataset": "bundled",
+  "technology": "Perturb-DBiT",
+  "units": "pixel",
+  "n_units": 2500,
+  "n_features": 300,
+  "n_samples": 1,
+  "guide_call_rate": 0.2312,
+  "n_perturbed": 574,
+  "n_ntc": 4,
+  "n_ntc_guides": 2,
+  "n_targets": 52,
+  "cells_per_target": {
+    "count": 54.0,
+    "mean": 10.6,
+    "std": 10.3,
+    "min": 0.0,
+    "25%": 3.0,
+    "50%": 7.0,
+    "75%": 13.8,
+    "max": 47.0
+  },
+  "cell_types": {
+    "pixel": 2500
+  },
+  "area_um2": null,
+  "total_counts": {
+    "count": 2500.0,
+    "mean": 4758.1,
+    "std": 2186.4,
+    "min": 297.0,
+    "25%": 3121.8,
+    "50%": 4675.0,
+    "75%": 6001.0,
+    "max": 17019.0
+  },
+  "guides_per_unit": {
+    "0": 1913,
+    "1": 497,
+    "2": 77,
+    "3": 12,
+    "4": 1
+  },
+  "local_density": {
+    "radius": 1.5,
+    "count": 2500.0,
+    "mean": 7.76,
+    "std": 0.82,
+    "min": 3.0,
+    "25%": 8.0,
+    "50%": 8.0,
+    "75%": 8.0,
+    "max": 8.0
+  },
+  "density_by_group": {
+    "perturbed": 7.7543554006968645,
+    "ntc": 7.25,
+    "unassigned": 7.764828303850156
+  },
+  "graphs": {
+    "delaunay_pruned": {
+      "mean_degree": 5.8408,
+      "isolated_fraction": 0.0,
+      "median_edge_length": 1.0,
+      "same_target_edges_observed": 12.0,
+      "same_target_edges_null_mean": 12.94,
+      "same_target_edges_null_sd": 3.7624991694351237,
+      "clonality_z": -0.24983394219356725
+    },
+    "radius": {
+      "mean_degree": 7.7616,
+      "isolated_fraction": 0.0,
+      "median_edge_length": 1.0,
+      "same_target_edges_observed": 16.0,
+      "same_target_edges_null_mean": 17.13,
+      "same_target_edges_null_sd": 4.088165847907836,
+      "clonality_z": -0.2764075729898015
+    },
+    "knn10": {
+      "mean_degree": 8.0848,
+      "isolated_fraction": 0.0,
+      "median_edge_length": 1.4142135623730951,
+      "same_target_edges_observed": 17.0,
+      "same_target_edges_null_mean": 18.18,
+      "same_target_edges_null_sd": 5.231405164962852,
+      "clonality_z": -0.2255608125906606
+    }
+  },
+  "batch_structure": {
+    "pixel": {
+      "mTSG.LV.2": 2500
+    }
+  }
+}

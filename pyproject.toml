@@ -84,4 +84,6 @@ addopts = "-q --cov=spatialspill --cov-report=term-missing --cov-fail-under=80"
 filterwarnings = ["ignore::DeprecationWarning", "ignore::FutureWarning"]
 
 [tool.coverage.run]
-omit = ["src/spatialspill/_version.py"]
+# raw-data loaders need multi-GB downloads; their pure parsing helpers are unit-tested,
+# the end-to-end loads are exercised by tests that skip when data/raw is absent
+omit = ["src/spatialspill/loaders/perturb_*.py", "src/spatialspill/loaders/registry.py"]
