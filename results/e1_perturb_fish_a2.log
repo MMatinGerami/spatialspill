@@ -1,1 +1,16 @@
 [perturb_fish] 187215 units x 500 features
+{
+  "n_tests": 95000,
+  "n_ntc_tests": 11000,
+  "n_target_tests": 84000,
+  "fdr": 0.1,
+  "ntc_fraction_q_below_fdr": 0.010272727272727272,
+  "ntc_fraction_p_below_0.05": 0.08318181818181818,
+  "target_fraction_q_below_fdr": 0.020107142857142858,
+  "n_autonomous_hits": 1052,
+  "n_spillover_hits": 637,
+  "dataset": "perturb_fish",
+  "targets": 39
+}
+results in results/5d30bb4682
+DONE_E1
