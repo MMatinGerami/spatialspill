@@ -242,3 +242,15 @@ q < 0.10 fraction 0; 0 autonomous hits, 4 spillover hits. Local strata remove th
 autocorrelation-driven false positives and most of the power with them. 150 and 400 um runs
 pending; whatever they show, E1 with global strata is not an acceptable spillover test on a
 single-section dataset with clonal structure, and the manuscript will say so.
+
+## 2026-10-05 E4 benchmark and pause
+
+results/results/0603f268a6 (10,000 cells on Perturb-FISH geometry, 15 targets, 30% assigned, strong planted
+spillover, any_other_guide recipients, 2 reps): for spillover detection E4 ranks far better
+than E1 and E2 (AUROC 0.88 to 0.92 vs 0.53 to 0.63 for E1/E2 at this size) but its p-values
+are useless (null FPR above 0.9), while E1's NTC pseudo-targets are calibrated (5.3 to 6.1%
+at p < 0.05, 94 to 95% coverage) and E2 is slightly anticonservative in ring 0 (12.9%).
+Conclusion so far: ranking and inference need different tools; E4 for ranking, E1 with local
+strata for calibrated claims. The 40,000-cell power benchmark with E0 to E3 (results/bench_power2.log),
+the Perturb-FISH tile sensitivity runs (150 and 400 um) and the Perturb-Multi E1 runs
+(global and 400 um tiles) were still running in tmux when work paused on 2026-10-05 at 01:30.

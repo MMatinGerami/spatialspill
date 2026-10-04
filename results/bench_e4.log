@@ -4,3 +4,56 @@
 {"scenario": "spill", "rep": 1, "seconds": 43.4, "n_cells": 10000, "n_perturbed": 2432, "n_ntc": 568, "n_misassigned": 0}
 {"scenario": "spill_bleed", "rep": 0, "seconds": 41.7, "n_cells": 10000, "n_perturbed": 2377, "n_ntc": 623, "n_misassigned": 0}
 {"scenario": "spill_bleed", "rep": 1, "seconds": 43.5, "n_cells": 10000, "n_perturbed": 2432, "n_ntc": 568, "n_misassigned": 0}
+{"scenario": "spill_misassign", "rep": 0, "seconds": 42.6, "n_cells": 10000, "n_perturbed": 2452, "n_ntc": 637, "n_misassigned": 89}
+{"scenario": "spill_misassign", "rep": 1, "seconds": 41.2, "n_cells": 10000, "n_perturbed": 2497, "n_ntc": 589, "n_misassigned": 86}
+           scenario estimator        kind  ring  null_fpr_q  null_cov95  ntc_cov95  ntc_fpr_p05  power_q  auroc  fdp_q  n_tests
+0         no_effect        E1  autonomous    -1       0.000       0.948      0.945        0.056      NaN    NaN  1.000   1500.0
+1         no_effect        E1   spillover     0       0.009       0.925        NaN          NaN      NaN    NaN  1.000    540.0
+2         no_effect        E1   spillover     1       0.004       0.939      0.940        0.061      NaN    NaN  1.000   1380.0
+3         no_effect        E1   spillover     2       0.002       0.949      0.946        0.053      NaN    NaN  1.000   1500.0
+4         no_effect        E2  autonomous    -1       0.001       0.946      0.942        0.057      NaN    NaN  1.000   1500.0
+5         no_effect        E2   spillover     0       0.042       0.863      0.871        0.129      NaN    NaN  1.000    870.0
+6         no_effect        E2   spillover     1       0.012       0.912      0.880        0.120      NaN    NaN  1.000   1410.0
+7         no_effect        E2   spillover     2       0.003       0.944      0.941        0.059      NaN    NaN  1.000   1500.0
+8         no_effect        E4  autonomous    -1       0.963       0.042      0.035        0.965      NaN    NaN  1.000   1500.0
+9         no_effect        E4   spillover     0       0.907       0.108      0.112        0.888      NaN    NaN  1.000    690.0
+10        no_effect        E4   spillover     1       0.943       0.065      0.050        0.950      NaN    NaN  1.000   1410.0
+11        no_effect        E4   spillover     2       0.956       0.051      0.039        0.961      NaN    NaN  1.000   1500.0
+12            spill        E1  autonomous    -1       0.039       0.851      0.900        0.103    0.808  0.939  0.349   1500.0
+13            spill        E1   spillover     0       0.024       0.937        NaN          NaN    0.031  0.580  0.857    540.0
+14            spill        E1   spillover     1       0.011       0.946      0.940        0.056    0.007  0.587  0.900   1380.0
+15            spill        E1   spillover     2       0.007       0.953      0.958        0.042    0.063  0.634  0.676   1500.0
+16            spill        E2  autonomous    -1       0.050       0.850      0.900        0.100    0.836  0.940  0.397   1500.0
+17            spill        E2   spillover     0       0.059       0.854      0.864        0.136    0.048  0.576  0.902    870.0
+18            spill        E2   spillover     1       0.023       0.921      0.903        0.097    0.056  0.542  0.874   1410.0
+19            spill        E2   spillover     2       0.010       0.946      0.950        0.050    0.067  0.634  0.729   1500.0
+20            spill        E4  autonomous    -1       0.956       0.055      0.059        0.941    0.994  0.937  0.915   1500.0
+21            spill        E4   spillover     0       0.924       0.103      0.067        0.933    0.994  0.911  0.896    690.0
+22            spill        E4   spillover     1       0.951       0.064      0.057        0.943    0.981  0.885  0.921   1410.0
+23            spill        E4   spillover     2       0.970       0.032      0.028        0.972    0.996  0.875  0.929   1500.0
+24      spill_bleed        E1  autonomous    -1       0.039       0.853      0.885        0.113    0.825  0.942  0.351   1500.0
+25      spill_bleed        E1   spillover     0       0.019       0.929        NaN          NaN    0.016  0.571  0.900    540.0
+26      spill_bleed        E1   spillover     1       0.008       0.947      0.943        0.055    0.015  0.539  0.818   1380.0
+27      spill_bleed        E1   spillover     2       0.006       0.946      0.948        0.051    0.022  0.594  0.769   1500.0
+28      spill_bleed        E2  autonomous    -1       0.054       0.847      0.877        0.123    0.830  0.944  0.420   1500.0
+29      spill_bleed        E2   spillover     0       0.056       0.873      0.828        0.172    0.042  0.530  0.903    870.0
+30      spill_bleed        E2   spillover     1       0.027       0.919      0.891        0.109    0.019  0.524  0.932   1410.0
+31      spill_bleed        E2   spillover     2       0.010       0.943      0.943        0.057    0.030  0.583  0.826   1500.0
+32      spill_bleed        E4  autonomous    -1       0.957       0.050      0.049        0.951    1.000  0.936  0.915   1500.0
+33      spill_bleed        E4   spillover     0       0.908       0.114      0.083        0.917    1.000  0.918  0.892    690.0
+34      spill_bleed        E4   spillover     1       0.945       0.064      0.058        0.942    0.993  0.896  0.920   1410.0
+35      spill_bleed        E4   spillover     2       0.960       0.048      0.044        0.956    0.978  0.874  0.929   1500.0
+36  spill_misassign        E1  autonomous    -1       0.034       0.856      0.899        0.102    0.808  0.940  0.319   1500.0
+37  spill_misassign        E1   spillover     0       0.025       0.933        NaN          NaN    0.039  0.610  0.821    570.0
+38  spill_misassign        E1   spillover     1       0.012       0.946      0.938        0.062    0.033  0.596  0.810   1410.0
+39  spill_misassign        E1   spillover     2       0.006       0.954      0.958        0.042    0.063  0.653  0.620   1500.0
+40  spill_misassign        E2  autonomous    -1       0.046       0.853      0.900        0.100    0.836  0.939  0.378   1500.0
+41  spill_misassign        E2   spillover     0       0.035       0.885      0.871        0.129    0.104  0.646  0.816   1260.0
+42  spill_misassign        E2   spillover     1       0.022       0.917      0.896        0.104    0.022  0.527  0.893   1410.0
+43  spill_misassign        E2   spillover     2       0.009       0.949      0.951        0.049    0.048  0.649  0.739   1500.0
+44  spill_misassign        E4  autonomous    -1       0.956       0.056      0.058        0.942    0.994  0.937  0.915   1500.0
+45  spill_misassign        E4   spillover     0       0.869       0.146      0.104        0.896    1.000  0.929  0.900    720.0
+46  spill_misassign        E4   spillover     1       0.944       0.068      0.058        0.942    0.996  0.901  0.920   1410.0
+47  spill_misassign        E4   spillover     2       0.962       0.045      0.037        0.963    1.000  0.885  0.928   1500.0
+results in results/0603f268a6
+DONE_BENCH

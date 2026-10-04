@@ -1,0 +1,4 @@
+run,dataset,strata,tile_um,control_policy,clean_controls,n_perm,n_tests,n_ntc_tests,ntc_p05,ntc_q10,autonomous_hits,spillover_hits
+2018dbfee2,bundled,sample+cell_type,0,unperturbed,False,20,19600,600,0.016666666666666666,0.0,0,0
+5d30bb4682,perturb_fish,sample+cell_type,0,ntc,True,200,95000,11000,0.08318181818181818,0.010272727272727272,1052,637
+8c106a7091,perturb_fish,sample+cell_type+tile,250,ntc,True,200,8000,2000,0.036,0.0,0,4

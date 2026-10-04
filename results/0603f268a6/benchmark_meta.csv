@@ -1,0 +1,9 @@
+scenario,rep,seconds,n_cells,n_perturbed,n_ntc,n_misassigned
+no_effect,0,47.5,10000,2377,623,0
+no_effect,1,42.1,10000,2432,568,0
+spill,0,41.6,10000,2377,623,0
+spill,1,43.4,10000,2432,568,0
+spill_bleed,0,41.7,10000,2377,623,0
+spill_bleed,1,43.5,10000,2432,568,0
+spill_misassign,0,42.6,10000,2452,637,89
+spill_misassign,1,41.2,10000,2497,589,86
