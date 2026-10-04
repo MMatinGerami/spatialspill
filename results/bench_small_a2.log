@@ -1,0 +1,16 @@
+{"scenario": "no_effect", "rep": 0, "seconds": 7.1, "n_cells": 40000, "n_perturbed": 2557, "n_ntc": 643, "n_misassigned": 0}
+{"scenario": "no_effect", "rep": 1, "seconds": 6.6, "n_cells": 40000, "n_perturbed": 2566, "n_ntc": 634, "n_misassigned": 0}
+{"scenario": "auto_only", "rep": 0, "seconds": 6.3, "n_cells": 40000, "n_perturbed": 2557, "n_ntc": 643, "n_misassigned": 0}
+{"scenario": "auto_only", "rep": 1, "seconds": 6.3, "n_cells": 40000, "n_perturbed": 2566, "n_ntc": 634, "n_misassigned": 0}
+{"scenario": "spill", "rep": 0, "seconds": 6.5, "n_cells": 40000, "n_perturbed": 2557, "n_ntc": 643, "n_misassigned": 0}
+{"scenario": "spill", "rep": 1, "seconds": 6.5, "n_cells": 40000, "n_perturbed": 2566, "n_ntc": 634, "n_misassigned": 0}
+{"scenario": "spill_bleed", "rep": 0, "seconds": 7.0, "n_cells": 40000, "n_perturbed": 2557, "n_ntc": 643, "n_misassigned": 0}
+{"scenario": "spill_bleed", "rep": 1, "seconds": 7.1, "n_cells": 40000, "n_perturbed": 2566, "n_ntc": 634, "n_misassigned": 0}
+{"scenario": "spill_density", "rep": 0, "seconds": 6.9, "n_cells": 40000, "n_perturbed": 2557, "n_ntc": 643, "n_misassigned": 0}
+{"scenario": "spill_density", "rep": 1, "seconds": 7.2, "n_cells": 40000, "n_perturbed": 2566, "n_ntc": 634, "n_misassigned": 0}
+{"scenario": "spill_batch", "rep": 0, "seconds": 7.4, "n_cells": 40000, "n_perturbed": 2557, "n_ntc": 643, "n_misassigned": 0}
+{"scenario": "spill_batch", "rep": 1, "seconds": 7.2, "n_cells": 40000, "n_perturbed": 2566, "n_ntc": 634, "n_misassigned": 0}
+{"scenario": "spill_clonal", "rep": 0, "seconds": 11.0, "n_cells": 40000, "n_perturbed": 2198, "n_ntc": 512, "n_misassigned": 0}
+{"scenario": "spill_clonal", "rep": 1, "seconds": 10.7, "n_cells": 40000, "n_perturbed": 1994, "n_ntc": 667, "n_misassigned": 0}
+{"scenario": "spill_misassign", "rep": 0, "seconds": 7.5, "n_cells": 40000, "n_perturbed": 2967, "n_ntc": 754, "n_misassigned": 521}
+{"scenario": "spill_misassign", "rep": 1, "seconds": 7.6, "n_cells": 40000, "n_perturbed": 2993, "n_ntc": 741, "n_misassigned": 534}
