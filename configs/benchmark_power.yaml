@@ -1,0 +1,17 @@
+# Power as a function of planted spillover size and assignment rate (E1 vs E2).
+seed: 1
+geometry: perturb_fish
+n_cells: 40000
+n_genes: 60
+n_targets: 15
+frac_assigned: 0.3
+sim_overrides: {spill_lfc_sd: 1.5, frac_spill_genes: 0.2, frac_spill_targets: 0.5, spill_scale_um: 30.0}
+n_reps: 2
+scenarios: [no_effect, spill, spill_bleed, spill_density, spill_clonal, spill_misassign, everything]
+estimators: [E1, E1_analytic, E2]
+distance_bins_um: [0, 15, 30, 60]
+control_policy: any_other_guide
+clean_controls: false
+min_cells: 5
+n_perm: 100
+fdr: 0.1

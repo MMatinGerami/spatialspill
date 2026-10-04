@@ -9,7 +9,10 @@ Two p-values are reported: the exact permutation p-value with the +1 correction
 (``pvalue_perm``, floor 1/(n_perm+1)) and, by default, a permutation-calibrated z p-value
 (``pvalue``): z = (observed - null mean) / null sd with a two-sided normal tail. The z version
 has no floor and is what BH-FDR over tens of thousands of tests needs; its calibration is
-checked on NTC pseudo-targets (NOTEBOOK amendment A1).
+checked on NTC pseudo-targets (NOTEBOOK amendment A1). Confidence intervals use the
+permutation-null sd by default (``ci="perm"``), which the simulator benchmark showed to be
+better calibrated than the analytic within-group variance (``ci="analytic"``, 89 to 92%
+coverage at nominal 95%).
 """
 
 from __future__ import annotations
@@ -112,7 +115,11 @@ class E1Stratified(Estimator):
         groups: GroupConfig | None = None,
         report_by_cell_type: bool = True,
         pvalue: str = "z",
+        ci: str = "perm",
     ) -> None:
+        if ci not in ("perm", "analytic"):
+            raise ValueError("ci must be 'perm' or 'analytic'")
+        self.ci = ci
         if pvalue not in ("z", "perm"):
             raise ValueError("pvalue must be 'z' or 'perm'")
         self.pvalue = pvalue
@@ -203,7 +210,9 @@ class E1Stratified(Estimator):
         pvals = pvals_z if self.pvalue == "z" else pvals_perm
 
         rows: list[dict[str, object]] = []
-        se = np.sqrt(V)
+        # standard error: permutation-null sd (default) or analytic within-group variance
+        se = null_sd if self.ci == "perm" else np.sqrt(V)
+        se = np.where(np.isfinite(se), se, np.sqrt(V))
         for ki, kind in enumerate(kinds):
             for gi, grp in enumerate(groups):
                 for k, target in enumerate(exposure.targets):

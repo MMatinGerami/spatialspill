@@ -1,3 +1,4 @@
+[perturb_fish] 187215 units x 500 features
 {
   "n_tests": 98000,
   "n_ntc_tests": 11500,
@@ -11,3 +12,5 @@
   "dataset": "perturb_fish",
   "targets": 39
 }
+results in results/5d30bb4682
+DONE_E1
