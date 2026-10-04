@@ -15,6 +15,9 @@ def truth_table(adata: AnnData, kind: str) -> pd.DataFrame:
     targets = list(t["targets"])
     genes = list(adata.var_names)
     rows = [(tg, g, float(M[i, j])) for i, tg in enumerate(targets) for j, g in enumerate(genes)]
+    # NTC pseudo-targets ("NTC:<guide>") are exact nulls for every outcome
+    ntc_guides = sorted(set(adata.obs.loc[adata.obs["is_ntc"], "guide"].astype(str)))
+    rows += [(f"NTC:{gd}", g, 0.0) for gd in ntc_guides for g in genes]
     return pd.DataFrame(rows, columns=["target", "outcome", "true_lfc"])
 
 
@@ -44,6 +47,7 @@ def score(
             if m.empty:
                 continue
             null = m["true_lfc"] == 0
+            ntc_m = m["target"].astype(str).str.startswith("NTC:")
             z = (m["estimate"] / m["se"].replace(0, np.nan)).abs().fillna(0)
             auroc = roc_auc_score(~null, z) if 0 < (~null).sum() < len(m) else np.nan
             rows.append(
@@ -58,6 +62,17 @@ def score(
                     ),
                     "null_fpr_q": float((m.loc[null, "qvalue"] < fdr).mean()),
                     "null_fpr_p05": float((m.loc[null, "pvalue"] < 0.05).mean()),
+                    "ntc_coverage95": float(
+                        ((m.loc[ntc_m, "ci_low"] <= 0) & (m.loc[ntc_m, "ci_high"] >= 0)).mean()
+                    )
+                    if ntc_m.any()
+                    else np.nan,
+                    "ntc_fpr_q": float((m.loc[ntc_m, "qvalue"] < fdr).mean())
+                    if ntc_m.any()
+                    else np.nan,
+                    "ntc_fpr_p05": float((m.loc[ntc_m, "pvalue"] < 0.05).mean())
+                    if ntc_m.any()
+                    else np.nan,
                     "power_q": float((m.loc[~null, "qvalue"] < fdr).mean())
                     if (~null).any()
                     else np.nan,

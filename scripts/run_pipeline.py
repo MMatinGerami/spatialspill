@@ -63,6 +63,12 @@ def main() -> int:
         adata = load_dataset(name, **kw)
         print(f"[{name}] {adata.n_obs} units x {adata.n_vars} features", flush=True)
         bins = list(cfg.distance_bins_um)
+        tile_um = float(cfg.get("tile_um", 0) or 0)
+        if tile_um > 0:
+            xy = np.asarray(adata.obsm["spatial"], dtype=float)
+            tx = np.floor(xy[:, 0] / tile_um).astype(int)
+            ty = np.floor(xy[:, 1] / tile_um).astype(int)
+            adata.obs["tile"] = [f"{a}_{b}" for a, b in zip(tx, ty)]
         exp = compute_exposure(adata, bins)
         Y = lognorm(adata)
         if "max_outcomes" in cfg and cfg.max_outcomes and Y.shape[1] > int(cfg.max_outcomes):

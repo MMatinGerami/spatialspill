@@ -186,3 +186,39 @@ sd t_null. On a pure-null toy (4,000 cells, 30 genes, 3 samples, 100 permutation
 fraction of tests with p < 0.05 is 0.042 (autonomous), 0.047 (ring 0), 0.084 (ring 1), the
 exact permutation p gives 0.029, 0.044, 0.078, and 95% CIs cover zero in 93.5% of tests.
 H1 to H4 unchanged; H1 is evaluated on these p-values.
+
+## 2026-10-05 Results of the A2 run on Perturb-FISH (results/5d30bb4682) and amendment A3
+
+Run: configs/e1_perturb_fish.yaml, studentized E1, 200 permutations, 95,000 identified tests.
+- H1 (NTC calibration): at q < 0.10, 1.0% of NTC tests are called (criterion: at most 10%,
+  passes). At p < 0.05: 8.1% autonomous, 13.4% ring 0, 6.1% ring 1, 7.3% ring 2 (criterion
+  [0.03, 0.07]: fails for ring 0 and marginally for autonomous and ring 2). E1 is
+  anticonservative, most strongly where exposure is sparsest (ring 0: median 7.5 recipients).
+- H2: 32 of 32 targets have at least one autonomous hit at q < 0.10 (1,052 hits). Passes,
+  but with the same anticonservativeness caveat.
+- H3: 637 spillover hits against an NTC rate that predicts about 84,000 x 0.009 = 760 false
+  calls; the criterion (3x the NTC-scaled count) fails. No spillover claim from E1.
+- Diagnosis: the strongest ring-0 "hits" are MAP2K6 on BST2, AKT1, CD40, ICAM1, all about
+  -0.5 with exactly 5 recipients. Five NTC cells adjacent to one MAP2K6 clone share one
+  niche; their joint deviation reflects local expression autocorrelation, which the
+  stratified permutation null (strata = sample x cell type, one sample, one cell type for
+  tumour cells) does not model: it compares them with 5 random NTC cells anywhere in the
+  section. This is assumption A4 failing through spatial autocorrelation, and it is the
+  general weakness of E1 with global strata.
+
+Amendment A3 (declared before running): strata become sample x cell type x spatial tile,
+with square tiles of 250 um (about 10 cell diameters, chosen so that a tile holds a clone
+and its ring recipients together with local NTC controls). Differences and permutations are
+then local. Positivity will drop (tiles with fewer than 5 recipients or controls are
+unidentified) and this is reported. The tile size sensitivity (150, 250, 400 um) is run and
+reported; the pre-specified primary is 250 um. H1 is evaluated again under A3; H3 and H4 are
+evaluated only if H1 passes.
+
+Benchmark note (results/bench_small_a2): on the simulator, E1's 95% intervals cover zero for
+94 to 95% of null spillover pairs (ring 2) but only 89 to 91% of null autonomous pairs, with
+FDP 0.18 to 0.24 at q < 0.10 for autonomous effects. The autonomous "null" pairs are not null
+on the analysis scale: a perturbation that changes 10% of genes shifts the cell's total
+counts, and size-factor normalisation moves every other gene (compositional bias). The
+benchmark now also scores NTC pseudo-targets, which are exact nulls, and the manuscript will
+report autonomous calibration on them. The compositional effect is itself a finding for
+panel-based assays (209 to 500 genes), where one gene can be a large share of the total.
