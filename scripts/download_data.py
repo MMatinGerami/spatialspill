@@ -1,0 +1,203 @@
+"""Download raw data listed in the registry, verify sizes, compute md5, write MANIFEST.md.
+
+Usage:
+    uv run python scripts/download_data.py --all
+    uv run python scripts/download_data.py --dataset perturb_dbit perturb_map
+    uv run python scripts/download_data.py --list
+
+Downloads are resumable (curl -C -). Everything lands in data/raw/<dataset>/. The registry
+below is the single source of truth for URLs; data/README.md describes the datasets.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import subprocess
+import sys
+from dataclasses import dataclass
+from pathlib import Path
+
+RAW = Path(__file__).resolve().parents[1] / "data" / "raw"
+
+GEO_SERIES = "https://ftp.ncbi.nlm.nih.gov/geo/series"
+GEO_SAMPLES = "https://ftp.ncbi.nlm.nih.gov/geo/samples"
+HF = "https://huggingface.co/datasets/xingjiepan/PerturbMulti/resolve/main"
+BIA = "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/267/S-BIAD267/Files/bia_submission"
+
+
+@dataclass(frozen=True)
+class Item:
+    dataset: str
+    url: str
+    filename: str
+    expected_bytes: int | None = None  # from HEAD at verification time; None if unknown
+    note: str = ""
+
+
+FAILED: list[Item] = []
+
+REGISTRY: list[Item] = [
+    # Perturb-DBiT, GEO GSE319277 (all supplementary files, 78 MB)
+    Item(
+        "perturb_dbit",
+        f"{GEO_SERIES}/GSE319nnn/GSE319277/suppl/GSE319277_RAW.tar",
+        "GSE319277_RAW.tar",
+        78428160,
+    ),
+    Item(
+        "perturb_dbit",
+        f"{GEO_SERIES}/GSE319nnn/GSE319277/soft/GSE319277_family.soft.gz",
+        "GSE319277_family.soft.gz",
+    ),
+    # Perturb-DBiT Xenium companion, GSE319123 (single-cell files only; the 13 GB OME-TIFF is skipped)
+    Item(
+        "perturb_dbit_xenium",
+        f"{GEO_SAMPLES}/GSM9511nnn/GSM9511110/suppl/GSM9511110_Xenium_lung_cells.parquet.gz",
+        "cells.parquet.gz",
+    ),
+    Item(
+        "perturb_dbit_xenium",
+        f"{GEO_SAMPLES}/GSM9511nnn/GSM9511110/suppl/GSM9511110_Xenium_lung_cell_feature_matrix.h5",
+        "cell_feature_matrix.h5",
+    ),
+    Item(
+        "perturb_dbit_xenium",
+        f"{GEO_SAMPLES}/GSM9511nnn/GSM9511110/suppl/GSM9511110_Xenium_lung_cell_boundaries.parquet.gz",
+        "cell_boundaries.parquet.gz",
+    ),
+    Item(
+        "perturb_dbit_xenium",
+        f"{GEO_SERIES}/GSE319nnn/GSE319123/soft/GSE319123_family.soft.gz",
+        "GSE319123_family.soft.gz",
+    ),
+    # Perturb-map, GEO GSE193460 (4 Visium sections, 150 MB)
+    Item(
+        "perturb_map",
+        f"{GEO_SERIES}/GSE193nnn/GSE193460/suppl/GSE193460_RAW.tar",
+        "GSE193460_RAW.tar",
+        150231040,
+    ),
+    Item(
+        "perturb_map",
+        f"{GEO_SERIES}/GSE193nnn/GSE193460/soft/GSE193460_family.soft.gz",
+        "GSE193460_family.soft.gz",
+    ),
+    Item("perturb_map", f"{BIA}/fileList_Dhainaut_Rose_etal_20220118.json", "bia_filelist.json"),
+    # Perturb-Multi, Hugging Face (CC BY 4.0)
+    Item(
+        "perturb_multi",
+        f"{HF}/protein_intensities_crispr_screen_20240615.h5ad",
+        "protein_intensities_crispr_screen_20240615.h5ad",
+        31430488,
+    ),
+    Item(
+        "perturb_multi",
+        f"{HF}/RNA_scaled_crispr_screen_20240615.h5ad",
+        "RNA_scaled_crispr_screen_20240615.h5ad",
+        14201294683,
+        "14.2 GB; read with h5py, subset to FOVs with guide-assigned cells",
+    ),
+    Item("perturb_multi", f"{HF}/README.md", "HF_README.md"),
+    # Spatial Perturb-seq, GEO GSE274447 (2.1 GB)
+    Item(
+        "spatial_perturbseq",
+        f"{GEO_SERIES}/GSE274nnn/GSE274447/suppl/GSE274447_RAW.tar",
+        "GSE274447_RAW.tar",
+        2142842880,
+    ),
+    Item(
+        "spatial_perturbseq",
+        f"{GEO_SERIES}/GSE274nnn/GSE274447/soft/GSE274447_family.soft.gz",
+        "GSE274447_family.soft.gz",
+    ),
+]
+
+
+def md5sum(path: Path, chunk: int = 1 << 22) -> str:
+    h = hashlib.md5()
+    with open(path, "rb") as fh:
+        for block in iter(lambda: fh.read(chunk), b""):
+            h.update(block)
+    return h.hexdigest()
+
+
+def fetch(item: Item) -> Path:
+    dest = RAW / item.dataset / item.filename
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    if dest.exists() and item.expected_bytes and dest.stat().st_size == item.expected_bytes:
+        print(f"skip (complete) {dest}")
+        return dest
+    cmd = [
+        "curl",
+        "-L",
+        "--fail",
+        "--retry",
+        "5",
+        "--retry-delay",
+        "15",
+        "-C",
+        "-",
+        "-o",
+        str(dest),
+        item.url,
+    ]
+    print(" ".join(cmd))
+    r = subprocess.run(cmd, check=False)
+    if r.returncode not in (0, 33):  # 33 = range not supported / already complete
+        print(f"WARNING download failed ({r.returncode}): {item.url}", file=sys.stderr)
+        FAILED.append(item)
+    return dest
+
+
+def write_manifest(items: list[Item]) -> None:
+    lines = [
+        "# Raw data manifest",
+        "",
+        "Generated by scripts/download_data.py. Do not edit by hand.",
+        "",
+        "| dataset | file | bytes | md5 | source |",
+        "|---|---|---|---|---|",
+    ]
+    for it in items:
+        p = RAW / it.dataset / it.filename
+        if not p.exists():
+            continue
+        lines.append(
+            f"| {it.dataset} | {it.filename} | {p.stat().st_size} | {md5sum(p)} | {it.url} |"
+        )
+    (RAW / "MANIFEST.md").write_text("\n".join(lines) + "\n")
+    print(f"wrote {RAW / 'MANIFEST.md'}")
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--all", action="store_true")
+    ap.add_argument("--dataset", nargs="*", default=[])
+    ap.add_argument("--list", action="store_true")
+    ap.add_argument("--skip-large", action="store_true", help="skip files above 1 GB")
+    ap.add_argument("--manifest-only", action="store_true")
+    a = ap.parse_args()
+    if a.list:
+        for it in REGISTRY:
+            print(f"{it.dataset:22s} {it.filename:55s} {it.expected_bytes or '?':>12} {it.url}")
+        return 0
+    sel = [it for it in REGISTRY if a.all or it.dataset in a.dataset]
+    if a.skip_large:
+        sel = [it for it in sel if not (it.expected_bytes and it.expected_bytes > 1e9)]
+    if not sel and not a.manifest_only:
+        ap.error("nothing selected")
+    if not a.manifest_only:
+        for it in sel:
+            fetch(it)
+    write_manifest(REGISTRY)
+    if FAILED:
+        print(f"{len(FAILED)} downloads failed:", file=sys.stderr)
+        for it in FAILED:
+            print(f"  {it.url}", file=sys.stderr)
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -8,14 +8,24 @@ from anndata import AnnData
 from spatialspill.schema import SpatialScreenSchema, edge_distance_from_coords
 
 
-def make_toy(n: int = 300, n_genes: int = 20, n_samples: int = 2, seed: int = 0) -> AnnData:
+def make_toy(
+    n: int = 300,
+    n_genes: int = 20,
+    n_samples: int = 2,
+    seed: int = 0,
+    field_um: float = 600.0,
+    p_perturbed: float = 0.2,
+) -> AnnData:
     rng = np.random.default_rng(seed)
-    xy = rng.uniform(0, 200, size=(n, 2))
+    xy = rng.uniform(0, field_um, size=(n, 2))
     sample = np.array([f"s{i % n_samples}" for i in range(n)])
-    targets = rng.choice(["NTC", "GENE_A", "GENE_B", "none"], size=n, p=[0.3, 0.3, 0.3, 0.1])
+    pp = p_perturbed / 2
+    targets = rng.choice(
+        ["NTC", "GENE_A", "GENE_B", "none"], size=n, p=[0.7 - p_perturbed, pp, pp, 0.3]
+    )
     obs = pd.DataFrame(
         {
-            "guide": [f"{t}_g1" if t != "none" else "none" for t in targets],
+            "guide": [f"{t}_g{rng.integers(1, 4)}" if t != "none" else "none" for t in targets],
             "guide_confidence": np.where(targets == "none", np.nan, rng.uniform(0.5, 1, n)),
             "target": targets,
             "is_ntc": targets == "NTC",

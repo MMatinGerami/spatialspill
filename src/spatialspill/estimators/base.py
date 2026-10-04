@@ -54,7 +54,9 @@ class Estimator(ABC):
     name: str = "base"
 
     @abstractmethod
-    def fit(self, adata: AnnData, exposure: Exposure, outcomes: np.ndarray, outcome_names: list[str]) -> EstimateTable:
+    def fit(
+        self, adata: AnnData, exposure: Exposure, outcomes: np.ndarray, outcome_names: list[str]
+    ) -> EstimateTable:
         """Estimate autonomous and spillover effects for every target in ``exposure``.
 
         ``outcomes`` is (n_cells x n_outcomes) dense array on the analysis scale.

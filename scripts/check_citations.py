@@ -15,14 +15,26 @@ from pathlib import Path
 import requests
 
 DOI_RE = re.compile(r"10\.\d{4,9}/[^\s\"'<>\]\)},;]+")
-DEFAULT_PATHS = ["docs", "paper", "README.md", "NOTEBOOK.md", "DECISIONS.md", "CRITIQUE.md", "data/README.md"]
+DEFAULT_PATHS = [
+    "docs",
+    "paper",
+    "README.md",
+    "NOTEBOOK.md",
+    "DECISIONS.md",
+    "CRITIQUE.md",
+    "data/README.md",
+]
 
 
 def collect(paths: list[str]) -> set[str]:
     dois: set[str] = set()
     for p in paths:
         pp = Path(p)
-        files = [pp] if pp.is_file() else list(pp.rglob("*.md")) + list(pp.rglob("*.tex")) + list(pp.rglob("*.bib"))
+        files = (
+            [pp]
+            if pp.is_file()
+            else list(pp.rglob("*.md")) + list(pp.rglob("*.tex")) + list(pp.rglob("*.bib"))
+        )
         for f in files:
             if not f.exists():
                 continue
@@ -32,8 +44,11 @@ def collect(paths: list[str]) -> set[str]:
 
 
 def check(doi: str) -> tuple[bool, str]:
-    r = requests.get(f"https://api.crossref.org/works/{doi}", timeout=30,
-                     headers={"User-Agent": "spatialspill-citation-check (mailto:mmatin.gerami@gmail.com)"})
+    r = requests.get(
+        f"https://api.crossref.org/works/{doi}",
+        timeout=30,
+        headers={"User-Agent": "spatialspill-citation-check (mailto:mmatin.gerami@gmail.com)"},
+    )
     if r.status_code != 200:
         return False, f"HTTP {r.status_code}"
     msg = r.json()["message"]
