@@ -8,7 +8,7 @@ frac_assigned: 0.3
 sim_overrides: {spill_lfc_sd: 1.5, frac_spill_genes: 0.2, frac_spill_targets: 0.5, spill_scale_um: 30.0}
 n_reps: 2
 scenarios: [no_effect, spill, spill_bleed, spill_density, spill_clonal, spill_misassign, everything]
-estimators: [E1, E1_analytic, E2]
+estimators: [E0_neighbour, E0_pseudobulk, E1, E2, E3]
 distance_bins_um: [0, 15, 30, 60]
 control_policy: any_other_guide
 clean_controls: false

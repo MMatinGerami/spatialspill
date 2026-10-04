@@ -1,0 +1,24 @@
+clean_controls: true
+control_policy: ntc
+distance_bins_um:
+- 0
+- 15
+- 30
+- 60
+estimators:
+- E0_neighbour
+- E1
+- E2
+fdr: 0.1
+frac_assigned: 0.08
+geometry: synthetic
+min_cells: 5
+n_cells: 8000
+n_genes: 60
+n_perm: 30
+n_reps: 1
+n_targets: 15
+scenarios:
+- no_effect
+- spill
+seed: 0

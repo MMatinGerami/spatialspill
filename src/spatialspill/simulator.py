@@ -296,6 +296,7 @@ def simulate(geom: AnnData, cfg: SimConfig | None = None) -> AnnData:
     ).to_uns()
     adata.uns["truth"] = {
         "targets": targets,
+        "base_props": base / base.sum(),
         "tau_auto": tau_auto,
         "tau_spill": tau_spill,
         "spill_targets": spill_targets,
@@ -315,58 +316,39 @@ class Scenario:
     tags: list[str] = field(default_factory=list)
 
 
-def default_scenarios(seed: int = 0) -> list[Scenario]:
-    return [
-        Scenario(
-            "no_effect",
-            SimConfig(frac_spill_targets=0.0, frac_auto_nonzero=0.0, seed=seed),
-            "no effects at all",
-        ),
-        Scenario(
-            "auto_only",
-            SimConfig(frac_spill_targets=0.0, seed=seed),
-            "autonomous effects, no spillover",
-        ),
-        Scenario("spill", SimConfig(seed=seed), "autonomous + spillover"),
-        Scenario(
-            "spill_bleed",
-            SimConfig(alpha_bleed=0.15, seed=seed),
-            "+ 15% bleed-through",
-            ["artifact"],
-        ),
-        Scenario(
-            "spill_density",
-            SimConfig(beta_density=0.05, seed=seed),
-            "+ density effect",
-            ["artifact"],
-        ),
-        Scenario(
-            "spill_batch", SimConfig(batch_sd=0.3, seed=seed), "+ batch offsets", ["artifact"]
-        ),
-        Scenario(
-            "spill_clonal",
-            SimConfig(clonal_radius_um=40.0, clonal_size=6, seed=seed),
-            "+ clonal assignment",
-            ["design"],
-        ),
-        Scenario(
-            "spill_misassign",
-            SimConfig(p_misassign=0.3, seed=seed),
-            "+ barcode misassignment",
-            ["artifact"],
-        ),
-        Scenario(
-            "everything",
-            SimConfig(
-                alpha_bleed=0.15,
-                beta_density=0.05,
-                batch_sd=0.3,
-                clonal_radius_um=40.0,
-                clonal_size=6,
-                p_misassign=0.2,
-                seed=seed,
-            ),
-            "all artifacts",
-            ["artifact", "design"],
-        ),
-    ]
+SCENARIO_DELTAS: dict[str, tuple[dict[str, object], str, list[str]]] = {
+    "no_effect": ({"frac_spill_targets": 0.0, "frac_auto_nonzero": 0.0}, "no effects at all", []),
+    "auto_only": ({"frac_spill_targets": 0.0}, "autonomous effects, no spillover", []),
+    "spill": ({}, "autonomous + spillover", []),
+    "spill_bleed": ({"alpha_bleed": 0.15}, "+ 15% bleed-through", ["artifact"]),
+    "spill_density": ({"beta_density": 0.05}, "+ density effect", ["artifact"]),
+    "spill_batch": ({"batch_sd": 0.3}, "+ batch offsets", ["artifact"]),
+    "spill_clonal": (
+        {"clonal_radius_um": 40.0, "clonal_size": 6},
+        "+ clonal assignment",
+        ["design"],
+    ),
+    "spill_misassign": ({"p_misassign": 0.3}, "+ barcode misassignment", ["artifact"]),
+    "everything": (
+        {
+            "alpha_bleed": 0.15,
+            "beta_density": 0.05,
+            "batch_sd": 0.3,
+            "clonal_radius_um": 40.0,
+            "clonal_size": 6,
+            "p_misassign": 0.2,
+        },
+        "all artifacts",
+        ["artifact", "design"],
+    ),
+}
+
+
+def default_scenarios(seed: int = 0, base: SimConfig | None = None) -> list[Scenario]:
+    """Scenarios are deltas applied on top of ``base`` (default :class:`SimConfig`)."""
+    base = base or SimConfig()
+    out = []
+    for name, (delta, desc, tags) in SCENARIO_DELTAS.items():
+        cfg = SimConfig(**{**base.__dict__, **delta, "seed": seed})
+        out.append(Scenario(name, cfg, desc, list(tags)))
+    return out

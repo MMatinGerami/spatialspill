@@ -18,7 +18,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from spatialspill.benchmark import score
 from spatialspill.config import load_config, results_dir
-from spatialspill.estimators import E2GLM, E1Stratified, E3DoublyRobust
+from spatialspill.estimators import (
+    E2GLM,
+    E4GNN,
+    E1Stratified,
+    E3DoublyRobust,
+    NeighbourTTest,
+    PseudobulkDE,
+)
 from spatialspill.estimators.groups import GroupConfig
 from spatialspill.exposure import compute_exposure
 from spatialspill.outcomes import lognorm
@@ -53,18 +60,19 @@ def main() -> int:
     cfg = load_config(a.config, a.overrides)
     out = results_dir(cfg)
     geom, geom_name = get_geometry(cfg)
-    scen = {s.name: s for s in default_scenarios(int(cfg.seed))}
+    base_over = {
+        "n_genes": int(cfg.n_genes),
+        "n_targets": int(cfg.n_targets),
+        "frac_assigned": float(cfg.frac_assigned),
+    }
+    base_over.update(dict(cfg.get("sim_overrides", {})))
+    base = SimConfig(**{**SimConfig().__dict__, **base_over})
+    scen = {s.name: s for s in default_scenarios(int(cfg.seed), base)}
     names = list(cfg.get("scenarios", list(scen)))
     all_scores, meta = [], []
     for name in names:
         s = scen[name]
-        overrides = {
-            "n_genes": int(cfg.n_genes),
-            "n_targets": int(cfg.n_targets),
-            "frac_assigned": float(cfg.frac_assigned),
-        }
-        overrides.update(dict(cfg.get("sim_overrides", {})))
-        sc = SimConfig(**{**s.cfg.__dict__, **overrides})
+        sc = SimConfig(**s.cfg.__dict__)
         for rep in range(int(cfg.n_reps)):
             sc.seed = int(cfg.seed) * 1000 + rep
             t0 = time.time()
@@ -101,6 +109,12 @@ def main() -> int:
                         groups=gcfg,
                         n_boot=100,
                     )
+                elif est_name == "E4":
+                    est = E4GNN(min_cells=int(cfg.min_cells), groups=gcfg, seed=sc.seed)
+                elif est_name == "E0_neighbour":
+                    est = NeighbourTTest(min_cells=int(cfg.min_cells), groups=gcfg)
+                elif est_name == "E0_pseudobulk":
+                    est = PseudobulkDE(min_cells=int(cfg.min_cells), groups=gcfg)
                 else:
                     raise KeyError(est_name)
                 tab = est.fit(sim, exp, Y, list(sim.var_names)).with_fdr()
