@@ -3770,6 +3770,7 @@ dependencies = [
     { name = "seaborn" },
     { name = "squidpy" },
     { name = "statsmodels" },
+    { name = "tabulate" },
     { name = "tqdm" },
 ]
 
@@ -3833,6 +3834,7 @@ requires-dist = [
     { name = "spatialspill", extras = ["torch", "bayes", "pert"], marker = "extra == 'all'" },
     { name = "squidpy", specifier = ">=1.6" },
     { name = "statsmodels", specifier = ">=0.14,<0.15" },
+    { name = "tabulate", specifier = ">=0.10.0" },
     { name = "torch", marker = "extra == 'torch'", specifier = ">=2.2" },
     { name = "torch-geometric", marker = "extra == 'torch'", specifier = ">=2.5" },
     { name = "tqdm", specifier = ">=4.66" },

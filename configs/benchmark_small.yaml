@@ -1,0 +1,15 @@
+seed: 0
+geometry: perturb_fish
+n_cells: 40000
+n_genes: 60
+n_targets: 15
+frac_assigned: 0.08
+n_reps: 2
+scenarios: [no_effect, auto_only, spill, spill_bleed, spill_density, spill_batch, spill_clonal, spill_misassign, everything]
+estimators: [E1]
+distance_bins_um: [0, 15, 30, 60]
+control_policy: ntc
+clean_controls: true
+min_cells: 5
+n_perm: 100
+fdr: 0.1
