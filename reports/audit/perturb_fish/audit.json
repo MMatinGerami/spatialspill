@@ -1,0 +1,106 @@
+{
+  "dataset": "perturb_fish",
+  "technology": "Perturb-FISH (MERFISH)",
+  "units": "um",
+  "n_units": 187215,
+  "n_features": 500,
+  "n_samples": 1,
+  "guide_call_rate": 0.05171594156451139,
+  "n_perturbed": 4387,
+  "n_ntc": 4987,
+  "n_ntc_guides": 4,
+  "n_targets": 35,
+  "cells_per_target": {
+    "count": 35.0,
+    "mean": 125.3,
+    "std": 103.1,
+    "min": 1.0,
+    "25%": 51.0,
+    "50%": 104.0,
+    "75%": 185.0,
+    "max": 402.0
+  },
+  "cell_types": {
+    "unknown": 172983,
+    "T cell": 14232
+  },
+  "area_um2": {
+    "count": 187215.0,
+    "mean": 158.8,
+    "std": 208.5,
+    "min": 23.3,
+    "25%": 94.9,
+    "50%": 139.3,
+    "75%": 196.6,
+    "max": 35704.9
+  },
+  "total_counts": {
+    "count": 187215.0,
+    "mean": 203.1,
+    "std": 172.5,
+    "min": 0.0,
+    "25%": 72.0,
+    "50%": 160.0,
+    "75%": 289.0,
+    "max": 1631.0
+  },
+  "guides_per_unit": {
+    "0": 177533,
+    "1": 9374,
+    "2": 298,
+    "3": 10
+  },
+  "local_density": {
+    "radius": 30.0,
+    "count": 187215.0,
+    "mean": 13.24,
+    "std": 3.28,
+    "min": 0.0,
+    "25%": 11.0,
+    "50%": 13.0,
+    "75%": 15.0,
+    "max": 27.0
+  },
+  "density_by_group": {
+    "perturbed": 12.97674948712104,
+    "ntc": 13.019250050130339,
+    "unassigned": 13.255068071851431
+  },
+  "graphs": {
+    "delaunay_pruned": {
+      "mean_degree": 5.969884891702054,
+      "isolated_fraction": 0.00012819485618139573,
+      "median_edge_length": 15.412426985205537,
+      "same_target_edges_observed": 223.0,
+      "same_target_edges_null_mean": 14.58,
+      "same_target_edges_null_sd": 3.7153196363166385,
+      "clonality_z": 56.09746143043219
+    },
+    "radius": {
+      "mean_degree": 13.240712549742275,
+      "isolated_fraction": 0.0007317789707021339,
+      "median_edge_length": 21.54489704237885,
+      "same_target_edges_observed": 397.0,
+      "same_target_edges_null_mean": 33.39,
+      "same_target_edges_null_sd": 5.310169488820484,
+      "clonality_z": 68.47427389380118
+    },
+    "knn10": {
+      "mean_degree": 11.049285580749405,
+      "isolated_fraction": 0.0,
+      "median_edge_length": 19.832011154840714,
+      "same_target_edges_observed": 354.0,
+      "same_target_edges_null_mean": 26.59,
+      "same_target_edges_null_sd": 4.637014125490669,
+      "clonality_z": 70.60793673242367
+    }
+  },
+  "batch_structure": {
+    "T cell": {
+      "tumor_sample1": 14232
+    },
+    "unknown": {
+      "tumor_sample1": 172983
+    }
+  }
+}

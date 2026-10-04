@@ -9,6 +9,7 @@ import anndata as ad
 from anndata import AnnData
 
 from spatialspill.loaders.perturb_dbit import load_perturb_dbit
+from spatialspill.loaders.perturb_fish import load_perturb_fish_tumor
 from spatialspill.loaders.perturb_map import load_perturb_map
 from spatialspill.loaders.perturb_multi import load_perturb_multi
 
@@ -24,4 +25,6 @@ def load_dataset(name: str, **kwargs: Any) -> AnnData:
         return load_perturb_multi(**kwargs)
     if name == "perturb_map":
         return load_perturb_map(**kwargs)
+    if name == "perturb_fish":
+        return load_perturb_fish_tumor(**kwargs)
     raise KeyError(f"unknown dataset {name!r}")

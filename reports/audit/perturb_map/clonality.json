@@ -1,0 +1,61 @@
+{
+  "dataset": "perturb_map",
+  "d_max": 400.0,
+  "n_assigned": 350,
+  "pair_counts_observed": {
+    "(-0.001, 110.0]": {
+      "same_guide": 718
+    },
+    "(110.0, 210.0]": {
+      "same_guide": 1074
+    },
+    "(210.0, 310.0]": {
+      "same_guide": 1138
+    },
+    "(310.0, 400.0]": {
+      "same_guide": 813
+    }
+  },
+  "pair_ratio_obs_over_null": {
+    "(-0.001, 110.0]": {
+      "different_target": NaN,
+      "same_guide": 6.53,
+      "same_target_other_guide": NaN
+    },
+    "(110.0, 210.0]": {
+      "different_target": NaN,
+      "same_guide": 6.47,
+      "same_target_other_guide": NaN
+    },
+    "(210.0, 310.0]": {
+      "different_target": NaN,
+      "same_guide": 6.17,
+      "same_target_other_guide": NaN
+    },
+    "(310.0, 400.0]": {
+      "different_target": NaN,
+      "same_guide": 5.55,
+      "same_target_other_guide": NaN
+    }
+  },
+  "same_guide_components": {
+    "n_components": 23,
+    "fraction_assigned_in_components_ge2": 0.98,
+    "size_distribution": {
+      "1": 7,
+      "2": 4,
+      "3": 1,
+      "11": 2,
+      "12": 1,
+      "16": 1,
+      "21": 1,
+      "28": 1,
+      "31": 1,
+      "41": 1,
+      "50": 1,
+      "51": 1,
+      "60": 1
+    }
+  },
+  "misassignment_signature": {}
+}

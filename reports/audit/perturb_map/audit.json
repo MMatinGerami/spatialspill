@@ -1,0 +1,116 @@
+{
+  "dataset": "perturb_map",
+  "technology": "Perturb-map (Visium)",
+  "units": "um",
+  "n_units": 6363,
+  "n_features": 32289,
+  "n_samples": 4,
+  "guide_call_rate": 0.31526009743831523,
+  "n_perturbed": 350,
+  "n_ntc": 0,
+  "n_ntc_guides": 0,
+  "n_targets": 3,
+  "cells_per_target": {
+    "count": 3.0,
+    "mean": 116.7,
+    "std": 102.0,
+    "min": 21.0,
+    "25%": 63.0,
+    "50%": 105.0,
+    "75%": 164.5,
+    "max": 224.0
+  },
+  "cell_types": {
+    "normal_unlabeled": 3548,
+    "tumor_lesion": 1389,
+    "tumor_unlabeled": 809,
+    "tumor_periphery": 418,
+    "normal_periphery": 177,
+    "normal_lesion": 22
+  },
+  "area_um2": null,
+  "total_counts": null,
+  "local_density": {
+    "radius": 110.0,
+    "count": 6363.0,
+    "mean": 5.45,
+    "std": 1.07,
+    "min": 0.0,
+    "25%": 5.0,
+    "50%": 6.0,
+    "75%": 6.0,
+    "max": 6.0
+  },
+  "density_by_group": {
+    "perturbed": 5.314285714285714,
+    "ntc": null,
+    "unassigned": 5.385356896947441
+  },
+  "graphs": {
+    "delaunay_pruned": {
+      "mean_degree": 5.447430457331447,
+      "isolated_fraction": 0.0012572685840012573,
+      "median_edge_length": 101.48768500739357,
+      "same_target_edges_observed": 2627.0,
+      "same_target_edges_null_mean": 1671.92,
+      "same_target_edges_null_sd": 25.353768950591945,
+      "clonality_z": 37.670138978595574
+    },
+    "radius": {
+      "mean_degree": 5.447430457331447,
+      "isolated_fraction": 0.0012572685840012573,
+      "median_edge_length": 101.48768500739357,
+      "same_target_edges_observed": 2627.0,
+      "same_target_edges_null_mean": 1672.52,
+      "same_target_edges_null_sd": 21.413771269909464,
+      "clonality_z": 44.57318554351195
+    },
+    "knn6": {
+      "mean_degree": 6.376237623762377,
+      "isolated_fraction": 0.0,
+      "median_edge_length": 102.01957331259655,
+      "same_target_edges_observed": 2947.0,
+      "same_target_edges_null_mean": 1886.88,
+      "same_target_edges_null_sd": 27.93359267978253,
+      "clonality_z": 37.951437616804725
+    }
+  },
+  "batch_structure": {
+    "normal_lesion": {
+      "KP_1": 1,
+      "KP_2": 0,
+      "KP_3": 21,
+      "KP_4": 0
+    },
+    "normal_periphery": {
+      "KP_1": 70,
+      "KP_2": 94,
+      "KP_3": 0,
+      "KP_4": 13
+    },
+    "normal_unlabeled": {
+      "KP_1": 1292,
+      "KP_2": 1139,
+      "KP_3": 499,
+      "KP_4": 618
+    },
+    "tumor_lesion": {
+      "KP_1": 328,
+      "KP_2": 383,
+      "KP_3": 329,
+      "KP_4": 349
+    },
+    "tumor_periphery": {
+      "KP_1": 79,
+      "KP_2": 100,
+      "KP_3": 148,
+      "KP_4": 91
+    },
+    "tumor_unlabeled": {
+      "KP_1": 133,
+      "KP_2": 156,
+      "KP_3": 236,
+      "KP_4": 284
+    }
+  }
+}

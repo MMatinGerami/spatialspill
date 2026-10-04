@@ -53,6 +53,7 @@ dev = [
     "types-PyYAML",
     "types-requests",
     "pandas-stubs",
+    "tabulate>=0.10.0",
 ]
 
 [project.urls]

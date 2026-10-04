@@ -1,0 +1,81 @@
+{
+  "dataset": "perturb_fish",
+  "d_max": 100.0,
+  "n_assigned": 9374,
+  "pair_counts_observed": {
+    "(-0.001, 15.0]": {
+      "different_target": 375,
+      "same_guide": 351,
+      "same_target_other_guide": 144
+    },
+    "(15.0, 30.0]": {
+      "different_target": 1946,
+      "same_guide": 1511,
+      "same_target_other_guide": 618
+    },
+    "(30.0, 50.0]": {
+      "different_target": 4452,
+      "same_guide": 3135,
+      "same_target_other_guide": 1378
+    },
+    "(50.0, 75.0]": {
+      "different_target": 8662,
+      "same_guide": 5719,
+      "same_target_other_guide": 2581
+    },
+    "(75.0, 100.0]": {
+      "different_target": 12006,
+      "same_guide": 7500,
+      "same_target_other_guide": 3774
+    }
+  },
+  "pair_ratio_obs_over_null": {
+    "(-0.001, 15.0]": {
+      "different_target": 0.77,
+      "same_guide": 4.36,
+      "same_target_other_guide": 1.22
+    },
+    "(15.0, 30.0]": {
+      "different_target": 1.14,
+      "same_guide": 5.1,
+      "same_target_other_guide": 1.48
+    },
+    "(30.0, 50.0]": {
+      "different_target": 1.12,
+      "same_guide": 4.64,
+      "same_target_other_guide": 1.39
+    },
+    "(50.0, 75.0]": {
+      "different_target": 1.12,
+      "same_guide": 4.38,
+      "same_target_other_guide": 1.36
+    },
+    "(75.0, 100.0]": {
+      "different_target": 1.12,
+      "same_guide": 4.13,
+      "same_target_other_guide": 1.44
+    }
+  },
+  "same_guide_components": {
+    "n_components": 8440,
+    "fraction_assigned_in_components_ge2": 0.1679112438660124,
+    "size_distribution": {
+      "1": 7800,
+      "2": 491,
+      "3": 86,
+      "4": 34,
+      "5": 10,
+      "6": 9,
+      "7": 3,
+      "9": 2,
+      "10": 2,
+      "11": 2,
+      "13": 1
+    }
+  },
+  "misassignment_signature": {
+    "median_cor": 0.7231669204824864,
+    "n_targets": 30,
+    "frac_cor_above_0.3": 1.0
+  }
+}

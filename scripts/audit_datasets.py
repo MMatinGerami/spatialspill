@@ -32,6 +32,14 @@ DATASET_KWARGS: dict[str, dict] = {
     "perturb_multi": {"batches": ["4", "5", "8", "9", "10"], "max_cells_per_batch": 150_000},
 }
 
+# neighbourhood scale per dataset: (density radius, Delaunay max edge, radius-graph radius, knn)
+# single-cell imaging: 30 um radius; Visium: spots sit on a 100 um hex lattice; DBiT: pixel units
+SCALES: dict[str, tuple[float, float, float, int]] = {
+    "default_um": (30.0, 50.0, 30.0, 10),
+    "perturb_map": (110.0, 120.0, 110.0, 6),
+    "pixel": (1.5, 1.5, 1.5, 8),
+}
+
 
 def join_count(A, labels: np.ndarray) -> float:
     """Number of graph edges joining two cells with the same (perturbed) label."""
@@ -81,7 +89,8 @@ def audit(name: str, out_root: Path, n_perm: int = 100, seed: int = 0) -> dict:
         )
 
     # density
-    radius = 30.0 if units == "um" else 1.5  # pixel units for Perturb-DBiT
+    scale_key = name if name in SCALES else ("pixel" if units != "um" else "default_um")
+    radius, delaunay_max, radius_graph, knn = SCALES[scale_key]
     dens = local_density(adata, radius)
     rep["local_density"] = {"radius": radius, **pd.Series(dens).describe().round(2).to_dict()}
     obs["local_density"] = dens
@@ -97,9 +106,9 @@ def audit(name: str, out_root: Path, n_perm: int = 100, seed: int = 0) -> dict:
     # graphs
     graphs = {}
     configs = {
-        "delaunay_pruned": GraphConfig(kind="delaunay", max_edge_um=50.0 if units == "um" else 1.5),
-        "radius": GraphConfig(kind="radius", radius_um=30.0 if units == "um" else 1.5),
-        "knn10": GraphConfig(kind="knn", n_neighs=10 if units == "um" else 8),
+        "delaunay_pruned": GraphConfig(kind="delaunay", max_edge_um=delaunay_max),
+        "radius": GraphConfig(kind="radius", radius_um=radius_graph),
+        f"knn{knn}": GraphConfig(kind="knn", n_neighs=knn),
     }
     strata = strata_codes(obs, ("sample", "cell_type"))
     labels = obs["target"].astype(str).to_numpy()

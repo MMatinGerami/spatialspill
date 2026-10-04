@@ -194,7 +194,7 @@ def load_perturb_fish_tumor(
         tc = pd.read_csv(tcell, dtype=np.int32)
         cols = [gene_names.index(g) for g in tc.columns]
         hit = _match_rows(genes[:, cols], tc.to_numpy())
-        obs.iloc[hit[hit >= 0], obs.columns.get_loc("cell_type")] = "T cell"
+        obs.loc[obs.index[hit[hit >= 0]], "cell_type"] = "T cell"
     pub = ft / "tumorMerfish.csv"
     design = ft / "tumorpooledperturbations.csv"
     if pub.exists() and design.exists():
@@ -206,7 +206,7 @@ def load_perturb_fish_tumor(
         lab = np.where(nz == 1, np.array(tnames)[D.argmax(axis=1)], "multi")
         lab = np.where(lab == "Control", NTC_LABEL, lab)
         ok = hit >= 0
-        obs.iloc[hit[ok], obs.columns.get_loc("target_published")] = lab[ok]
+        obs.loc[obs.index[hit[ok]], "target_published"] = lab[ok]
     for fname, val in (
         ("withimmuneneighborMerfish.csv", "yes"),
         ("withoutimmuneneighborMerfish.csv", "no"),
@@ -214,7 +214,7 @@ def load_perturb_fish_tumor(
         p = ft / fname
         if p.exists():
             hit = _match_rows(genes, pd.read_csv(p, dtype=np.int32).to_numpy())
-            obs.iloc[hit[hit >= 0], obs.columns.get_loc("has_immune_neighbor")] = val
+            obs.loc[obs.index[hit[hit >= 0]], "has_immune_neighbor"] = val
 
     X = genes.astype(np.float32)
     var_names = list(gene_names)
