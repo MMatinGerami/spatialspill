@@ -1,0 +1,10 @@
+seed: 0
+datasets: [perturb_fish, perturb_dbit, perturb_map]
+graph:
+  kind: delaunay
+  max_edge_um: 50.0
+  radius_um: 30.0
+distance_bins_um: [0, 15, 30, 60, 100]
+strata: [sample, cell_type]
+n_perm: 500
+fdr: 0.1
