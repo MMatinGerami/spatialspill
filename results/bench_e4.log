@@ -1,1 +1,6 @@
 {"scenario": "no_effect", "rep": 0, "seconds": 47.5, "n_cells": 10000, "n_perturbed": 2377, "n_ntc": 623, "n_misassigned": 0}
+{"scenario": "no_effect", "rep": 1, "seconds": 42.1, "n_cells": 10000, "n_perturbed": 2432, "n_ntc": 568, "n_misassigned": 0}
+{"scenario": "spill", "rep": 0, "seconds": 41.6, "n_cells": 10000, "n_perturbed": 2377, "n_ntc": 623, "n_misassigned": 0}
+{"scenario": "spill", "rep": 1, "seconds": 43.4, "n_cells": 10000, "n_perturbed": 2432, "n_ntc": 568, "n_misassigned": 0}
+{"scenario": "spill_bleed", "rep": 0, "seconds": 41.7, "n_cells": 10000, "n_perturbed": 2377, "n_ntc": 623, "n_misassigned": 0}
+{"scenario": "spill_bleed", "rep": 1, "seconds": 43.5, "n_cells": 10000, "n_perturbed": 2432, "n_ntc": 568, "n_misassigned": 0}
