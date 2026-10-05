@@ -483,3 +483,22 @@ tile (cluster-robust with hundreds of clusters) in E2, point estimates unchanged
 with E1, E2+basis and E2+basis+clustered SEs; the same criterion applies. If A6 passes the
 gate, the real-data E2 runs are repeated with it; if not, the manuscript reports E1 with local
 tiles as the only calibrated spillover estimator and its null result.
+
+## 2026-10-05 12:10 A6 fails the gate; amendment A7 (permutation inference for E2)
+
+Gate with A6 (results/bench_spatial3.log): spatially clustered SEs raise, not lower, the NTC
+false-positive rate of E2+basis in the clonal scenario (ring 2: 0.29 vs 0.22; ring 1: 0.18 vs
+0.12); FDP 0.75 to 0.88. Clusters of 100 um around sparse exposed recipients contain too few
+cells for the cluster-robust estimator, and the 40-centre basis can absorb part of the exposed
+clusters (a basis function centred on a clone fits its recipients), shrinking residuals. Both
+analytic SE routes are rejected. E1 (studentized stratified permutation, clean controls) is
+calibrated at 0.05 to 0.08 on the same simulated data wherever it is identified.
+
+Amendment A7 (declared before running): E2 gains the same stratified permutation null as E1.
+Guide labels are permuted within strata (sample x cell type), exposures recomputed, the
+regression refitted per target, and the studentized coefficient t = estimate / HC1 SE is
+compared with its permutation distribution; p is the permutation-calibrated z (two-sided
+normal on (t_obs - mean t_null) / sd t_null), identification requires at least
+max(20, n_perm / 2) valid permutations, and the CI is the HC1 SE rescaled by sd t_null.
+Covariates and the spatial basis are kept (they still adjust the point estimate). The gate
+criterion is unchanged; if A7 passes, the real-data E2 runs are repeated with it.
