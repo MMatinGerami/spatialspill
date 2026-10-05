@@ -169,6 +169,9 @@ class E2GLM(Estimator):
             M = np.column_stack(
                 [np.asarray(C[:, k].todense()).ravel() for C in ring_counts]
             )  # n x B
+            # ring coefficients are identified from recipients only: a target cell's own
+            # neighbours (its clone) must not inform the spillover coefficient (amendment A5)
+            M[own] = 0.0
             for grp in groups_out:
                 sel = use if grp == "all" else (use & (ct == grp))
                 if sel.sum() < 2 * self.min_cells:

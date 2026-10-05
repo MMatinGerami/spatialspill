@@ -1,0 +1,2 @@
+perturb_dbit {"ratio": {"(-0.001, 1.5]": {"different_target": 0.97, "same_guide": 1.46, "same_target_other_guide": 1.07}, "(1.5, 2.5]": {"different_target": 1.02, "same_guide": 1.29, "same_target_other_guide": 1.4}, "(2.5, 3.5]": {"different_target": 1.02, "same_guide": 1.24, "same_target_other_guide": 1.19}}, "clones": 0.4746600741656366, "sig": {"median_cor": 0.9935956510641472, "n_targets": 20, "frac_cor_above_0.3": 1.0}}
+DONE
