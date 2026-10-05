@@ -228,3 +228,36 @@ delivers is the machinery and the evidence that the ad hoc designs in use are no
 plus a documented path (A1 to A7) showing how each plausible fix behaved on simulated and real
 data. Whether that is a negative result or a methods contribution depends on what the field
 does with it; the repository is written so that a reader can check every step.
+
+## Second pass (robustness, power, sibling model), 2026-10-05
+
+Objection 1. "The power analysis is a straw man: you planted an effect model that your own
+estimators cannot see." The effect model is the one the estimands define (dose-weighted,
+exponentially decaying spillover on a fraction of genes), at sizes up to a log fold change of 2
+on 20% of the panel, which is larger than any published intercellular effect. If that is
+undetectable with 350 confirmed recipients per target, smaller realistic effects are more so.
+Conceded: one geometry, one panel; the numbers are indicative, the gap is not.
+
+Objection 2. "E1 with tiles identifying nothing at 30,000 simulated cells shows that your
+'calibrated' estimator is useless." Partly conceded: tile strata are a tool for large sections
+(they identify 2,000 to 7,500 tests on the 187,000-cell real section) and lose almost all
+power. That is the honest price of a local null with the current designs; the manuscript says
+so and the power analysis quantifies it for E2 with a permutation null instead.
+
+Objection 3. "The sibling model was reported as working, then as not identified." Both are
+stated with their conditions: it works on the simulator (where the autonomous profile is
+genotype) and fails on Perturb-FISH (where it is niche), and the exploratory real-data use was
+declared before running. The fix (local controls for the autonomous profile) is named as
+future work, not claimed.
+
+Objection 4. "Bin sensitivity with two binnings that share their identified rings is no
+sensitivity analysis." Conceded in part: the finer binning dropped the first ring (too few
+recipients) and the remaining rings coincide, so the two runs test only the removal of the
+first-ring edges. The tile-size sensitivity (150, 250, 400 um) is the informative one.
+
+Objection 5. "The pre-registered criterion for the bin runs (fewer than 10 spillover hits) was
+missed, and you call the conclusion unchanged." The count was exactly 10 against an NTC-scaled
+expectation of 0.7, with calibration intact and zero autonomous hits; the manuscript reports
+the miss as such. Ten calls out of 1,000 tests is consistent with a weak signal or with the
+residual anticonservativeness seen everywhere; it does not support a spillover claim and the
+text does not make one.

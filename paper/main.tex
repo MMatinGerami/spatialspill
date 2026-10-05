@@ -49,12 +49,21 @@ permutation null its non-targeting rates on Perturb-FISH are nominal at every ri
 to \FishAutoHits{} autonomous and \FishSpillHits{} spillover at $q<0.1$ (non-targeting
 expectation about 8 and 0), with a minor bleed-through component (first-ring variance
 explained minus last ring \FishArtifactFrac) and a hypothesis ranking led by \FishTopTarget. Third, the published
-neighbour $t$-test design has false discovery proportions of 0.3 to 0.6 on the simulator, and a
-graph neural network ranks planted spillover well (AUROC about 0.9) with unusable intervals.
-Gene embeddings (Perturb-seq, GO, ESM2) do not predict held-out spillover profiles
-beyond a permuted-embedding null, and nothing transfers across technologies (Spearman
-\HeldoutRho, null \HeldoutNull). We release \texttt{spatialspill}, the simulator, loaders for
-all five datasets and a lab notebook with pre-registrations and amendments.
+neighbour $t$-test design has false discovery proportions of 0.3 to 0.6 on the simulator, a
+graph neural network ranks planted spillover well (AUROC about 0.9) with unusable intervals,
+and a power analysis on the Perturb-FISH geometry shows that calibrated detection of even large
+outer-ring spillover (log fold change 2 on a fifth of the panel) reaches at most
+\PowerETwoPermTwoMaxPower{} power with \PowerETwoPermTwoMaxRecipients{} confirmed non-target
+recipients per target, one to two orders of magnitude more than public screens provide. A
+mixture model that recovers spillover from unassigned neighbours works on the simulator
+(contamination estimated at \SibPiClonalLow{} with 40\% guide detection, corrected profiles
+correlating \SibRCorSpill{} with truth) but is not identified on real clonal data, where the
+autonomous profile is itself a niche contrast. Gene embeddings do not predict held-out effect
+profiles and nothing transfers across technologies. We release \texttt{spatialspill}, the
+simulator, loaders for all five datasets and a lab notebook with pre-registrations and
+amendments, and recommend that spatial screens aiming at intercellular effects allocate a large
+share of the library to non-targeting guides and report non-targeting calibration for every
+intercellular statistic.
 \end{abstract}
 
 \section{Introduction}
@@ -345,6 +354,11 @@ intra-unit mixing from intercellular effects; their spillover analyses are explo
 \item E4's uncertainty is not usable; it is reported for ranking only.
 \item Prediction from embeddings and transfer across technologies failed; with the target sets
 available this is expected and should not be read as evidence against the approach.
+\item The power analysis uses one geometry, one panel size and one effect model; absolute
+numbers will move with cell density, panel size and the spatial scale of the effect. The
+qualitative gap (tens of recipients available, hundreds needed) is robust to those choices.
+\item The undetected-sibling model is identified only when the autonomous profile is genotype
+rather than niche; estimating it against local controls is the next step.
 \item Edge distance is a bounding-box proxy; tissue masks were not used.
 \item Compute constrained Perturb-Multi to five of eleven sections and 150{,}000 cells per
 section.

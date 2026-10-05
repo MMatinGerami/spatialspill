@@ -1,6 +1,6 @@
 # STATUS
 
-Last updated: 2026-10-05 09:30
+Last updated: 2026-10-05 10:40
 
 ## Achieved
 
@@ -33,22 +33,25 @@ Last updated: 2026-10-05 09:30
 - Gene embeddings do not predict held-out profiles beyond a permuted null; nothing transfers
   across technologies with the available target sets.
 
+## Second pass (2026-10-05 morning)
+
+- Robustness: tile-size (150, 250, 400 um) and bin sensitivity on Perturb-FISH; ablation on the
+  simulator (strata, tiles, covariates, space). Conclusions unchanged; details in NOTEBOOK.
+- Power analysis (configs/power_grid.yaml): calibrated detection of large outer-ring spillover
+  reaches at most 0.54 power with about 350 confirmed non-target recipients per target on
+  30,000 cells; public screens have 5 to 50. Design recommendation in the manuscript.
+- Undetected-sibling mixture model (src/spatialspill/sibling.py): recovers spillover from
+  unassigned neighbours on the simulator; not identified on Perturb-FISH (niche read as
+  contamination). Limitation recorded.
+- Clean-clone test passed (tests, smoke, mypy). Manuscript extended (ablation, power,
+  sibling sections) and recompiles with no undefined references.
+
 ## Running or next
 
-- Done: E2 with permutation null on Perturb-FISH (results/197e22efb1): NTC rates nominal at
-  every ring on real data, 16 autonomous calls (expectation 8) and 7 spillover calls
-  (expectation 0) at q < 0.10. Manuscript, figures and tables regenerated from it
-  (paper/main.pdf compiles, no undefined references).
-- Done: Perturb-Multi E2 with 150 centres (results/fddb2ec60c; passes H1', no signal; used for
-  the manuscript's Perturb-Multi numbers), exploratory Stereo-seq E2 (results/df5156edac; no
-  signal beyond the null).
-- Still running at close: exploratory Perturb-DBiT E2 (tmux ss_dbit, results/e2_perturb_dbit.log;
-  pixel-level, 526 targets, 23 NTC pixels, so no calibration claim is possible). When it ends,
-  run `uv run python scripts/aggregate_results.py` and add its numbers to NOTEBOOK.
+- Exploratory Perturb-DBiT E2 still in tmux (ss_dbit); pixel-level, no calibration possible.
 - Not done, by design or by data: PyPI release, Zenodo deposit and public visibility (owner's
-  calls); DepMap and Open Targets plausibility checks (no calibrated spillover hit set exists to
-  check); systematic ablation table; undetected-sibling model; mask-based edge distance;
-  E4 uncertainty (ensembles or NTC calibration); Perturb-DBiT Xenium companion loader.
+  calls); DepMap and Open Targets checks (no calibrated hit set); sibling model with local
+  autonomous profiles; mask-based edge distance; E4 uncertainty.
 
 ## Repository visibility
 
