@@ -1,0 +1,235 @@
+{
+  "target": "MYD88",
+  "rank": 1,
+  "n_target_cells": 125,
+  "n_ntc_recipients_ring1": 45,
+  "n_ntc_recipients_ring2": 145,
+  "ring1_top": [
+    {
+      "outcome": "CEACAM8",
+      "estimate": -0.014,
+      "se": 0.003,
+      "qvalue": 0.2671
+    },
+    {
+      "outcome": "TGFBR3",
+      "estimate": -0.1173,
+      "se": 0.026,
+      "qvalue": 0.194
+    },
+    {
+      "outcome": "KITLG",
+      "estimate": -0.0365,
+      "se": 0.0083,
+      "qvalue": 0.3477
+    },
+    {
+      "outcome": "CTLA4",
+      "estimate": -0.0122,
+      "se": 0.0029,
+      "qvalue": 0.6381
+    },
+    {
+      "outcome": "KIR2DL4",
+      "estimate": -0.0198,
+      "se": 0.0049,
+      "qvalue": 0.5559
+    },
+    {
+      "outcome": "STAT3",
+      "estimate": -0.0804,
+      "se": 0.0203,
+      "qvalue": 0.4342
+    },
+    {
+      "outcome": "PGLYRP1",
+      "estimate": -0.0142,
+      "se": 0.0036,
+      "qvalue": 0.8304
+    },
+    {
+      "outcome": "SMOC2",
+      "estimate": -0.0134,
+      "se": 0.0034,
+      "qvalue": 0.9128
+    },
+    {
+      "outcome": "ATM",
+      "estimate": -0.0379,
+      "se": 0.0099,
+      "qvalue": 0.6213
+    },
+    {
+      "outcome": "DES",
+      "estimate": -0.0043,
+      "se": 0.0011,
+      "qvalue": 0.9198
+    },
+    {
+      "outcome": "IGF1",
+      "estimate": -0.0217,
+      "se": 0.0058,
+      "qvalue": 0.919
+    },
+    {
+      "outcome": "TSC2",
+      "estimate": -0.0259,
+      "se": 0.0071,
+      "qvalue": 0.7478
+    }
+  ],
+  "ring2_top": [
+    {
+      "outcome": "TP53",
+      "estimate": -0.073,
+      "se": 0.0182,
+      "qvalue": 0.1791
+    },
+    {
+      "outcome": "SOCS3",
+      "estimate": -0.0621,
+      "se": 0.0156,
+      "qvalue": 0.2935
+    },
+    {
+      "outcome": "CXCL8",
+      "estimate": -0.0631,
+      "se": 0.0182,
+      "qvalue": 0.5559
+    },
+    {
+      "outcome": "HLA-B",
+      "estimate": -0.2204,
+      "se": 0.0661,
+      "qvalue": 0.6073
+    },
+    {
+      "outcome": "FCER2",
+      "estimate": -0.0275,
+      "se": 0.0086,
+      "qvalue": 0.9198
+    },
+    {
+      "outcome": "PLA2G2A",
+      "estimate": -0.0248,
+      "se": 0.008,
+      "qvalue": 0.9198
+    },
+    {
+      "outcome": "IGF1",
+      "estimate": -0.0162,
+      "se": 0.0053,
+      "qvalue": 0.9198
+    },
+    {
+      "outcome": "HLA-DRB1",
+      "estimate": -0.0338,
+      "se": 0.0113,
+      "qvalue": 0.9198
+    },
+    {
+      "outcome": "CASP8",
+      "estimate": -0.1232,
+      "se": 0.0413,
+      "qvalue": 0.6832
+    },
+    {
+      "outcome": "FLI1",
+      "estimate": -0.0207,
+      "se": 0.007,
+      "qvalue": 0.9198
+    },
+    {
+      "outcome": "CSF2RA",
+      "estimate": -0.0178,
+      "se": 0.0061,
+      "qvalue": 0.9198
+    },
+    {
+      "outcome": "LGR5",
+      "estimate": -0.0168,
+      "se": 0.0059,
+      "qvalue": 0.9198
+    }
+  ],
+  "autonomous_top": [
+    {
+      "outcome": "ATR",
+      "estimate": -0.2224,
+      "se": 0.0506,
+      "qvalue": 0.0585
+    },
+    {
+      "outcome": "AKT3",
+      "estimate": -0.3434,
+      "se": 0.0803,
+      "qvalue": 0.0692
+    },
+    {
+      "outcome": "FN1",
+      "estimate": -0.4617,
+      "se": 0.1436,
+      "qvalue": 0.5559
+    },
+    {
+      "outcome": "SMARCA4",
+      "estimate": -0.0542,
+      "se": 0.0179,
+      "qvalue": 0.919
+    },
+    {
+      "outcome": "LRP6",
+      "estimate": -0.0875,
+      "se": 0.0292,
+      "qvalue": 0.7071
+    },
+    {
+      "outcome": "PDPN",
+      "estimate": -0.0446,
+      "se": 0.0152,
+      "qvalue": 0.9198
+    },
+    {
+      "outcome": "RAF1",
+      "estimate": -0.1948,
+      "se": 0.0666,
+      "qvalue": 0.9198
+    },
+    {
+      "outcome": "MAP2K1",
+      "estimate": -0.1041,
+      "se": 0.0374,
+      "qvalue": 0.9198
+    },
+    {
+      "outcome": "CTNNB1",
+      "estimate": -0.2467,
+      "se": 0.0916,
+      "qvalue": 0.9198
+    },
+    {
+      "outcome": "COL5A1",
+      "estimate": -0.1539,
+      "se": 0.058,
+      "qvalue": 0.9198
+    },
+    {
+      "outcome": "CXCL8",
+      "estimate": -0.0684,
+      "se": 0.0262,
+      "qvalue": 0.9198
+    },
+    {
+      "outcome": "KITLG",
+      "estimate": -0.0313,
+      "se": 0.012,
+      "qvalue": 0.9198
+    }
+  ],
+  "ring1_hits": [],
+  "autonomous_hits": [
+    "AKT3",
+    "ATR"
+  ],
+  "ring1_hits_also_autonomous": []
+}

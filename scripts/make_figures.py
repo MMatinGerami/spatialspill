@@ -238,7 +238,7 @@ def numbers(fish: Path, multi: Path, gate: Path | None) -> None:
     # calibrated E1 runs on Perturb-FISH: global strata and 250 um tiles (pre-registered primary)
     summ = pd.read_csv(ROOT / "results" / "summary" / "real_data_calibration.csv")
     e1 = summ[(summ["dataset"] == "perturb_fish") & (summ["estimator"] == "E1")]
-    for tile, tag in ((0, "E1Global"), (250, "E1Tile")):
+    for tile, tag in ((0, "EOneGlobal"), (250, "EOneTile")):
         r = e1[e1["tile_um"] == tile]
         if len(r):
             r = r.iloc[-1]
@@ -257,8 +257,8 @@ def numbers(fish: Path, multi: Path, gate: Path | None) -> None:
     ]
     if len(m1):
         r = m1.iloc[-1]
-        add("MultiE1NtcP", float(r["ntc_p05"]))
-        add("MultiE1NTests", int(r["n_tests"]))
+        add("MultiEOneNtcP", float(r["ntc_p05"]))
+        add("MultiEOneNTests", int(r["n_tests"]))
     ht = ROOT / "results" / "summary" / "heldout_technology.json"
     if ht.exists():
         h = json.loads(ht.read_text())

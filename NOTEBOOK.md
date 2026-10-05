@@ -533,3 +533,29 @@ implied false discovery proportion next to every count, labelled exploratory. Th
 permutation run on Perturb-FISH follows (configs/e2_perturb_fish_sb40_perm.yaml). Perturb-Multi
 E2 permutation is not run: 250 targets on 750,000 cells would take many hours for an
 estimator the gate rejected.
+
+## 2026-10-05 08:50 Exploratory E2 with permutation null on Perturb-FISH (results/197e22efb1)
+
+E2, 40-centre basis, NTC recipients, clean controls, 100 stratified permutations:
+- NTC pseudo-targets at p < 0.05: 0.053 (autonomous), 0.039 / 0.038 / 0.054 (rings 0 / 1 / 2);
+  at q < 0.10: 0.001 and 0.000. On real data the permutation null is calibrated at every
+  ring, including the first, which the simulator's clonal scenario did not predict (0.14 at
+  ring 2 there); the simulator's clonal structure is harsher than Perturb-FISH's.
+- Hits at q < 0.10: 16 autonomous (NTC-scaled expectation 8.2, ratio 1.9) and 2 / 2 / 3
+  spillover in rings 0 / 1 / 2 (expectation 0). With a calibrated null, the thousands of E2
+  calls of the analytic runs collapse to a handful: the earlier counts were almost entirely
+  products of anticonservative standard errors, as the NTC-estimated FDPs had already said.
+- Artifact detector on these profiles: first-ring R2 0.030 vs last-ring 0.025 (difference
+  0.005), alpha_ring0 0.39 (all 34 targets positive) vs 0.10 in the last ring. A positive,
+  first-ring-concentrated projection coefficient with negligible variance explained means a
+  small proportional component exists but accounts for about 3% of first-ring spillover
+  variance: bleed-through is detectable but minor.
+- Ranking: MYD88 remains first (125 cells, 45 NTC ring-1 recipients); scores are now on the
+  calibrated scale and are reported with the NTC 95th percentile in the figure.
+
+Final real-data statement: with calibrated inference (E1 tiles or E2 permutation), Perturb-FISH
+shows a weak autonomous signal (16 calls against 8 expected) and no spillover signal beyond
+the non-targeting expectation at the current sample size; Perturb-Multi shows neither. The
+manuscript, figures and tables are regenerated from results/197e22efb1 (Perturb-FISH) and
+results/6397283d7d (Perturb-Multi, analytic E2 with basis, exploratory; the 150-centre run is
+still in progress and is a sensitivity analysis only).
