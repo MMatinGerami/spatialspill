@@ -1,0 +1,40 @@
+# Simulator benchmark (geometry: perturb_fish)
+
+| scenario     | estimator     | kind       |   ring |   null_fpr_q |   null_cov95 |   ntc_cov95 |   ntc_fpr_p05 |   power_q |   auroc |   fdp_q |   n_tests |
+|:-------------|:--------------|:-----------|-------:|-------------:|-------------:|------------:|--------------:|----------:|--------:|--------:|----------:|
+| everything   | E1            | spillover  |      2 |        0.021 |        0.926 |       0.944 |         0.054 |     0.079 |   0.739 |   0.708 |       960 |
+| everything   | E2_spatial    | autonomous |     -1 |        0.011 |        0.941 |       0.944 |         0.056 |     0.771 |   0.915 |   0.163 |      1500 |
+| everything   | E2_spatial    | spillover  |      1 |        0.11  |        0.762 |       0.9   |         0.1   |     0.545 |   0.725 |   0.8   |       120 |
+| everything   | E2_spatial    | spillover  |      2 |        0.104 |        0.811 |       0.772 |         0.228 |     0.384 |   0.721 |   0.754 |      1170 |
+| everything   | E2_spatial_cl | autonomous |     -1 |        0.025 |        0.918 |       0.916 |         0.084 |     0.79  |   0.913 |   0.313 |      1500 |
+| everything   | E2_spatial_cl | spillover  |      1 |        0.201 |        0.713 |       0.808 |         0.192 |     0.545 |   0.71  |   0.885 |       120 |
+| everything   | E2_spatial_cl | spillover  |      2 |        0.168 |        0.754 |       0.71  |         0.29  |     0.545 |   0.726 |   0.785 |      1170 |
+| no_effect    | E1            | autonomous |     -1 |        0.001 |        0.947 |       0.95  |         0.053 |   nan     | nan     |   1     |      1500 |
+| no_effect    | E1            | spillover  |      1 |        0.008 |        0.948 |     nan     |       nan     |   nan     | nan     |   1     |       750 |
+| no_effect    | E1            | spillover  |      2 |        0.007 |        0.936 |       0.924 |         0.07  |   nan     | nan     |   1     |      1500 |
+| no_effect    | E2_spatial    | autonomous |     -1 |        0.013 |        0.943 |       0.95  |         0.05  |   nan     | nan     |   1     |      1500 |
+| no_effect    | E2_spatial    | spillover  |      0 |        0.067 |        0.817 |       0.817 |         0.183 |   nan     | nan     |   1     |        60 |
+| no_effect    | E2_spatial    | spillover  |      1 |        0.054 |        0.879 |       0.867 |         0.133 |   nan     | nan     |   1     |       990 |
+| no_effect    | E2_spatial    | spillover  |      2 |        0.025 |        0.923 |       0.905 |         0.095 |   nan     | nan     |   1     |      1500 |
+| no_effect    | E2_spatial_cl | autonomous |     -1 |        0.013 |        0.941 |       0.948 |         0.052 |   nan     | nan     |   1     |      1500 |
+| no_effect    | E2_spatial_cl | spillover  |      0 |        0.067 |        0.8   |       0.8   |         0.2   |   nan     | nan     |   1     |        60 |
+| no_effect    | E2_spatial_cl | spillover  |      1 |        0.053 |        0.879 |       0.868 |         0.132 |   nan     | nan     |   1     |       990 |
+| no_effect    | E2_spatial_cl | spillover  |      2 |        0.026 |        0.921 |       0.903 |         0.097 |   nan     | nan     |   1     |      1500 |
+| spill        | E1            | autonomous |     -1 |        0.01  |        0.94  |       0.942 |         0.058 |     0.813 |   0.934 |   0.117 |      1500 |
+| spill        | E1            | spillover  |      1 |        0.024 |        0.936 |     nan     |       nan     |     0.216 |   0.734 |   0.366 |       750 |
+| spill        | E1            | spillover  |      2 |        0.016 |        0.937 |       0.925 |         0.075 |     0.18  |   0.703 |   0.554 |      1500 |
+| spill        | E2_spatial    | autonomous |     -1 |        0.019 |        0.946 |       0.946 |         0.054 |     0.832 |   0.931 |   0.183 |      1500 |
+| spill        | E2_spatial    | spillover  |      0 |        0.05  |        0.9   |       0.9   |         0.1   |   nan     | nan     |   1     |        60 |
+| spill        | E2_spatial    | spillover  |      1 |        0.059 |        0.883 |       0.89  |         0.11  |     0.361 |   0.748 |   0.556 |       990 |
+| spill        | E2_spatial    | spillover  |      2 |        0.039 |        0.923 |       0.912 |         0.088 |     0.269 |   0.713 |   0.644 |      1500 |
+| spill        | E2_spatial_cl | autonomous |     -1 |        0.02  |        0.946 |       0.947 |         0.053 |     0.832 |   0.931 |   0.193 |      1500 |
+| spill        | E2_spatial_cl | spillover  |      0 |        0.05  |        0.9   |       0.9   |         0.1   |   nan     | nan     |   1     |        60 |
+| spill        | E2_spatial_cl | spillover  |      1 |        0.069 |        0.877 |       0.88  |         0.12  |     0.361 |   0.745 |   0.592 |       990 |
+| spill        | E2_spatial_cl | spillover  |      2 |        0.042 |        0.922 |       0.909 |         0.091 |     0.264 |   0.712 |   0.668 |      1500 |
+| spill_clonal | E1            | spillover  |      2 |        0.026 |        0.926 |       0.948 |         0.046 |     0.117 |   0.727 |   0.737 |       930 |
+| spill_clonal | E2_spatial    | autonomous |     -1 |        0.009 |        0.945 |       0.945 |         0.055 |     0.762 |   0.917 |   0.143 |      1500 |
+| spill_clonal | E2_spatial    | spillover  |      1 |        0.09  |        0.782 |       0.875 |         0.125 |     0.273 |   0.865 |   0.864 |       120 |
+| spill_clonal | E2_spatial    | spillover  |      2 |        0.097 |        0.808 |       0.775 |         0.225 |     0.42  |   0.715 |   0.748 |      1170 |
+| spill_clonal | E2_spatial_cl | autonomous |     -1 |        0.026 |        0.93  |       0.929 |         0.071 |     0.78  |   0.916 |   0.318 |      1500 |
+| spill_clonal | E2_spatial_cl | spillover  |      1 |        0.181 |        0.714 |       0.825 |         0.175 |     0.545 |   0.867 |   0.88  |       120 |
+| spill_clonal | E2_spatial_cl | spillover  |      2 |        0.153 |        0.754 |       0.708 |         0.292 |     0.53  |   0.725 |   0.787 |      1170 |

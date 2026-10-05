@@ -133,3 +133,61 @@ than their exact code (Perturb-FISH used FR-Perturb on neighbour design matrices
 simulator this design has the highest apparent power and FDP 0.27 to 0.59; its NTC false
 positive rate reaches 10% under clonal assignment. The manuscript states that E0 is a
 re-implementation of the design, not the authors' software.
+
+## Phase 4 (prediction and generalisation), 2026-10-05
+
+Objection 1. "Thirty-three targets from one pathway cannot support a held-out-gene claim
+either way." Conceded; this is why the result is reported as a failure to beat a
+permuted-embedding null, not as evidence that embeddings are uninformative. The code and the
+protocol (leave-one-target-out kernel ridge, permuted-embedding null) are in place for larger
+libraries; Perturb-Multi's 200 targets give a second, mouse-liver test with the same outcome.
+
+Objection 2. "Human and mouse symbols are aligned by upper-casing, which is not orthology."
+Conceded as a simplification (docs/api.md, embeddings module docstring). For the datasets at
+hand it affects the GO embedding only; the Replogle embedding is human-only and covers 25 of
+35 Perturb-FISH targets.
+
+Objection 3. "Held-out technology with zero overlapping targets is not a transfer test." It
+tests whether a niche-score predictor learned on one screen's targets ranks another screen's
+targets through a shared embedding. With no overlap and no signal in the test set it cannot
+succeed, and the empirical p of 0.11 against the permuted null says exactly that. The honest
+reading is "untestable with public data", recorded as such.
+
+Objection 4. "You used E2 z-profiles as the prediction target while E2 was not calibrated."
+Partly conceded. The response matrix uses z-statistics as a continuous summary, so
+miscalibration scales but does not reorder them; the null-vs-observed comparison is
+unaffected. The runs are repeated with the final estimator configuration.
+
+Objection 5. "No ablations." Partly conceded. Removing space (E0 pseudobulk), cell type
+(strata = sample only) and embeddings (permuted null) are each present somewhere in the
+pipeline, but not as one systematic ablation table; listed in STATUS as not achieved.
+
+## Phase 5 (biology and validation), 2026-10-05
+
+Objection 1. "The niche ranking recapitulates the library (TLR/NF-kB adaptors), so it is
+either trivially right or trivially confounded." Conceded. A tumour-cell NF-kB knockout
+changing cytokine output to neighbours is the expected biology, and a clone-shared niche would
+produce the same ranking. Only the non-targeting calibration separates them, and that
+calibration is not established at the first ring and not met by E2 in the simulator under
+clonal assignment (gate failures recorded). The ranking is therefore presented as a
+hypothesis list with its NTC-estimated false discovery proportion, not as validated biology.
+
+Objection 2. "Ligand-receptor enrichment with 8 testable pairs is meaningless." Conceded;
+reported as uninformative. The library and panel do not contain the ligand-receptor space.
+
+Objection 3. "No independent validation against Perturb-map immune phenotypes." Conceded in
+part: Perturb-map's named knockouts (Tgfbr2, Ifngr2, Jak2) do not overlap the Perturb-FISH
+library (TLR/NF-kB) or the Perturb-Multi liver library, and the lesion-level unit does not
+match the cell-level estimand. DepMap and Open Targets plausibility checks were not run
+because no spillover gene list reached a calibrated hit set; listed in STATUS as not
+achieved.
+
+Objection 4. "The proposed wet-lab experiment cannot distinguish spillover from niche
+either." It can: a co-culture with randomised mixing breaks the clonal spatial confound that
+the in vivo data cannot, and the conditioned-medium arm separates secreted from
+contact-dependent effects. What it cannot do is reproduce the in vivo niche; that is the
+trade-off stated in the manuscript.
+
+Objection 5. "One case study is anecdote." Agreed; it illustrates the output format and the
+pre-specified readout for validation. Its target changed between the A2 and A5 runs (MYD88 to
+MAP3K7), which is itself evidence of how fragile the ranking is at this sample size.

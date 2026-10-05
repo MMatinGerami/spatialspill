@@ -2,3 +2,46 @@
 {"scenario": "no_effect", "rep": 1, "seconds": 6.5, "n_cells": 30000, "n_perturbed": 3183, "n_ntc": 1317, "n_misassigned": 0}
 {"scenario": "spill", "rep": 0, "seconds": 6.7, "n_cells": 30000, "n_perturbed": 3123, "n_ntc": 1377, "n_misassigned": 0}
 {"scenario": "spill", "rep": 1, "seconds": 6.5, "n_cells": 30000, "n_perturbed": 3183, "n_ntc": 1317, "n_misassigned": 0}
+{"scenario": "spill_clonal", "rep": 0, "seconds": 10.0, "n_cells": 30000, "n_perturbed": 2317, "n_ntc": 877, "n_misassigned": 0}
+{"scenario": "spill_clonal", "rep": 1, "seconds": 9.6, "n_cells": 30000, "n_perturbed": 2355, "n_ntc": 873, "n_misassigned": 0}
+{"scenario": "everything", "rep": 0, "seconds": 9.8, "n_cells": 30000, "n_perturbed": 2346, "n_ntc": 898, "n_misassigned": 50}
+{"scenario": "everything", "rep": 1, "seconds": 9.6, "n_cells": 30000, "n_perturbed": 2396, "n_ntc": 885, "n_misassigned": 53}
+        scenario      estimator        kind  ring  null_fpr_q  null_cov95  ntc_cov95  ntc_fpr_p05  power_q  auroc  fdp_q  n_tests
+0     everything             E1   spillover     2       0.021       0.926      0.944        0.054    0.079  0.739  0.708    960.0
+1     everything     E2_spatial  autonomous    -1       0.011       0.941      0.944        0.056    0.771  0.915  0.163   1500.0
+2     everything     E2_spatial   spillover     1       0.110       0.762      0.900        0.100    0.545  0.725  0.800    120.0
+3     everything     E2_spatial   spillover     2       0.104       0.811      0.772        0.228    0.384  0.721  0.754   1170.0
+4     everything  E2_spatial_cl  autonomous    -1       0.025       0.918      0.916        0.084    0.790  0.913  0.313   1500.0
+5     everything  E2_spatial_cl   spillover     1       0.201       0.713      0.808        0.192    0.545  0.710  0.885    120.0
+6     everything  E2_spatial_cl   spillover     2       0.168       0.754      0.710        0.290    0.545  0.726  0.785   1170.0
+7      no_effect             E1  autonomous    -1       0.001       0.947      0.950        0.053      NaN    NaN  1.000   1500.0
+8      no_effect             E1   spillover     1       0.008       0.948        NaN          NaN      NaN    NaN  1.000    750.0
+9      no_effect             E1   spillover     2       0.007       0.936      0.924        0.070      NaN    NaN  1.000   1500.0
+10     no_effect     E2_spatial  autonomous    -1       0.013       0.943      0.950        0.050      NaN    NaN  1.000   1500.0
+11     no_effect     E2_spatial   spillover     0       0.067       0.817      0.817        0.183      NaN    NaN  1.000     60.0
+12     no_effect     E2_spatial   spillover     1       0.054       0.879      0.867        0.133      NaN    NaN  1.000    990.0
+13     no_effect     E2_spatial   spillover     2       0.025       0.923      0.905        0.095      NaN    NaN  1.000   1500.0
+14     no_effect  E2_spatial_cl  autonomous    -1       0.013       0.941      0.948        0.052      NaN    NaN  1.000   1500.0
+15     no_effect  E2_spatial_cl   spillover     0       0.067       0.800      0.800        0.200      NaN    NaN  1.000     60.0
+16     no_effect  E2_spatial_cl   spillover     1       0.053       0.879      0.868        0.132      NaN    NaN  1.000    990.0
+17     no_effect  E2_spatial_cl   spillover     2       0.026       0.921      0.903        0.097      NaN    NaN  1.000   1500.0
+18         spill             E1  autonomous    -1       0.010       0.940      0.942        0.058    0.813  0.934  0.117   1500.0
+19         spill             E1   spillover     1       0.024       0.936        NaN          NaN    0.216  0.734  0.366    750.0
+20         spill             E1   spillover     2       0.016       0.937      0.925        0.075    0.180  0.703  0.554   1500.0
+21         spill     E2_spatial  autonomous    -1       0.019       0.946      0.946        0.054    0.832  0.931  0.183   1500.0
+22         spill     E2_spatial   spillover     0       0.050       0.900      0.900        0.100      NaN    NaN  1.000     60.0
+23         spill     E2_spatial   spillover     1       0.059       0.883      0.890        0.110    0.361  0.748  0.556    990.0
+24         spill     E2_spatial   spillover     2       0.039       0.923      0.912        0.088    0.269  0.713  0.644   1500.0
+25         spill  E2_spatial_cl  autonomous    -1       0.020       0.946      0.947        0.053    0.832  0.931  0.193   1500.0
+26         spill  E2_spatial_cl   spillover     0       0.050       0.900      0.900        0.100      NaN    NaN  1.000     60.0
+27         spill  E2_spatial_cl   spillover     1       0.069       0.877      0.880        0.120    0.361  0.745  0.592    990.0
+28         spill  E2_spatial_cl   spillover     2       0.042       0.922      0.909        0.091    0.264  0.712  0.668   1500.0
+29  spill_clonal             E1   spillover     2       0.026       0.926      0.948        0.046    0.117  0.727  0.737    930.0
+30  spill_clonal     E2_spatial  autonomous    -1       0.009       0.945      0.945        0.055    0.762  0.917  0.143   1500.0
+31  spill_clonal     E2_spatial   spillover     1       0.090       0.782      0.875        0.125    0.273  0.865  0.864    120.0
+32  spill_clonal     E2_spatial   spillover     2       0.097       0.808      0.775        0.225    0.420  0.715  0.748   1170.0
+33  spill_clonal  E2_spatial_cl  autonomous    -1       0.026       0.930      0.929        0.071    0.780  0.916  0.318   1500.0
+34  spill_clonal  E2_spatial_cl   spillover     1       0.181       0.714      0.825        0.175    0.545  0.867  0.880    120.0
+35  spill_clonal  E2_spatial_cl   spillover     2       0.153       0.754      0.708        0.292    0.530  0.725  0.787   1170.0
+results in results/8a2da26f1d
+DONE_BENCH
