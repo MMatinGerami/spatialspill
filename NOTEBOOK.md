@@ -312,3 +312,20 @@ H4' (bleed-through): artifact detector on the E2 autonomous and ring profiles; f
 minus last-ring R2 is the artifact fraction, reported per dataset whether or not H3' holds.
 The real-data runs are launched in parallel with the gate for time reasons; their results are
 not read before the gate result is recorded here.
+
+## 2026-10-05 08:20 Audits of Perturb-DBiT (6 samples) and Spatial Perturb-seq (3 chips)
+
+Perturb-DBiT (reports/audit/perturb_dbit): 22,421 pixels, 21.6% with a dominant guide, 526
+targets, only 23 NTC pixels over 14 NTC guides, so no NTC calibration is possible and the
+pixel-level analysis can only be exploratory. Same-target adjacency z = 25 to 33: pixels of
+one tumour clone share the guide, as expected for transduced HT29 or E0771 cells injected and
+grown as metastases.
+
+Spatial Perturb-seq (reports/audit/spatial_perturbseq): 229,775 cells, 2.1% with a guide,
+17 targets, 112 cells with the single safe-harbour control guide (mSafe), same-target
+adjacency z = 28 to 42 (AAV spread from the injection site; see the inspection report). One
+control guide with 112 cells across 3 chips allows a weak calibration check only.
+
+Both datasets therefore enter the cross-technology benchmark for autonomous effects and for
+the artifact detector, with spillover estimates labelled exploratory where NTC calibration
+cannot be run. Clonality analysis for these two did not run (see audit2.log); rerun pending.
