@@ -1,16 +1,1 @@
 [perturb_multi] 750000 units x 209 features
-{
-  "n_tests": 335892,
-  "n_ntc_tests": 45144,
-  "n_target_tests": 290748,
-  "fdr": 0.1,
-  "ntc_fraction_q_below_fdr": 0.02917331206804891,
-  "ntc_fraction_p_below_0.05": 0.10617136275031012,
-  "target_fraction_q_below_fdr": 0.048296118975882894,
-  "n_autonomous_hits": 7162,
-  "n_spillover_hits": 6880,
-  "dataset": "perturb_multi",
-  "targets": 252
-}
-results in results/6397283d7d
-DONE_E2

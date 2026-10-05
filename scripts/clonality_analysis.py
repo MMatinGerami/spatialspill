@@ -41,8 +41,12 @@ from spatialspill.permutation import permute_within_strata, strata_codes
 KW: dict[str, dict] = {
     "perturb_multi": {"batches": ["4", "5", "8", "9", "10"], "max_cells_per_batch": 150_000}
 }
-DMAX = {"default": 100.0, "perturb_map": 400.0}
-BINS = {"default": [0, 15, 30, 50, 75, 100], "perturb_map": [0, 110, 210, 310, 400]}
+DMAX = {"default": 100.0, "perturb_map": 400.0, "perturb_dbit": 3.5}
+BINS = {
+    "default": [0, 15, 30, 50, 75, 100],
+    "perturb_map": [0, 110, 210, 310, 400],
+    "perturb_dbit": [0, 1.5, 2.5, 3.5],
+}
 
 
 def pair_profile(

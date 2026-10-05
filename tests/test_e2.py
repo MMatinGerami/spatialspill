@@ -68,3 +68,32 @@ def test_e2_spatial_basis_runs_and_absorbs_smooth_field():
     s0 = spatial[(spatial.outcome == "G0") & spatial.identified]["se"].median()
     p0 = plain[(plain.outcome == "G0") & plain.identified]["se"].median()
     assert s0 <= p0 * 1.05  # absorbing the field should not inflate uncertainty
+
+
+def test_e2_ring_coefficients_ignore_own_cell_neighbourhoods():
+    # two targets whose cells are clustered (clone-like); GENE_A cells have a huge, homogeneous
+    # shift in G0; recipients are unaffected, so the ring coefficient must be near zero.
+    a = make_toy(n=3000, n_genes=4, n_samples=1, seed=21, field_um=2000.0, p_perturbed=0.3)
+    xy = a.obsm["spatial"]
+    clone = (xy[:, 0] < 300) & (xy[:, 1] < 300)
+    a.obs.loc[clone, "target"] = "GENE_A"
+    a.obs.loc[clone, "guide"] = "GENE_A_g1"
+    a.obs.loc[clone, "is_ntc"] = False
+    a.obs.loc[clone, "is_perturbed"] = True
+    a.X[clone, 0] += 50
+    exp = compute_exposure(a, [0, 20, 40])
+    Y = lognorm(a)
+    df = (
+        E2GLM(min_cells=3, groups=GroupConfig(control_policy="unperturbed", clean_controls=False))
+        .fit(a, exp, Y, list(a.var_names))
+        .df
+    )
+    r = df[
+        (df.target == "GENE_A")
+        & (df.kind == "spillover")
+        & (df.cell_type == "all")
+        & (df.outcome == "G0")
+        & df.identified
+    ]
+    assert len(r) > 0
+    assert (r["pvalue"] > 1e-4).all()

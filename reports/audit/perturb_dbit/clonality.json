@@ -1,0 +1,106 @@
+{
+  "dataset": "perturb_dbit",
+  "d_max": 100.0,
+  "n_assigned": 4854,
+  "pair_counts_observed": {
+    "(-0.001, 15.0]": {
+      "different_target": 320093,
+      "same_guide": 183434,
+      "same_target_other_guide": 716
+    },
+    "(15.0, 30.0]": {
+      "different_target": 602755,
+      "same_guide": 316672,
+      "same_target_other_guide": 1225
+    },
+    "(30.0, 50.0]": {
+      "different_target": 484040,
+      "same_guide": 277307,
+      "same_target_other_guide": 856
+    },
+    "(50.0, 75.0]": {
+      "different_target": 40288,
+      "same_guide": 19670,
+      "same_target_other_guide": 43
+    },
+    "(75.0, 100.0]": {
+      "different_target": 8988,
+      "same_guide": 951,
+      "same_target_other_guide": 3
+    }
+  },
+  "pair_ratio_obs_over_null": {
+    "(-0.001, 15.0]": {
+      "different_target": 1.05,
+      "same_guide": 1.08,
+      "same_target_other_guide": 1.19
+    },
+    "(15.0, 30.0]": {
+      "different_target": 1.05,
+      "same_guide": 0.99,
+      "same_target_other_guide": 1.11
+    },
+    "(30.0, 50.0]": {
+      "different_target": 0.94,
+      "same_guide": 0.98,
+      "same_target_other_guide": 0.81
+    },
+    "(50.0, 75.0]": {
+      "different_target": 0.82,
+      "same_guide": 0.84,
+      "same_target_other_guide": 0.57
+    },
+    "(75.0, 100.0]": {
+      "different_target": 1.21,
+      "same_guide": 0.49,
+      "same_target_other_guide": 3.33
+    }
+  },
+  "same_guide_components": {
+    "n_components": 2933,
+    "fraction_assigned_in_components_ge2": 0.4746600741656366,
+    "size_distribution": {
+      "1": 2550,
+      "2": 177,
+      "3": 74,
+      "4": 40,
+      "5": 16,
+      "6": 14,
+      "7": 5,
+      "8": 5,
+      "9": 4,
+      "10": 5,
+      "11": 2,
+      "12": 1,
+      "13": 4,
+      "14": 3,
+      "15": 1,
+      "16": 4,
+      "17": 1,
+      "18": 2,
+      "19": 2,
+      "21": 1,
+      "22": 1,
+      "23": 4,
+      "24": 1,
+      "26": 1,
+      "28": 1,
+      "30": 1,
+      "33": 3,
+      "34": 1,
+      "35": 1,
+      "48": 1,
+      "50": 2,
+      "67": 1,
+      "72": 1,
+      "74": 1,
+      "86": 1,
+      "87": 1
+    }
+  },
+  "misassignment_signature": {
+    "median_cor": 0.9935956510641472,
+    "n_targets": 20,
+    "frac_cor_above_0.3": 1.0
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "table": "perturb_multi_e2_estimates.csv",
+  "rings_used": [
+    1,
+    2
+  ],
+  "artifact_fraction": {
+    "n_targets": 219,
+    "alpha_ring0": -0.40578368081258454,
+    "alpha_last": -0.26922414305193454,
+    "r2_ring0": 0.07058935782487182,
+    "r2_last": 0.12686000781788415,
+    "r2_ring0_minus_last": -0.05627064999301233,
+    "frac_targets_alpha_positive_ring0": 0.152
+  },
+  "lr_enrichment": {
+    "n_pairs": 75031,
+    "n_lr_pairs": 20,
+    "n_hits": 1174,
+    "hits_lr": 2,
+    "odds_ratio": 7.00028441410694,
+    "pvalue": 0.03857738576600742
+  },
+  "prediction": {
+    "replogle_k562_gwps:autonomous": {
+      "n_targets": 163,
+      "mean_r": 0.093968551270714,
+      "null_mean_r": 0.09562061487298254,
+      "null_sd_r": 0.0056995717882778775,
+      "z_vs_null": -0.28985749520100457
+    },
+    "replogle_k562_gwps:spillover": {
+      "n_targets": 154,
+      "mean_r": 0.014747149644609065,
+      "null_mean_r": 0.02037094152193138,
+      "null_sd_r": 0.008692940735769402,
+      "z_vs_null": -0.6469377910494359
+    },
+    "go:autonomous": {
+      "n_targets": 193,
+      "mean_r": 0.08432999628621532,
+      "null_mean_r": 0.07812680334299654,
+      "null_sd_r": 0.006612275779117315,
+      "z_vs_null": 0.9381328230152635
+    },
+    "go:spillover": {
+      "n_targets": 181,
+      "mean_r": 0.012704905865723612,
+      "null_mean_r": 0.016161730886638925,
+      "null_sd_r": 0.006172900557246548,
+      "z_vs_null": -0.5600001148337381
+    }
+  }
+}

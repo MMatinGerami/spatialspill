@@ -1,0 +1,9 @@
+{
+  "n_targets": 219,
+  "alpha_ring0": -0.40578368081258454,
+  "alpha_last": -0.26922414305193454,
+  "r2_ring0": 0.07058935782487182,
+  "r2_last": 0.12686000781788415,
+  "r2_ring0_minus_last": -0.05627064999301233,
+  "frac_targets_alpha_positive_ring0": 0.152
+}

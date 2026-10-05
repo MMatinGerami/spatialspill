@@ -41,6 +41,8 @@ def real_data_rows() -> pd.DataFrame:
                 {
                     "run": d.name,
                     "dataset": r["dataset"],
+                    "estimator": r.get("estimator", cfg.get("estimator", "E1")),
+                    "spatial_basis": cfg.get("spatial_basis", 0),
                     "strata": "+".join(cfg.get("strata", [])),
                     "tile_um": cfg.get("tile_um", 0) or 0,
                     "control_policy": cfg.get("control_policy", "ntc"),
@@ -50,8 +52,13 @@ def real_data_rows() -> pd.DataFrame:
                     "n_ntc_tests": r["n_ntc_tests"],
                     "ntc_p05": r["ntc_fraction_p_below_0.05"],
                     "ntc_q10": r["ntc_fraction_q_below_fdr"],
+                    "ntc_p05_auto": r.get("ntc_p05_autonomous"),
+                    "ntc_p05_r1": r.get("ntc_p05_ring1"),
+                    "ntc_p05_r2": r.get("ntc_p05_ring2"),
                     "autonomous_hits": r["n_autonomous_hits"],
+                    "auto_fdp_ntc": r.get("ntc_fdp_autonomous"),
                     "spillover_hits": r["n_spillover_hits"],
+                    "spill_fdp_ntc": r.get("ntc_fdp_spillover"),
                     "mtime": cal.stat().st_mtime,
                 }
             )

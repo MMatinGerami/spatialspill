@@ -423,3 +423,34 @@ Amendment A4 (declared before running): basis-size sensitivity on Perturb-Multi 
 400 centres per section; H1' is re-evaluated per size. Exploratory E2 runs (labelled as such,
 no NTC calibration possible) on Perturb-DBiT (unperturbed-pixel controls) and Spatial
 Perturb-seq (any_other_guide controls, 112 mSafe cells) for the cross-technology table.
+
+## 2026-10-05 10:15 Amendment A5: E2 ring coefficients from recipients only (bug fix)
+
+The MYD88 case study showed ring-1 effects of -0.04 to -0.12 with q-values below 1e-4 from
+45 recipients, which is impossible for a 45-cell mean. Cause: in E2 the ring count m_i^b was
+non-zero for cells that carry the target themselves (their clone-mates are their neighbours),
+so the "spillover" coefficient was partly estimated from within-clone homogeneity of target
+cells, with correspondingly tiny residuals. Fix: m_i^b is set to zero for own-target cells, so
+ring coefficients are identified from eligible recipients only (test added). All E2 results
+above (results/b78f984897, 246b4deb3e, a2531ecb83, 6397283d7d) are superseded; H1' to H4' are
+re-evaluated on the reruns, and the gate benchmark is rerun with the corrected E2. The
+superseded directories stay in results/ for the record.
+
+## 2026-10-05 10:30 Clonality in Spatial Perturb-seq and Perturb-DBiT (exploratory)
+
+Spatial Perturb-seq (chip B03018A2 and others; reports/audit/spatial_perturbseq/clonality.md):
+all guide-carrying cells are concentrated at the AAV injection site, so pairs of assigned
+cells are 5.5 to 6.7 times more frequent than the stratified null for *different* targets
+and 8.7 / 7.6 / 6.2 / 5.5 times for the same guide (bins to 15, 30, 50, 75 um). The
+guide-specific excess over the shared delivery excess is therefore only 1.3x within 15 um,
+decaying to none by 50 um; the misassignment signature is weak (median r 0.17, 1 of 17 above
+0.3). Here the dominant structure is delivery, not clonality: spatial strata or a spatial
+basis are needed because exposure is confined to one region, but the undetected-sibling
+problem is milder than in the tumour screens.
+
+Perturb-DBiT (pixel units; first run used micrometre bins by mistake and is superseded by
+reports/audit/clonality5.log): 47.5% of guide-assigned pixels sit in same-guide components,
+and unassigned neighbour pixels mirror the perturbed pixels' profile almost perfectly
+(median r 0.99 over 20 targets), as expected when a lesion of one clone spans many pixels and
+the dominant-guide call fails in some of them. Pixel-level spillover in DBiT is thus mostly
+intra-lesion mixing; it is reported as exploratory only.

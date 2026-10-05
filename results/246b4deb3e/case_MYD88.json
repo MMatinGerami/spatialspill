@@ -1,0 +1,381 @@
+{
+  "target": "MYD88",
+  "rank": 1,
+  "n_target_cells": 125,
+  "n_ntc_recipients_ring1": 45,
+  "n_ntc_recipients_ring2": 145,
+  "ring1_top": [
+    {
+      "outcome": "TGFBR3",
+      "estimate": -0.1173,
+      "se": 0.0152,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "STAT3",
+      "estimate": -0.0805,
+      "se": 0.0114,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "KITLG",
+      "estimate": -0.0365,
+      "se": 0.0056,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "GPX3",
+      "estimate": -0.0562,
+      "se": 0.0095,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "ATM",
+      "estimate": -0.038,
+      "se": 0.0064,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "ESCO2",
+      "estimate": -0.0518,
+      "se": 0.009,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "IRF3",
+      "estimate": -0.0359,
+      "se": 0.0064,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "TGFB2",
+      "estimate": -0.0431,
+      "se": 0.0077,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "CXCL10",
+      "estimate": -0.0576,
+      "se": 0.0113,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "KLRC1",
+      "estimate": -0.0364,
+      "se": 0.0072,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "TSC2",
+      "estimate": -0.026,
+      "se": 0.0054,
+      "qvalue": 0.0001
+    },
+    {
+      "outcome": "ROR1",
+      "estimate": -0.0282,
+      "se": 0.0061,
+      "qvalue": 0.0001
+    }
+  ],
+  "ring2_top": [
+    {
+      "outcome": "SOCS3",
+      "estimate": -0.0664,
+      "se": 0.011,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "HLA-DRB1",
+      "estimate": -0.0355,
+      "se": 0.0065,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "FLI1",
+      "estimate": -0.0207,
+      "se": 0.0045,
+      "qvalue": 0.0001
+    },
+    {
+      "outcome": "PLA2G2A",
+      "estimate": -0.0254,
+      "se": 0.0057,
+      "qvalue": 0.0002
+    },
+    {
+      "outcome": "IGF1",
+      "estimate": -0.0152,
+      "se": 0.0035,
+      "qvalue": 0.0004
+    },
+    {
+      "outcome": "FCER2",
+      "estimate": -0.0261,
+      "se": 0.006,
+      "qvalue": 0.0004
+    },
+    {
+      "outcome": "ICAM2",
+      "estimate": -0.0166,
+      "se": 0.0038,
+      "qvalue": 0.0004
+    },
+    {
+      "outcome": "CXCL8",
+      "estimate": -0.0656,
+      "se": 0.0152,
+      "qvalue": 0.0005
+    },
+    {
+      "outcome": "CSF2RA",
+      "estimate": -0.019,
+      "se": 0.0045,
+      "qvalue": 0.0006
+    },
+    {
+      "outcome": "LGR5",
+      "estimate": -0.017,
+      "se": 0.004,
+      "qvalue": 0.0008
+    },
+    {
+      "outcome": "PGLYRP1",
+      "estimate": -0.0144,
+      "se": 0.0036,
+      "qvalue": 0.0014
+    },
+    {
+      "outcome": "MMP7",
+      "estimate": -0.0145,
+      "se": 0.0037,
+      "qvalue": 0.0019
+    }
+  ],
+  "autonomous_top": [
+    {
+      "outcome": "ATR",
+      "estimate": -0.2252,
+      "se": 0.0473,
+      "qvalue": 0.0001
+    },
+    {
+      "outcome": "KITLG",
+      "estimate": -0.0305,
+      "se": 0.0069,
+      "qvalue": 0.0003
+    },
+    {
+      "outcome": "AKT3",
+      "estimate": -0.3398,
+      "se": 0.0829,
+      "qvalue": 0.0012
+    },
+    {
+      "outcome": "PMS2",
+      "estimate": -0.0529,
+      "se": 0.013,
+      "qvalue": 0.0013
+    },
+    {
+      "outcome": "FLT1",
+      "estimate": -0.0334,
+      "se": 0.0084,
+      "qvalue": 0.0018
+    },
+    {
+      "outcome": "IRF3",
+      "estimate": -0.0322,
+      "se": 0.0081,
+      "qvalue": 0.0019
+    },
+    {
+      "outcome": "SMARCA4",
+      "estimate": -0.0562,
+      "se": 0.0149,
+      "qvalue": 0.004
+    },
+    {
+      "outcome": "MAP2K1",
+      "estimate": -0.1013,
+      "se": 0.0278,
+      "qvalue": 0.0064
+    },
+    {
+      "outcome": "TBX21",
+      "estimate": -0.0406,
+      "se": 0.0115,
+      "qvalue": 0.0089
+    },
+    {
+      "outcome": "CD14",
+      "estimate": -0.0305,
+      "se": 0.0086,
+      "qvalue": 0.0091
+    },
+    {
+      "outcome": "FN1",
+      "estimate": -0.4586,
+      "se": 0.1347,
+      "qvalue": 0.0139
+    },
+    {
+      "outcome": "LRP6",
+      "estimate": -0.0885,
+      "se": 0.0261,
+      "qvalue": 0.0144
+    }
+  ],
+  "ring1_hits": [
+    "ADAMTS4",
+    "ATM",
+    "BLK",
+    "BMP1",
+    "BTLA",
+    "CCL28",
+    "CCL7",
+    "CCR2",
+    "CCR5",
+    "CCR6",
+    "CD160",
+    "CD2",
+    "CD207",
+    "CD248",
+    "CD28",
+    "CD3D",
+    "CD3E",
+    "CD3G",
+    "CD5",
+    "CEACAM8",
+    "CMKLR1",
+    "COL6A3",
+    "CSF3",
+    "CTLA4",
+    "CTNNB1",
+    "CTSW",
+    "CXCL10",
+    "EGF",
+    "ESCO2",
+    "FCER2",
+    "FFAR2",
+    "FGF1",
+    "GPX3",
+    "GZMB",
+    "HRAS",
+    "ICOS",
+    "IDO2",
+    "IFNAR2",
+    "IGF1",
+    "IKZF2",
+    "IL17A",
+    "IL3RA",
+    "IRF3",
+    "ITGA5",
+    "ITGAX",
+    "KDR",
+    "KIR2DL4",
+    "KIT",
+    "KITLG",
+    "KLRC1",
+    "LAMP3",
+    "LGALS9",
+    "MAFB",
+    "MARCO",
+    "MMP11",
+    "MMP12",
+    "MMP7",
+    "MMRN2",
+    "MTOR",
+    "MYH11",
+    "NOS2",
+    "PDCD1",
+    "PDGFB",
+    "PDGFRA",
+    "PGF",
+    "PGLYRP1",
+    "PPARGC1A",
+    "PRTN3",
+    "ROR1",
+    "S100A9",
+    "SELL",
+    "SELP",
+    "SMOC2",
+    "SNAI2",
+    "SRC",
+    "STAP1",
+    "STAT3",
+    "STAT4",
+    "STING1",
+    "TAPBP",
+    "TBX21",
+    "TGFB2",
+    "TGFBR3",
+    "TLR1",
+    "TMEM59",
+    "TNFRSF17",
+    "TNFRSF18",
+    "TNFRSF9",
+    "TNFSF10",
+    "TNFSF4",
+    "TP63",
+    "TSC2",
+    "WNT3A",
+    "XCL1"
+  ],
+  "autonomous_hits": [
+    "AKT3",
+    "ATR",
+    "CCR10",
+    "CD14",
+    "CD207",
+    "CEACAM1",
+    "COL5A1",
+    "COL6A3",
+    "CXCL8",
+    "ERBB3",
+    "FAP",
+    "FLT1",
+    "FN1",
+    "HDAC3",
+    "IFNAR2",
+    "IFNB1",
+    "IGF1",
+    "IRF3",
+    "ITGA5",
+    "KIR2DL4",
+    "KIT",
+    "KITLG",
+    "KLRF1",
+    "KLRG1",
+    "LRP6",
+    "MAP2K1",
+    "MMRN1",
+    "PDPN",
+    "PLA2G2A",
+    "PMS2",
+    "PPARGC1A",
+    "PTEN",
+    "RAF1",
+    "ROS1",
+    "SMARCA4",
+    "SPRY2",
+    "TBX21",
+    "TMEM37",
+    "TRBC1",
+    "TSC2"
+  ],
+  "ring1_hits_also_autonomous": [
+    "CD207",
+    "COL6A3",
+    "IFNAR2",
+    "IGF1",
+    "IRF3",
+    "ITGA5",
+    "KIR2DL4",
+    "KIT",
+    "KITLG",
+    "PPARGC1A",
+    "TBX21",
+    "TSC2"
+  ]
+}

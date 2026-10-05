@@ -27,15 +27,13 @@ from spatialspill.loaders.registry import load_dataset
 from spatialspill.outcomes import lognorm
 
 
-def calibration_summary(df, fdr: float) -> dict[str, object]:
-    ident = df[df["identified"]]
+def _rates(ident, fdr: float) -> dict[str, object]:
     ntc = ident[ident["target"].str.startswith("NTC:")]
     tgt = ident[~ident["target"].str.startswith("NTC:")]
     out: dict[str, object] = {
         "n_tests": len(ident),
         "n_ntc_tests": len(ntc),
         "n_target_tests": len(tgt),
-        "fdr": fdr,
         "ntc_fraction_q_below_fdr": float((ntc["qvalue"] < fdr).mean()) if len(ntc) else None,
         "ntc_fraction_p_below_0.05": float((ntc["pvalue"] < 0.05).mean()) if len(ntc) else None,
         "target_fraction_q_below_fdr": float((tgt["qvalue"] < fdr).mean()) if len(tgt) else None,
@@ -43,6 +41,27 @@ def calibration_summary(df, fdr: float) -> dict[str, object]:
     for kind in ("autonomous", "spillover"):
         sub = tgt[tgt["kind"] == kind]
         out[f"n_{kind}_hits"] = int((sub["qvalue"] < fdr).sum())
+        nsub = ntc[ntc["kind"] == kind]
+        out[f"ntc_p05_{kind}"] = float((nsub["pvalue"] < 0.05).mean()) if len(nsub) else None
+        out[f"ntc_q_{kind}"] = float((nsub["qvalue"] < fdr).mean()) if len(nsub) else None
+        # NTC-scaled expectation of false hits and the implied false discovery proportion
+        exp_false = (out[f"ntc_q_{kind}"] or 0.0) * len(sub)
+        out[f"expected_false_{kind}"] = float(exp_false)
+        hits = out[f"n_{kind}_hits"]
+        out[f"ntc_fdp_{kind}"] = float(min(1.0, exp_false / hits)) if hits else None
+    for ring in sorted(ident["ring"].unique()):
+        nsub = ntc[ntc["ring"] == ring]
+        if len(nsub):
+            out[f"ntc_p05_ring{int(ring)}"] = float((nsub["pvalue"] < 0.05).mean())
+    return out
+
+
+def calibration_summary(df, fdr: float) -> dict[str, object]:
+    """Calibration on the pooled cell-type group ('all'), plus the same over every group."""
+    ident = df[df["identified"]]
+    out: dict[str, object] = {"fdr": fdr}
+    out.update(_rates(ident[ident["cell_type"] == "all"], fdr))
+    out["all_groups"] = _rates(ident, fdr)
     return out
 
 

@@ -1,0 +1,12 @@
+{
+  "train": "results/246b4deb3e",
+  "test": "results/6397283d7d",
+  "n_train_targets": 32,
+  "n_test_targets": 181,
+  "n_overlapping_targets": 0,
+  "overlapping_targets": [],
+  "spearman": 0.0573695181429988,
+  "null_mean": 0.03516007933135005,
+  "null_sd": 0.0207841237357356,
+  "empirical_p": 0.10945273631840796
+}
