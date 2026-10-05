@@ -584,3 +584,40 @@ pseudo-target rates at p < 0.05: 0.068 (autonomous), 0.148 / 0.054 / 0.059 (ring
 expectations (FDP 1.0). With 3.4% guide-positive cells, 57% of them at a single guide UMI, and
 one control guide, this dataset cannot support a spillover claim; it enters the
 cross-technology table as "no signal beyond the null, exploratory".
+
+## 2026-10-05 09:35 Second pass: plan and pre-registration
+
+Framing decided: a methods paper (non-targeting calibration for spatial screens, why
+neighbour-effect designs fail, and what sample sizes would be needed), with the biological
+null result as the empirical finding. Four work items, in order: (1) robustness and
+ablations, (2) power analysis, (3) an undetected-sibling model, (4) release tidying.
+
+Pre-registration, robustness (real data): E1, 250 um tiles, NTC recipients, Perturb-FISH,
+with distance bins [0, 10, 20, 40, 60] and [0, 20, 40, 60] in place of [0, 15, 30, 60].
+Criterion: the conclusion (NTC p < 0.05 fraction within [0.02, 0.08]; zero autonomous hits;
+fewer than 10 spillover hits) is unchanged under both binnings.
+
+Pre-registration, ablation (simulator, Perturb-FISH geometry, 30,000 cells, NTC recipients,
+clonal scenario and plain spill scenario, 2 reps): E1 with strata sample x cell type (full),
+E1 with strata sample only (no cell type), E1 with 250 um tile strata, E2 with and without
+covariates, E0 pseudobulk (no space). Metrics: NTC false positives, power at q < 0.10, FDP.
+Expectation written down before running: removing cell type raises NTC false positives where
+cell-type composition varies spatially; tiles lower power and keep calibration; removing
+covariates changes little in the plain scenario and raises FDP under density effects.
+
+Pre-registration, power analysis (simulator, Perturb-FISH geometry, 30,000 cells, 1 rep per
+cell): grid over fraction of cells assigned {0.05, 0.15, 0.30}, fraction of assigned cells
+that are NTC {0.1, 0.3, 0.6}, planted spillover LFC sd {0.5, 1.0, 2.0} on 20% of genes for
+half of the targets; estimators E1 with 250 um tiles and E2 with spatial basis and permutation
+null. Output: power at q < 0.10 in rings 1 and 2 against the median number of NTC recipients
+per target, and NTC false positives. Purpose: a design recommendation (how many confirmed
+non-target recipients per target a screen needs to detect spillover of a given size), not a
+claim about any dataset. No real-data hypothesis is attached.
+
+Undetected-sibling model (exploratory, then tested on the simulator before any real-data use):
+the profile of unassigned neighbours of g cells is modelled as a mixture
+pi * (autonomous profile of g) + (1 - pi) * (true recipient profile); pi is estimated per
+target by projection on the autonomous profile across genes, and the corrected spillover
+profile is the residual rescaled by 1 / (1 - pi). On the simulator's clonal and misassignment
+scenarios the test is whether the corrected unassigned-recipient estimates have smaller bias
+than the uncorrected ones and whether pi tracks the planted misassignment rate.
