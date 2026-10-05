@@ -1,0 +1,378 @@
+{
+  "target": "MAP3K7",
+  "rank": 1,
+  "n_target_cells": 57,
+  "n_ntc_recipients_ring1": 13,
+  "n_ntc_recipients_ring2": 54,
+  "ring1_top": [
+    {
+      "outcome": "APC",
+      "estimate": -0.3461,
+      "se": 0.0426,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "LAMB3",
+      "estimate": -0.518,
+      "se": 0.0646,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "BMI1",
+      "estimate": -0.2989,
+      "se": 0.0405,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "HLA-B",
+      "estimate": -0.5994,
+      "se": 0.0842,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "CHEK1",
+      "estimate": -0.2867,
+      "se": 0.0404,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "TAP2",
+      "estimate": -0.3076,
+      "se": 0.0441,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "SERPINE1",
+      "estimate": -0.4196,
+      "se": 0.0639,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "BRAF",
+      "estimate": -0.2867,
+      "se": 0.0437,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "TBK1",
+      "estimate": -0.4211,
+      "se": 0.0668,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "PCNA",
+      "estimate": -0.2489,
+      "se": 0.0408,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "STAT6",
+      "estimate": -0.2837,
+      "se": 0.0472,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "EPHB4",
+      "estimate": -0.2408,
+      "se": 0.0413,
+      "qvalue": 0.0
+    }
+  ],
+  "ring2_top": [
+    {
+      "outcome": "IFNAR1",
+      "estimate": -0.1511,
+      "se": 0.0271,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "SMARCA4",
+      "estimate": -0.061,
+      "se": 0.0119,
+      "qvalue": 0.0
+    },
+    {
+      "outcome": "IRF3",
+      "estimate": -0.0343,
+      "se": 0.0075,
+      "qvalue": 0.0002
+    },
+    {
+      "outcome": "DNMT1",
+      "estimate": -0.0492,
+      "se": 0.0112,
+      "qvalue": 0.0005
+    },
+    {
+      "outcome": "DUSP6",
+      "estimate": -0.041,
+      "se": 0.0095,
+      "qvalue": 0.0006
+    },
+    {
+      "outcome": "PTGS2",
+      "estimate": -0.0295,
+      "se": 0.0068,
+      "qvalue": 0.0006
+    },
+    {
+      "outcome": "PDGFA",
+      "estimate": -0.0397,
+      "se": 0.0093,
+      "qvalue": 0.0008
+    },
+    {
+      "outcome": "CD79A",
+      "estimate": -0.0308,
+      "se": 0.0073,
+      "qvalue": 0.001
+    },
+    {
+      "outcome": "CD177",
+      "estimate": -0.0336,
+      "se": 0.0083,
+      "qvalue": 0.0018
+    },
+    {
+      "outcome": "COL5A1",
+      "estimate": -0.1778,
+      "se": 0.0441,
+      "qvalue": 0.0019
+    },
+    {
+      "outcome": "CCR8",
+      "estimate": -0.0403,
+      "se": 0.0102,
+      "qvalue": 0.0025
+    },
+    {
+      "outcome": "CD3G",
+      "estimate": -0.0333,
+      "se": 0.0088,
+      "qvalue": 0.0043
+    }
+  ],
+  "autonomous_top": [
+    {
+      "outcome": "TGFBR3",
+      "estimate": -0.102,
+      "se": 0.0221,
+      "qvalue": 0.0002
+    },
+    {
+      "outcome": "CSF1",
+      "estimate": -0.1021,
+      "se": 0.0221,
+      "qvalue": 0.0002
+    },
+    {
+      "outcome": "TAP1",
+      "estimate": -0.1008,
+      "se": 0.0223,
+      "qvalue": 0.0003
+    },
+    {
+      "outcome": "FGF1",
+      "estimate": -0.1215,
+      "se": 0.0289,
+      "qvalue": 0.0009
+    },
+    {
+      "outcome": "CXCL11",
+      "estimate": -0.0878,
+      "se": 0.0224,
+      "qvalue": 0.0029
+    },
+    {
+      "outcome": "SMARCA4",
+      "estimate": -0.0569,
+      "se": 0.0147,
+      "qvalue": 0.0033
+    },
+    {
+      "outcome": "WNT3A",
+      "estimate": -0.0611,
+      "se": 0.016,
+      "qvalue": 0.004
+    },
+    {
+      "outcome": "ICAM3",
+      "estimate": -0.0602,
+      "se": 0.016,
+      "qvalue": 0.0051
+    },
+    {
+      "outcome": "LRP5",
+      "estimate": -0.0618,
+      "se": 0.017,
+      "qvalue": 0.0075
+    },
+    {
+      "outcome": "COL4A1",
+      "estimate": -0.062,
+      "se": 0.0172,
+      "qvalue": 0.0083
+    },
+    {
+      "outcome": "RAF1",
+      "estimate": -0.22,
+      "se": 0.0615,
+      "qvalue": 0.0093
+    },
+    {
+      "outcome": "CD14",
+      "estimate": -0.048,
+      "se": 0.0134,
+      "qvalue": 0.0093
+    }
+  ],
+  "ring1_hits": [
+    "APC",
+    "ARAF",
+    "ATM",
+    "BMI1",
+    "BRAF",
+    "BST2",
+    "CA7",
+    "CCL2",
+    "CCL3",
+    "CCL5",
+    "CCR10",
+    "CD177",
+    "CD244",
+    "CD276",
+    "CD70",
+    "CD8A",
+    "CHEK1",
+    "CIITA",
+    "CLDN5",
+    "COL4A1",
+    "COL5A1",
+    "CSF2",
+    "CXCL1",
+    "CXCL11",
+    "CXCL8",
+    "CXCR2",
+    "CXCR4",
+    "DERL3",
+    "DIABLO",
+    "EGR1",
+    "EPHB4",
+    "ERBB2",
+    "ESCO2",
+    "FCGR3A",
+    "FGF2",
+    "FN1",
+    "GNLY",
+    "GPX3",
+    "HAVCR2",
+    "HDAC1",
+    "HLA-B",
+    "HLA-C",
+    "IFNAR1",
+    "IFNAR2",
+    "IFNG",
+    "IFNGR1",
+    "IGF1R",
+    "IL23A",
+    "IL6",
+    "IRS1",
+    "ITGA4",
+    "ITGB2",
+    "KLRK1",
+    "KRAS",
+    "LAG3",
+    "LAMB3",
+    "LDHA",
+    "LGR6",
+    "LRP5",
+    "MAP2K1",
+    "MLH1",
+    "MPO",
+    "MSH6",
+    "MTOR",
+    "MUC1",
+    "MYC",
+    "NFKBIA",
+    "NOTCH1",
+    "PCNA",
+    "PDGFRB",
+    "PECAM1",
+    "PIK3CA",
+    "RB1",
+    "RELA",
+    "SELL",
+    "SERPINE1",
+    "SHARPIN",
+    "SIGLEC1",
+    "SNAI1",
+    "SOCS3",
+    "SOD2",
+    "SPRY2",
+    "SRPRB",
+    "STAT6",
+    "TAP1",
+    "TAP2",
+    "TBK1",
+    "TGFBR3",
+    "THBD",
+    "TRAC",
+    "VWF",
+    "WNT3",
+    "WNT5A",
+    "XBP1",
+    "XCL1",
+    "ZEB1"
+  ],
+  "autonomous_hits": [
+    "AKT2",
+    "CD14",
+    "CD244",
+    "CD248",
+    "CD276",
+    "COL4A1",
+    "CSF1",
+    "CXCL11",
+    "ENG",
+    "FGF1",
+    "HGF",
+    "HLA-DRB1",
+    "ICAM3",
+    "IL17A",
+    "IL6R",
+    "INSR",
+    "IRF3",
+    "KIT",
+    "LRP5",
+    "MLH1",
+    "MMP1",
+    "PIK3CA",
+    "PIK3CG",
+    "PTK2",
+    "RAF1",
+    "SMARCA4",
+    "STAT1",
+    "TAP1",
+    "TAP2",
+    "TGFB2",
+    "TGFBR3",
+    "THBD",
+    "TLR1",
+    "VCAM1",
+    "VEGFB",
+    "WNT3A"
+  ],
+  "ring1_hits_also_autonomous": [
+    "CD244",
+    "CD276",
+    "COL4A1",
+    "CXCL11",
+    "LRP5",
+    "MLH1",
+    "PIK3CA",
+    "TAP1",
+    "TAP2",
+    "TGFBR3",
+    "THBD"
+  ]
+}

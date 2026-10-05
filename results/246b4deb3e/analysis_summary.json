@@ -5,18 +5,18 @@
     2
   ],
   "artifact_fraction": {
-    "n_targets": 36,
-    "alpha_ring0": -0.09170653331011634,
-    "alpha_last": -0.038558853387332864,
-    "r2_ring0": 0.01653775177402762,
-    "r2_last": 0.05346843666933657,
-    "r2_ring0_minus_last": -0.03693068489530896,
-    "frac_targets_alpha_positive_ring0": 0.38461538461538464
+    "n_targets": 34,
+    "alpha_ring0": 0.38872642710027033,
+    "alpha_last": 0.09891448191431193,
+    "r2_ring0": 0.02991809048199406,
+    "r2_last": 0.02511684884342403,
+    "r2_ring0_minus_last": 0.004801241638570031,
+    "frac_targets_alpha_positive_ring0": 1.0
   },
   "lr_enrichment": {
-    "n_pairs": 28000,
-    "n_lr_pairs": 8,
-    "n_hits": 1567,
+    "n_pairs": 26500,
+    "n_lr_pairs": 6,
+    "n_hits": 2086,
     "hits_lr": 0,
     "odds_ratio": 0.0,
     "pvalue": 1.0
@@ -24,31 +24,31 @@
   "prediction": {
     "replogle_k562_gwps:autonomous": {
       "n_targets": 25,
-      "mean_r": 0.09454787153494258,
-      "null_mean_r": 0.097312919985427,
-      "null_sd_r": 0.008705059330572702,
-      "z_vs_null": -0.3176369448480839
+      "mean_r": 0.0945023694099111,
+      "null_mean_r": 0.1058357413984871,
+      "null_sd_r": 0.009106005585754553,
+      "z_vs_null": -1.2446041111929418
     },
     "replogle_k562_gwps:spillover": {
-      "n_targets": 25,
-      "mean_r": 0.20758153927835007,
-      "null_mean_r": 0.20653193979162876,
-      "null_sd_r": 0.005810584686379605,
-      "z_vs_null": 0.1806357782172326
+      "n_targets": 24,
+      "mean_r": 0.22949732187989147,
+      "null_mean_r": 0.23940363692943706,
+      "null_sd_r": 0.007883368125512104,
+      "z_vs_null": -1.2566094709552935
     },
     "go:autonomous": {
       "n_targets": 33,
-      "mean_r": 0.07404964912443464,
-      "null_mean_r": 0.08665700848059567,
-      "null_sd_r": 0.00916058220239251,
-      "z_vs_null": -1.3762618005729277
+      "mean_r": 0.08640867931935411,
+      "null_mean_r": 0.09773130543252034,
+      "null_sd_r": 0.008641568175398075,
+      "z_vs_null": -1.3102513205185295
     },
     "go:spillover": {
-      "n_targets": 32,
-      "mean_r": 0.19249867131048756,
-      "null_mean_r": 0.1981072457391698,
-      "null_sd_r": 0.006314994179375956,
-      "z_vs_null": -0.8881361200615501
+      "n_targets": 31,
+      "mean_r": 0.21300879798157396,
+      "null_mean_r": 0.22476808655910988,
+      "null_sd_r": 0.0038127248352367556,
+      "z_vs_null": -3.084221674970601
     }
   }
 }

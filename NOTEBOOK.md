@@ -454,3 +454,9 @@ and unassigned neighbour pixels mirror the perturbed pixels' profile almost perf
 (median r 0.99 over 20 targets), as expected when a lesion of one clone spans many pixels and
 the dominant-guide call fails in some of them. Pixel-level spillover in DBiT is thus mostly
 intra-lesion mixing; it is reported as exploratory only.
+
+Correction to the A5 entry: results directories are keyed by the configuration hash only, so
+the E2 reruns overwrote results/246b4deb3e, b78f984897, a2531ecb83 and 6397283d7d in place;
+the superseded numbers survive only in this notebook (entries of 09:00 and 09:30) and in the
+git history of the calibration JSON files. From this commit on, every results directory also
+records the git revision that produced it (code_version.txt).

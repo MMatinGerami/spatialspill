@@ -36,10 +36,28 @@ def load_config(path: str | Path, overrides: list[str] | None = None) -> DictCon
 
 
 def results_dir(cfg: DictConfig | dict[str, Any], root: str | Path = "results") -> Path:
-    """``results/<hash>/`` for this config; writes ``config.yaml`` into it."""
+    """``results/<hash>/`` for this config; writes ``config.yaml`` and ``code_version.txt`` (git revision) into it.
+
+    The hash covers the configuration only, so rerunning the same config after a code change
+    overwrites the directory; ``code_version.txt`` records which code produced the files."""
     h = config_hash(cfg)
     d = Path(root) / h
     d.mkdir(parents=True, exist_ok=True)
     with open(d / "config.yaml", "w") as fh:
         yaml.safe_dump(to_plain(cfg), fh, sort_keys=True)
+    try:
+        import subprocess
+
+        rev = subprocess.run(
+            ["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=False
+        ).stdout.strip()
+        dirty = subprocess.run(
+            ["git", "status", "--porcelain", "src", "scripts"],
+            capture_output=True,
+            text=True,
+            check=False,
+        ).stdout.strip()
+        (d / "code_version.txt").write_text(f"{rev}{' dirty' if dirty else ''}\n")
+    except OSError:
+        pass
     return d

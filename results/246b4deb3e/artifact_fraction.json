@@ -1,9 +1,9 @@
 {
-  "n_targets": 36,
-  "alpha_ring0": -0.09170653331011634,
-  "alpha_last": -0.038558853387332864,
-  "r2_ring0": 0.01653775177402762,
-  "r2_last": 0.05346843666933657,
-  "r2_ring0_minus_last": -0.03693068489530896,
-  "frac_targets_alpha_positive_ring0": 0.38461538461538464
+  "n_targets": 34,
+  "alpha_ring0": 0.38872642710027033,
+  "alpha_last": 0.09891448191431193,
+  "r2_ring0": 0.02991809048199406,
+  "r2_last": 0.02511684884342403,
+  "r2_ring0_minus_last": 0.004801241638570031,
+  "frac_targets_alpha_positive_ring0": 1.0
 }
