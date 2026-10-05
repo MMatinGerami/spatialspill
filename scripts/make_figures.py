@@ -123,9 +123,23 @@ def fig_benchmark(bench: Path | None, gate: Path | None) -> None:
             ax.axhline(0.1, color="k", ls="--", lw=1)
     fig.tight_layout()
     fig.savefig(FIG / "fig3_benchmark.png", dpi=150)
-    sp.groupby(["run", "scenario", "estimator"])[
-        ["ntc_fpr_p05", "power_q", "auroc", "fdp_q"]
-    ].mean().round(3).to_csv(TAB / "benchmark_spillover.csv")
+    agg = (
+        sp.groupby(["scenario", "estimator"])[["ntc_fpr_p05", "power_q", "auroc", "fdp_q"]]
+        .mean()
+        .round(2)
+    )
+    agg.to_csv(TAB / "benchmark_spillover.csv")
+    tex = agg.reset_index().rename(
+        columns={
+            "ntc_fpr_p05": "NTC FP (p<0.05)",
+            "power_q": "power (q<0.1)",
+            "auroc": "AUROC",
+            "fdp_q": "FDP (q<0.1)",
+        }
+    )
+    (TAB / "benchmark_spillover.tex").write_text(
+        tex.to_latex(index=False, na_rep="--", float_format="%.2f", escape=True)
+    )
 
 
 def fig_ranking(fish: Path) -> None:

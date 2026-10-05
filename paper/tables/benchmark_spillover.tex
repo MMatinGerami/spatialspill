@@ -1,0 +1,35 @@
+\begin{tabular}{llrrrr}
+\toprule
+scenario & estimator & NTC FP (p<0.05) & power (q<0.1) & AUROC & FDP (q<0.1) \\
+\midrule
+everything & E1 & 0.09 & 0.10 & 0.67 & 0.66 \\
+everything & E2 & 0.09 & 0.24 & 0.72 & 0.54 \\
+everything & E2\_perm & 0.07 & 0.19 & 0.75 & 0.68 \\
+everything & E2\_spatial\_perm & 0.08 & 0.16 & 0.76 & 0.84 \\
+everything & E3 & 0.10 & 0.16 & 0.59 & 0.76 \\
+no\_effect & E1 & 0.06 & -- & -- & 1.00 \\
+no\_effect & E2 & 0.05 & -- & -- & 1.00 \\
+no\_effect & E2\_perm & 0.04 & -- & -- & 1.00 \\
+no\_effect & E2\_spatial\_perm & 0.03 & -- & -- & 1.00 \\
+no\_effect & E3 & 0.06 & -- & -- & 1.00 \\
+spill & E1 & 0.06 & 0.26 & 0.76 & 0.37 \\
+spill & E2 & 0.05 & 0.36 & 0.81 & 0.23 \\
+spill & E2\_perm & 0.04 & 0.16 & 0.75 & 0.34 \\
+spill & E2\_spatial\_perm & 0.04 & 0.15 & 0.74 & 0.41 \\
+spill & E3 & 0.06 & 0.29 & 0.76 & 0.27 \\
+spill\_bleed & E1 & 0.05 & 0.43 & 0.84 & 0.22 \\
+spill\_bleed & E2 & 0.05 & 0.45 & 0.84 & 0.23 \\
+spill\_bleed & E3 & 0.07 & 0.35 & 0.78 & 0.34 \\
+spill\_clonal & E1 & 0.09 & 0.10 & 0.64 & 0.72 \\
+spill\_clonal & E2 & 0.07 & 0.18 & 0.68 & 0.48 \\
+spill\_clonal & E2\_perm & 0.07 & 0.23 & 0.84 & 0.67 \\
+spill\_clonal & E2\_spatial\_perm & 0.07 & 0.20 & 0.84 & 0.83 \\
+spill\_clonal & E3 & 0.09 & 0.12 & 0.59 & 0.76 \\
+spill\_density & E1 & 0.05 & 0.30 & 0.81 & 0.26 \\
+spill\_density & E2 & 0.05 & 0.36 & 0.81 & 0.21 \\
+spill\_density & E3 & 0.06 & 0.27 & 0.76 & 0.28 \\
+spill\_misassign & E1 & 0.05 & 0.51 & 0.85 & 0.22 \\
+spill\_misassign & E2 & 0.06 & 0.53 & 0.86 & 0.22 \\
+spill\_misassign & E3 & 0.06 & 0.44 & 0.82 & 0.22 \\
+\bottomrule
+\end{tabular}
