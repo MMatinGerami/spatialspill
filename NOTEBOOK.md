@@ -255,7 +255,7 @@ strata for calibrated claims. The 40,000-cell power benchmark with E0 to E3 (res
 the Perturb-FISH tile sensitivity runs (150 and 400 um) and the Perturb-Multi E1 runs
 (global and 400 um tiles) were still running in tmux when work paused on 2026-10-05 at 01:30.
 
-## 2026-10-05 07:40 Overnight results
+## 2026-10-05 07:37 Overnight results
 
 Perturb-FISH tile sensitivity (E1, NTC recipients):
 - 150 um (results/a16b3fdbc3): 4,000 identified tests, NTC p < 0.05 fraction 0.025, 0 hits.
@@ -294,7 +294,7 @@ so controls stay available everywhere while niche variation is absorbed. Pre-reg
 its real-data use follows below once the simulator shows it is calibrated under clonal
 assignment.
 
-## 2026-10-05 08:10 Pre-registration: E2 with spatial basis on real data
+## 2026-10-05 07:42 Pre-registration: E2 with spatial basis on real data
 
 E2 (regression adjustment) with strata sample x cell type, covariates local density, log area,
 edge distance, and a per-sample Gaussian radial basis of 40 k-means centres (bandwidth =
@@ -313,7 +313,7 @@ minus last-ring R2 is the artifact fraction, reported per dataset whether or not
 The real-data runs are launched in parallel with the gate for time reasons; their results are
 not read before the gate result is recorded here.
 
-## 2026-10-05 08:20 Audits of Perturb-DBiT (6 samples) and Spatial Perturb-seq (3 chips)
+## 2026-10-05 07:43 Audits of Perturb-DBiT (6 samples) and Spatial Perturb-seq (3 chips)
 
 Perturb-DBiT (reports/audit/perturb_dbit): 22,421 pixels, 21.6% with a dominant guide, 526
 targets, only 23 NTC pixels over 14 NTC guides, so no NTC calibration is possible and the
@@ -330,7 +330,7 @@ Both datasets therefore enter the cross-technology benchmark for autonomous effe
 the artifact detector, with spillover estimates labelled exploratory where NTC calibration
 cannot be run. Clonality analysis for these two did not run (see audit2.log); rerun pending.
 
-## 2026-10-05 08:50 Gate result for E2 with spatial basis (results/a78cc33a76)
+## 2026-10-05 07:47 Gate result for E2 with spatial basis (results/a78cc33a76)
 
 30,000 cells on Perturb-FISH geometry, NTC recipients, clean controls, 15% assigned (30% of
 them NTC), 2 reps. NTC pseudo-target false positives at p < 0.05, spillover:
@@ -350,7 +350,7 @@ ring 0 and the sparse-exposure settings show 0.10 to 0.18 on too few tests (120 
 be conclusive. Rule for the real-data reading: ring-0 results from E2 are reported with this
 caveat and are not used for claims; rings 1 and 2 are.
 
-## 2026-10-05 09:00 E2 on real data (pre-registered 08:10)
+## 2026-10-05 07:47 E2 on real data (pre-registered 07:42)
 
 Perturb-FISH tumour, E2 without spatial basis (results/b78f984897): NTC pseudo-targets at
 p < 0.05: 0.162 (autonomous), 0.134 / 0.089 / 0.197 (rings 0 / 1 / 2); at q < 0.10: 0.11,
@@ -383,7 +383,7 @@ the NTC pseudo-target autonomous test (one NTC guide's cells versus the other NT
 is anticonservative here, consistent with guide-specific clonal clusters sitting in their own
 niches (same-guide adjacency 260x). The spatial-basis run is in progress.
 
-## 2026-10-05 09:30 H4', biology and prediction on Perturb-FISH (results/246b4deb3e); Perturb-Multi with basis
+## 2026-10-05 07:50 H4', biology and prediction on Perturb-FISH (results/246b4deb3e); Perturb-Multi with basis
 
 H4' (bleed-through detector, scripts/analyze_real.py): projection of spillover profiles on the
 autonomous profile gives alpha_hat with median -0.04 (ring 0, 13 targets), -0.02 (ring 1, 27),
@@ -424,7 +424,7 @@ Amendment A4 (declared before running): basis-size sensitivity on Perturb-Multi 
 no NTC calibration possible) on Perturb-DBiT (unperturbed-pixel controls) and Spatial
 Perturb-seq (any_other_guide controls, 112 mSafe cells) for the cross-technology table.
 
-## 2026-10-05 10:15 Amendment A5: E2 ring coefficients from recipients only (bug fix)
+## 2026-10-05 07:56 Amendment A5: E2 ring coefficients from recipients only (bug fix)
 
 The MYD88 case study showed ring-1 effects of -0.04 to -0.12 with q-values below 1e-4 from
 45 recipients, which is impossible for a 45-cell mean. Cause: in E2 the ring count m_i^b was
@@ -436,7 +436,7 @@ above (results/b78f984897, 246b4deb3e, a2531ecb83, 6397283d7d) are superseded; H
 re-evaluated on the reruns, and the gate benchmark is rerun with the corrected E2. The
 superseded directories stay in results/ for the record.
 
-## 2026-10-05 10:30 Clonality in Spatial Perturb-seq and Perturb-DBiT (exploratory)
+## 2026-10-05 07:56 Clonality in Spatial Perturb-seq and Perturb-DBiT (exploratory)
 
 Spatial Perturb-seq (chip B03018A2 and others; reports/audit/spatial_perturbseq/clonality.md):
 all guide-carrying cells are concentrated at the AAV injection site, so pairs of assigned
@@ -457,11 +457,11 @@ intra-lesion mixing; it is reported as exploratory only.
 
 Correction to the A5 entry: results directories are keyed by the configuration hash only, so
 the E2 reruns overwrote results/246b4deb3e, b78f984897, a2531ecb83 and 6397283d7d in place;
-the superseded numbers survive only in this notebook (entries of 09:00 and 09:30) and in the
+the superseded numbers survive only in this notebook (entries of 07:47 and 07:50) and in the
 git history of the calibration JSON files. From this commit on, every results directory also
 records the git revision that produced it (code_version.txt).
 
-## 2026-10-05 11:30 Corrected E2 (A5): gate fails; amendment A6 (spatially clustered SEs)
+## 2026-10-05 08:03 Corrected E2 (A5): gate fails; amendment A6 (spatially clustered SEs)
 
 Gate rerun with the A5 code (results/a78cc33a76, overwritten in place): spillover NTC false
 positives at p < 0.05 are now 0.10 to 0.26 for E2 and E2+basis in rings 1 and 2 under the
@@ -471,7 +471,7 @@ clonal and "everything" scenarios (ring 2: 0.24 / 0.22 clonal, 0.26 / 0.23 every
 the spurious precision from clone-mates but exposed the next problem: HC1 standard errors treat
 the few recipients around one clone as independent, while their expression is correlated
 through the shared niche. The gate criterion (E2+basis within [0.03, 0.08] wherever plain E2
-or E1 exceed 0.10 under clonal assignment) is therefore not met, and under the 08:10
+or E1 exceed 0.10 under clonal assignment) is therefore not met, and under the 07:42
 pre-registration E2 spillover results are not used for claims.
 
 Corrected Perturb-FISH E2+basis (results/246b4deb3e, A5 code): NTC p < 0.05: autonomous
@@ -484,7 +484,7 @@ with E1, E2+basis and E2+basis+clustered SEs; the same criterion applies. If A6 
 gate, the real-data E2 runs are repeated with it; if not, the manuscript reports E1 with local
 tiles as the only calibrated spillover estimator and its null result.
 
-## 2026-10-05 12:10 A6 fails the gate; amendment A7 (permutation inference for E2)
+## 2026-10-05 08:06 A6 fails the gate; amendment A7 (permutation inference for E2)
 
 Gate with A6 (results/bench_spatial3.log): spatially clustered SEs raise, not lower, the NTC
 false-positive rate of E2+basis in the clonal scenario (ring 2: 0.29 vs 0.22; ring 1: 0.18 vs
@@ -502,3 +502,10 @@ normal on (t_obs - mean t_null) / sd t_null), identification requires at least
 max(20, n_perm / 2) valid permutations, and the CI is the HC1 SE rescaled by sd t_null.
 Covariates and the spatial basis are kept (they still adjust the point estimate). The gate
 criterion is unchanged; if A7 passes, the real-data E2 runs are repeated with it.
+
+## 2026-10-05 08:12 Correction of entry times
+
+The clock times in today's headings from 07:42 onward were first written as estimates and
+were wrong (they ran ahead of the clock by up to four hours). They have been replaced by the
+times of the git commits that first contained each entry (git log, Europe/Paris). The order
+of entries and their content are unchanged.

@@ -1,0 +1,2 @@
+{"scenario": "no_effect", "rep": 0, "seconds": 32.0, "n_cells": 30000, "n_perturbed": 3123, "n_ntc": 1377, "n_misassigned": 0}
+{"scenario": "no_effect", "rep": 1, "seconds": 31.2, "n_cells": 30000, "n_perturbed": 3183, "n_ntc": 1317, "n_misassigned": 0}
