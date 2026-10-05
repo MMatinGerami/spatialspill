@@ -1,0 +1,9 @@
+scenario,rep,seconds,n_cells,n_perturbed,n_ntc,n_misassigned
+no_effect,0,6.5,30000,3123,1377,0
+no_effect,1,5.9,30000,3183,1317,0
+spill,0,5.9,30000,3123,1377,0
+spill,1,6.2,30000,3183,1317,0
+spill_clonal,0,9.0,30000,2317,877,0
+spill_clonal,1,9.0,30000,2355,873,0
+everything,0,9.0,30000,2346,898,50
+everything,1,8.9,30000,2396,885,53

@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "spatialspill: calibrated estimation of cell-autonomous and spillover effects in spatial CRISPR screens"
+authors:
+  - family-names: Gerami
+    given-names: Matin
+    email: mmatin.gerami@gmail.com
+    affiliation: "Universite d'Evry Paris-Saclay"
+version: 0.1.0
+date-released: 2026-10-05
+license: MIT
+repository-code: https://github.com/MMatinGerami/spatialspill
+keywords:
+  - spatial transcriptomics
+  - CRISPR screens
+  - causal inference
+  - interference
+  - Perturb-seq

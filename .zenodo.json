@@ -1,0 +1,14 @@
+{
+  "title": "spatialspill: calibrated estimation of cell-autonomous and spillover effects in spatial CRISPR screens",
+  "upload_type": "software",
+  "description": "Estimands, estimators (stratified permutation, regression adjustment with spatial basis, augmented IPW, GNN counterfactuals), a ground-truth simulator, an artifact detector and loaders for five spatial CRISPR screen datasets, with pre-registered real-data analyses and a lab notebook. See README.md, STATUS.md and CRITIQUE.md for what was and was not achieved.",
+  "creators": [
+    {"name": "Gerami, Matin", "affiliation": "Universite d'Evry Paris-Saclay"}
+  ],
+  "license": "MIT",
+  "keywords": ["spatial transcriptomics", "CRISPR screens", "causal inference", "interference", "Perturb-seq", "spillover"],
+  "related_identifiers": [
+    {"identifier": "https://github.com/MMatinGerami/spatialspill", "relation": "isSupplementTo", "scheme": "url"}
+  ],
+  "access_right": "open"
+}

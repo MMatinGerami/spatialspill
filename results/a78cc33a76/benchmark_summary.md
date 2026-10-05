@@ -1,0 +1,44 @@
+# Simulator benchmark (geometry: perturb_fish)
+
+| scenario     | estimator   | kind       |   ring |   null_fpr_q |   null_cov95 |   ntc_cov95 |   ntc_fpr_p05 |   power_q |   auroc |   fdp_q |   n_tests |
+|:-------------|:------------|:-----------|-------:|-------------:|-------------:|------------:|--------------:|----------:|--------:|--------:|----------:|
+| everything   | E1          | spillover  |      2 |        0.021 |        0.926 |       0.944 |         0.054 |     0.079 |   0.739 |   0.708 |       960 |
+| everything   | E2          | autonomous |     -1 |        0.012 |        0.938 |       0.937 |         0.063 |     0.518 |   0.843 |   0.242 |      1500 |
+| everything   | E2          | spillover  |      0 |        0.008 |        0.935 |       0.933 |         0.067 |     0.005 |   0.566 |   0.944 |      1500 |
+| everything   | E2          | spillover  |      1 |        0.004 |        0.935 |       0.932 |         0.068 |     0.023 |   0.623 |   0.722 |      1500 |
+| everything   | E2          | spillover  |      2 |        0.007 |        0.93  |       0.923 |         0.078 |     0.096 |   0.723 |   0.541 |      1500 |
+| everything   | E2_spatial  | autonomous |     -1 |        0.004 |        0.94  |       0.945 |         0.055 |     0.435 |   0.834 |   0.107 |      1500 |
+| everything   | E2_spatial  | spillover  |      0 |        0.001 |        0.935 |       0.943 |         0.057 |     0     |   0.555 |   1     |      1500 |
+| everything   | E2_spatial  | spillover  |      1 |        0.003 |        0.945 |       0.945 |         0.055 |     0.005 |   0.597 |   0.75  |      1500 |
+| everything   | E2_spatial  | spillover  |      2 |        0.002 |        0.929 |       0.927 |         0.073 |     0.077 |   0.707 |   0.31  |      1500 |
+| no_effect    | E1          | autonomous |     -1 |        0.001 |        0.947 |       0.95  |         0.053 |   nan     | nan     |   1     |      1500 |
+| no_effect    | E1          | spillover  |      1 |        0.008 |        0.948 |     nan     |       nan     |   nan     | nan     |   1     |       750 |
+| no_effect    | E1          | spillover  |      2 |        0.007 |        0.936 |       0.924 |         0.07  |   nan     | nan     |   1     |      1500 |
+| no_effect    | E2          | autonomous |     -1 |        0.003 |        0.942 |       0.945 |         0.055 |   nan     | nan     |   1     |      1500 |
+| no_effect    | E2          | spillover  |      0 |        0.044 |        0.844 |       0.833 |         0.167 |   nan     | nan     |   1     |       120 |
+| no_effect    | E2          | spillover  |      1 |        0.036 |        0.876 |       0.867 |         0.132 |   nan     | nan     |   1     |      1080 |
+| no_effect    | E2          | spillover  |      2 |        0.011 |        0.923 |       0.913 |         0.087 |   nan     | nan     |   1     |      1500 |
+| no_effect    | E2_spatial  | autonomous |     -1 |        0.013 |        0.941 |       0.951 |         0.049 |   nan     | nan     |   1     |      1500 |
+| no_effect    | E2_spatial  | spillover  |      0 |        0.044 |        0.842 |       0.817 |         0.183 |   nan     | nan     |   1     |       120 |
+| no_effect    | E2_spatial  | spillover  |      1 |        0.05  |        0.889 |       0.879 |         0.121 |   nan     | nan     |   1     |      1080 |
+| no_effect    | E2_spatial  | spillover  |      2 |        0.019 |        0.927 |       0.918 |         0.082 |   nan     | nan     |   1     |      1500 |
+| spill        | E1          | autonomous |     -1 |        0.01  |        0.94  |       0.942 |         0.058 |     0.813 |   0.934 |   0.117 |      1500 |
+| spill        | E1          | spillover  |      1 |        0.024 |        0.936 |     nan     |       nan     |     0.216 |   0.734 |   0.366 |       750 |
+| spill        | E1          | spillover  |      2 |        0.016 |        0.937 |       0.925 |         0.075 |     0.18  |   0.703 |   0.554 |      1500 |
+| spill        | E2          | autonomous |     -1 |        0.012 |        0.944 |       0.942 |         0.058 |     0.832 |   0.938 |   0.126 |      1500 |
+| spill        | E2          | spillover  |      0 |        0.075 |        0.838 |       0.85  |         0.15  |     0.062 |   0.653 |   0.962 |       120 |
+| spill        | E2          | spillover  |      1 |        0.056 |        0.883 |       0.843 |         0.157 |     0.322 |   0.737 |   0.604 |      1080 |
+| spill        | E2          | spillover  |      2 |        0.027 |        0.919 |       0.908 |         0.092 |     0.192 |   0.707 |   0.651 |      1500 |
+| spill        | E2_spatial  | autonomous |     -1 |        0.018 |        0.946 |       0.948 |         0.053 |     0.826 |   0.934 |   0.175 |      1500 |
+| spill        | E2_spatial  | spillover  |      0 |        0.075 |        0.862 |       0.9   |         0.1   |     0.062 |   0.689 |   0.955 |       120 |
+| spill        | E2_spatial  | spillover  |      1 |        0.054 |        0.888 |       0.882 |         0.118 |     0.316 |   0.737 |   0.605 |      1080 |
+| spill        | E2_spatial  | spillover  |      2 |        0.028 |        0.927 |       0.918 |         0.082 |     0.224 |   0.711 |   0.613 |      1500 |
+| spill_clonal | E1          | spillover  |      2 |        0.026 |        0.926 |       0.948 |         0.046 |     0.117 |   0.727 |   0.737 |       930 |
+| spill_clonal | E2          | autonomous |     -1 |        0.01  |        0.93  |       0.925 |         0.075 |     0.574 |   0.849 |   0.198 |      1500 |
+| spill_clonal | E2          | spillover  |      0 |        0.01  |        0.924 |       0.928 |         0.073 |     0.028 |   0.553 |   0.883 |      1500 |
+| spill_clonal | E2          | spillover  |      1 |        0.01  |        0.929 |       0.918 |         0.082 |     0.056 |   0.604 |   0.789 |      1500 |
+| spill_clonal | E2          | spillover  |      2 |        0.007 |        0.936 |       0.939 |         0.061 |     0.137 |   0.696 |   0.5   |      1500 |
+| spill_clonal | E2_spatial  | autonomous |     -1 |        0.005 |        0.932 |       0.931 |         0.069 |     0.51  |   0.842 |   0.115 |      1500 |
+| spill_clonal | E2_spatial  | spillover  |      0 |        0.006 |        0.928 |       0.933 |         0.068 |     0.028 |   0.559 |   0.829 |      1500 |
+| spill_clonal | E2_spatial  | spillover  |      1 |        0.003 |        0.938 |       0.931 |         0.069 |     0.04  |   0.58  |   0.667 |      1500 |
+| spill_clonal | E2_spatial  | spillover  |      2 |        0.005 |        0.944 |       0.942 |         0.058 |     0.119 |   0.658 |   0.504 |      1500 |
