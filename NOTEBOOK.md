@@ -460,3 +460,26 @@ the E2 reruns overwrote results/246b4deb3e, b78f984897, a2531ecb83 and 6397283d7
 the superseded numbers survive only in this notebook (entries of 09:00 and 09:30) and in the
 git history of the calibration JSON files. From this commit on, every results directory also
 records the git revision that produced it (code_version.txt).
+
+## 2026-10-05 11:30 Corrected E2 (A5): gate fails; amendment A6 (spatially clustered SEs)
+
+Gate rerun with the A5 code (results/a78cc33a76, overwritten in place): spillover NTC false
+positives at p < 0.05 are now 0.10 to 0.26 for E2 and E2+basis in rings 1 and 2 under the
+clonal and "everything" scenarios (ring 2: 0.24 / 0.22 clonal, 0.26 / 0.23 everything) and
+0.11 to 0.16 even in the plain spill scenario; autonomous stays at 0.05 to 0.06; E1 stays at
+0.05 to 0.08 where identified. Identifying the ring coefficient from recipients only removed
+the spurious precision from clone-mates but exposed the next problem: HC1 standard errors treat
+the few recipients around one clone as independent, while their expression is correlated
+through the shared niche. The gate criterion (E2+basis within [0.03, 0.08] wherever plain E2
+or E1 exceed 0.10 under clonal assignment) is therefore not met, and under the 08:10
+pre-registration E2 spillover results are not used for claims.
+
+Corrected Perturb-FISH E2+basis (results/246b4deb3e, A5 code): NTC p < 0.05: autonomous
+0.078, rings 0.171 / 0.079 / 0.067; at q < 0.10 spillover hits 2,249 with an NTC-estimated FDP
+of 0.53 (pooled over rings; per-ring table printed in the log of this entry). H3' fails.
+
+Amendment A6 (declared before running): standard errors clustered by sample x 100 um spatial
+tile (cluster-robust with hundreds of clusters) in E2, point estimates unchanged. Gate rerun
+with E1, E2+basis and E2+basis+clustered SEs; the same criterion applies. If A6 passes the
+gate, the real-data E2 runs are repeated with it; if not, the manuscript reports E1 with local
+tiles as the only calibrated spillover estimator and its null result.

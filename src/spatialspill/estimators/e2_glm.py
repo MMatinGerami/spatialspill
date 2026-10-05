@@ -14,6 +14,8 @@ distribution (cluster degrees of freedom when at least ``min_clusters`` samples 
 else HC1 with residual degrees of freedom); the permutation null of E1 is not repeated here, so the mandatory NTC
 calibration check for E2 is the empirical false-positive rate over NTC pseudo-targets.
 
+``cluster_tile_um`` > 0 clusters the robust standard errors by sample x spatial tile instead
+of by sample, so that recipients sharing a niche are one cluster (amendment A6).
 ``spatial_basis`` > 0 adds, per sample, that many Gaussian radial basis functions centred on
 k-means centres of the coordinates (bandwidth = median centre spacing unless given). This is
 the pre-registered "spatial random effect" in spline form: it absorbs smooth niche variation
@@ -79,7 +81,9 @@ class E2GLM(Estimator):
         report_by_cell_type: bool = True,
         spatial_basis: int = 0,
         spatial_bandwidth_um: float | None = None,
+        cluster_tile_um: float = 0.0,
     ) -> None:
+        self.cluster_tile_um = cluster_tile_um
         self.spatial_basis = spatial_basis
         self.spatial_bandwidth_um = spatial_bandwidth_um
         self.strata_keys = strata_keys
@@ -153,6 +157,15 @@ class E2GLM(Estimator):
         )
         ct = obs["cell_type"].astype(str).to_numpy()
         sample = obs["sample"].astype(str).to_numpy()
+        if self.cluster_tile_um > 0:
+            # spatially clustered standard errors: cells in the same sample and tile form a
+            # cluster, so correlated recipients around one clone are not treated as independent
+            xy_all = np.asarray(adata.obsm["spatial"], dtype=float)
+            tx = np.floor(xy_all[:, 0] / self.cluster_tile_um).astype(int)
+            ty = np.floor(xy_all[:, 1] / self.cluster_tile_um).astype(int)
+            cluster_all = np.array([f"{s_}|{a_}|{b_}" for s_, a_, b_ in zip(sample, tx, ty)])
+        else:
+            cluster_all = sample
         groups_out = [*sorted(set(ct)), "all"] if self.report_by_cell_type else ["all"]
         rows: list[dict[str, object]] = []
         n_bins = exposure.n_bins
@@ -190,7 +203,7 @@ class E2GLM(Estimator):
                 n_t = int(own[idx].sum())
                 n_c = int((~own[idx]).sum())
                 ring_n = [int((M[idx][:, b] >= 1).sum()) for b in range(n_bins)]
-                cluster = sample[idx] if self.cluster_by_sample else None
+                cluster = cluster_all[idx] if self.cluster_by_sample else None
                 if cluster is not None and len(np.unique(cluster)) < self.min_clusters:
                     cluster = None  # too few clusters for a cluster-robust SE; fall back to HC1
                 B, SE, df = _ols_multi(X, Y_all[idx], cluster)

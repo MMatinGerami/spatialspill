@@ -101,6 +101,13 @@ def main() -> int:
                     )
                 elif est_name == "E2":
                     est = E2GLM(min_cells=int(cfg.min_cells), groups=gcfg)
+                elif est_name == "E2_spatial_cl":
+                    est = E2GLM(
+                        min_cells=int(cfg.min_cells),
+                        groups=gcfg,
+                        spatial_basis=int(cfg.get("spatial_basis", 30)),
+                        cluster_tile_um=float(cfg.get("cluster_tile_um", 100.0)),
+                    )
                 elif est_name == "E2_spatial":
                     est = E2GLM(
                         min_cells=int(cfg.min_cells),

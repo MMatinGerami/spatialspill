@@ -97,3 +97,19 @@ def test_e2_ring_coefficients_ignore_own_cell_neighbourhoods():
     ]
     assert len(r) > 0
     assert (r["pvalue"] > 1e-4).all()
+
+
+def test_e2_cluster_tiles_give_larger_se_for_clustered_recipients():
+    a = make_toy(n=3000, n_genes=4, n_samples=1, seed=31, field_um=2000.0, p_perturbed=0.3)
+    exp = compute_exposure(a, [0, 20, 40])
+    Y = lognorm(a)
+    g = GroupConfig(control_policy="unperturbed", clean_controls=False)
+    plain = E2GLM(min_cells=3, groups=g).fit(a, exp, Y, list(a.var_names)).df
+    clus = E2GLM(min_cells=3, groups=g, cluster_tile_um=100.0).fit(a, exp, Y, list(a.var_names)).df
+    assert clus["identified"].sum() > 0
+    m = plain.merge(
+        clus, on=["target", "kind", "ring", "cell_type", "outcome"], suffixes=("_p", "_c")
+    )
+    m = m[m["identified_p"] & m["identified_c"]]
+    assert np.isfinite(m["se_c"]).all()
+    assert abs(m["estimate_p"] - m["estimate_c"]).max() < 1e-9  # same point estimates

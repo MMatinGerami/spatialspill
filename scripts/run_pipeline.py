@@ -117,6 +117,7 @@ def main() -> int:
                 min_cells=int(cfg.get("min_cells", 5)),
                 groups=gcfg,
                 spatial_basis=int(cfg.get("spatial_basis", 0)),
+                cluster_tile_um=float(cfg.get("cluster_tile_um", 0.0)),
             )
         else:
             raise KeyError(est_name)
