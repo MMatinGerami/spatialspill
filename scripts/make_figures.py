@@ -20,6 +20,7 @@ import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
+RES = ROOT / "results"
 FIG = ROOT / "paper" / "figures"
 TAB = ROOT / "paper" / "tables"
 
@@ -198,6 +199,71 @@ def tables(fish: Path, multi: Path) -> None:
     (TAB / "real_data_summary.tex").write_text(df.round(3).to_latex(index=False))
 
 
+def fig_power_ablation_sibling() -> None:
+    """Second-pass outputs: power grid figure, ablation table, sibling benchmark table."""
+    runs = sorted(RES.glob("*/"), key=lambda d: d.stat().st_mtime)
+    pw = [d for d in runs if (d / "power_summary.csv").exists()]
+    if pw:
+        import shutil
+
+        shutil.copy(pw[-1] / "power_grid.png", FIG / "fig6_power.png")
+        shutil.copy(pw[-1] / "power_summary.csv", TAB / "power_summary.csv")
+    ab = [
+        d
+        for d in runs
+        if (
+            (d / "benchmark_summary.csv").exists()
+            and "benchmark_ablation" in (d / "config.yaml").read_text()
+        )
+        or ((d / "config.yaml").exists() and "E1_sample_strata" in (d / "config.yaml").read_text())
+    ]
+    if ab:
+        s = pd.read_csv(ab[-1] / "benchmark_summary.csv")
+        sp = s[(s["kind"] == "spillover") & (s["ring"] > 0)]
+        agg = (
+            sp.groupby(["scenario", "estimator"])[["ntc_fpr_p05", "power_q", "fdp_q", "n_tests"]]
+            .mean()
+            .round(2)
+        )
+        agg.to_csv(TAB / "ablation.csv")
+        (TAB / "ablation.tex").write_text(
+            agg.reset_index()
+            .rename(
+                columns={
+                    "ntc_fpr_p05": "NTC FP (p<0.05)",
+                    "power_q": "power (q<0.1)",
+                    "fdp_q": "FDP (q<0.1)",
+                    "n_tests": "tests",
+                }
+            )
+            .to_latex(index=False, na_rep="--", float_format="%.2f", escape=True)
+        )
+    sb = [d for d in runs if (d / "sibling_benchmark.csv").exists()]
+    if sb:
+        df = pd.read_csv(sb[-1] / "sibling_benchmark.csv")
+        agg = (
+            df.groupby(["scenario", "detection"])[
+                ["pi", "r_unc_spill", "r_cor_spill", "r_unc_auto", "r_cor_auto"]
+            ]
+            .mean()
+            .round(2)
+        )
+        agg.to_csv(TAB / "sibling.csv")
+        (TAB / "sibling.tex").write_text(
+            agg.reset_index()
+            .rename(
+                columns={
+                    "pi": "pi hat",
+                    "r_unc_spill": "r(unc., spill)",
+                    "r_cor_spill": "r(corr., spill)",
+                    "r_unc_auto": "r(unc., auto)",
+                    "r_cor_auto": "r(corr., auto)",
+                }
+            )
+            .to_latex(index=False, float_format="%.2f", escape=True)
+        )
+
+
 def numbers(fish: Path, multi: Path, gate: Path | None) -> None:
     """LaTeX macros for every number quoted in the manuscript prose."""
     macros: dict[str, object] = {}
@@ -294,6 +360,37 @@ def numbers(fish: Path, multi: Path, gate: Path | None) -> None:
                 add(f"{tag}ClonRatio", float(c.loc[ds, "ratio"]), "{:.0f}")
                 add(f"{tag}ClonZ", float(c.loc[ds, "clonality_z"]), "{:.0f}")
                 add(f"{tag}MisCor", float(c.loc[ds, "misassign_cor"]), "{:.2f}")
+    pw = TAB / "power_summary.csv"
+    if pw.exists():
+        ps = pd.read_csv(pw)
+        for est, tag in (("E1_tile", "EOneTile"), ("E2_spatial_perm", "ETwoPerm")):
+            sub = ps[ps["estimator"] == est]
+            for sd, sdtag in ((0.5, "Half"), (1.0, "One"), (2.0, "Two")):
+                ss = sub[sub["spill_lfc_sd"] == sd]
+                if len(ss):
+                    ok = ss[ss["power"] >= 0.8]
+                    add(
+                        f"Power{tag}{sdtag}MinRecipients",
+                        float(ok["ntc_recipients"].min()) if len(ok) else None,
+                        "{:.0f}",
+                    )
+                    add(f"Power{tag}{sdtag}MaxPower", float(ss["power"].max()), "{:.2f}")
+                    add(
+                        f"Power{tag}{sdtag}MaxRecipients",
+                        float(ss["ntc_recipients"].max()),
+                        "{:.0f}",
+                    )
+    sbf = TAB / "sibling.csv"
+    if sbf.exists():
+        sb = pd.read_csv(sbf)
+        row = sb[(sb["scenario"] == "clonal") & (sb["detection"] == 0.4)]
+        if len(row):
+            r = row.iloc[0]
+            add("SibPiClonalLow", float(r["pi"]), "{:.2f}")
+            add("SibRUncAuto", float(r["r_unc_auto"]), "{:.2f}")
+            add("SibRCorAuto", float(r["r_cor_auto"]), "{:.2f}")
+            add("SibRUncSpill", float(r["r_unc_spill"]), "{:.2f}")
+            add("SibRCorSpill", float(r["r_cor_spill"]), "{:.2f}")
     lines = [f"\\newcommand{{\\{k}}}{{{v}}}" for k, v in macros.items()]
     (TAB / "numbers.tex").write_text("\n".join(lines) + "\n")
 
@@ -313,6 +410,7 @@ def main() -> int:
     fig_benchmark(Path(a.bench) if a.bench else None, Path(a.gate) if a.gate else None)
     fig_ranking(fish)
     tables(fish, multi)
+    fig_power_ablation_sibling()
     numbers(fish, multi, Path(a.gate) if a.gate else None)
     print("figures in", FIG, "tables in", TAB)
     return 0

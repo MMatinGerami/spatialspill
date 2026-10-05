@@ -621,3 +621,11 @@ target by projection on the autonomous profile across genes, and the corrected s
 profile is the residual rescaled by 1 / (1 - pi). On the simulator's clonal and misassignment
 scenarios the test is whether the corrected unassigned-recipient estimates have smaller bias
 than the uncorrected ones and whether pi tracks the planted misassignment rate.
+
+## 2026-10-05 09:50 Clean-clone check
+
+A fresh `git clone` into a scratch directory followed by `uv sync --extra torch`, `make test`,
+`make smoke` and `uv run mypy` succeeded (59 tests passed, 6 skipped for absent raw data,
+smoke pipeline produced results/2018dbfee2, mypy clean). The full `make reproduce` was not run
+from the clone because it needs about 20 GB of downloads and many hours; its stages are the
+same Makefile targets that produced every result in this repository.

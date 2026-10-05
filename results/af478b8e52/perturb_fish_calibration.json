@@ -1,4 +1,3 @@
-[perturb_fish] 187215 units x 500 features
 {
   "fdr": 0.1,
   "n_tests": 2500,
@@ -42,4 +41,3 @@
   "dataset": "perturb_fish",
   "targets": 39
 }
-results in results/af478b8e52

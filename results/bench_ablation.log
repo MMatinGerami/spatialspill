@@ -1,1 +1,48 @@
 {"scenario": "spill", "rep": 0, "seconds": 87.9, "n_cells": 30000, "n_perturbed": 3100, "n_ntc": 1400, "n_misassigned": 0, "median_ntc_recipients_per_target": 73.0}
+{"scenario": "spill", "rep": 1, "seconds": 84.0, "n_cells": 30000, "n_perturbed": 3162, "n_ntc": 1338, "n_misassigned": 0, "median_ntc_recipients_per_target": 76.0}
+{"scenario": "spill_clonal", "rep": 0, "seconds": 79.4, "n_cells": 30000, "n_perturbed": 2271, "n_ntc": 935, "n_misassigned": 0, "median_ntc_recipients_per_target": 12.0}
+{"scenario": "spill_clonal", "rep": 1, "seconds": 78.7, "n_cells": 30000, "n_perturbed": 2270, "n_ntc": 933, "n_misassigned": 0, "median_ntc_recipients_per_target": 12.0}
+{"scenario": "spill_density", "rep": 0, "seconds": 82.4, "n_cells": 30000, "n_perturbed": 3100, "n_ntc": 1400, "n_misassigned": 0, "median_ntc_recipients_per_target": 73.0}
+{"scenario": "spill_density", "rep": 1, "seconds": 83.8, "n_cells": 30000, "n_perturbed": 3162, "n_ntc": 1338, "n_misassigned": 0, "median_ntc_recipients_per_target": 76.0}
+         scenario         estimator        kind  ring  null_fpr_q  null_cov95  ntc_cov95  ntc_fpr_p05  power_q  auroc  fdp_q  n_tests
+0           spill     E0_pseudobulk  autonomous  -1.0       0.028       0.926      0.950        0.050    0.878  0.956  0.236   1500.0
+1           spill                E1  autonomous  -1.0       0.010       0.942      0.948        0.053    0.747  0.933  0.124   1500.0
+2           spill                E1   spillover   1.0       0.035       0.927        NaN          NaN    0.164  0.687  0.316    600.0
+3           spill                E1   spillover   2.0       0.012       0.948      0.950        0.050    0.163  0.688  0.326   1500.0
+4           spill  E1_sample_strata  autonomous  -1.0       0.013       0.943      0.948        0.054    0.746  0.933  0.151   1500.0
+5           spill  E1_sample_strata   spillover   1.0       0.024       0.917        NaN          NaN    0.165  0.691  0.210    630.0
+6           spill  E1_sample_strata   spillover   2.0       0.012       0.937      0.942        0.056    0.160  0.673  0.349   1500.0
+7           spill          E2_nocov  autonomous  -1.0       0.014       0.935      0.942        0.058    0.767  0.937  0.145   1500.0
+8           spill          E2_nocov   spillover   0.0         NaN         NaN        NaN          NaN    0.490    NaN  0.000    180.0
+9           spill          E2_nocov   spillover   1.0       0.060       0.858      0.883        0.117    0.334  0.719  0.348    840.0
+10          spill          E2_nocov   spillover   2.0       0.027       0.915      0.919        0.081    0.221  0.663  0.429   1500.0
+11          spill        E2_spatial  autonomous  -1.0       0.010       0.947      0.952        0.048    0.746  0.939  0.116   1500.0
+12          spill        E2_spatial   spillover   0.0         NaN         NaN        NaN          NaN    0.451    NaN  0.000    180.0
+13          spill        E2_spatial   spillover   1.0       0.055       0.871      0.908        0.092    0.293  0.715  0.338    840.0
+14          spill        E2_spatial   spillover   2.0       0.024       0.922      0.924        0.076    0.208  0.655  0.418   1500.0
+15   spill_clonal     E0_pseudobulk  autonomous  -1.0       0.006       0.933      0.940        0.057    0.789  0.943  0.087   1500.0
+16   spill_clonal                E1   spillover   2.0       0.016       0.928      0.940        0.063    0.198  0.679  0.521    840.0
+17   spill_clonal  E1_sample_strata   spillover   2.0       0.013       0.929      0.951        0.040    0.191  0.665  0.436    900.0
+18   spill_clonal          E2_nocov  autonomous  -1.0       0.006       0.947      0.953        0.047    0.774  0.933  0.088   1500.0
+19   spill_clonal          E2_nocov   spillover   1.0       0.054       0.846        NaN          NaN    0.500  0.823  0.778    150.0
+20   spill_clonal          E2_nocov   spillover   2.0       0.067       0.848      0.814        0.186    0.430  0.724  0.642   1020.0
+21   spill_clonal        E2_spatial  autonomous  -1.0       0.005       0.946      0.953        0.047    0.730  0.921  0.086   1500.0
+22   spill_clonal        E2_spatial   spillover   1.0       0.046       0.871        NaN          NaN    0.500  0.822  0.667    150.0
+23   spill_clonal        E2_spatial   spillover   2.0       0.046       0.865      0.839        0.161    0.380  0.704  0.586   1020.0
+24  spill_density     E0_pseudobulk  autonomous  -1.0       0.030       0.924      0.942        0.055    0.848  0.950  0.244   1500.0
+25  spill_density                E1  autonomous  -1.0       0.009       0.944      0.951        0.048    0.762  0.926  0.092   1500.0
+26  spill_density                E1   spillover   1.0       0.045       0.900        NaN          NaN    0.172  0.663  0.340    600.0
+27  spill_density                E1   spillover   2.0       0.013       0.944      0.950        0.051    0.162  0.673  0.332   1500.0
+28  spill_density  E1_sample_strata  autonomous  -1.0       0.011       0.948      0.952        0.048    0.751  0.919  0.124   1500.0
+29  spill_density  E1_sample_strata   spillover   1.0       0.046       0.903        NaN          NaN    0.194  0.680  0.303    630.0
+30  spill_density  E1_sample_strata   spillover   2.0       0.014       0.943      0.946        0.055    0.171  0.679  0.337   1500.0
+31  spill_density          E2_nocov  autonomous  -1.0       0.011       0.946      0.946        0.054    0.767  0.926  0.117   1500.0
+32  spill_density          E2_nocov   spillover   0.0         NaN         NaN        NaN          NaN    0.373    NaN  0.000    180.0
+33  spill_density          E2_nocov   spillover   1.0       0.101       0.847      0.888        0.112    0.324  0.694  0.446    840.0
+34  spill_density          E2_nocov   spillover   2.0       0.027       0.922      0.920        0.080    0.218  0.675  0.432   1500.0
+35  spill_density        E2_spatial  autonomous  -1.0       0.012       0.945      0.948        0.052    0.757  0.929  0.117   1500.0
+36  spill_density        E2_spatial   spillover   0.0         NaN         NaN        NaN          NaN    0.412    NaN  0.000    180.0
+37  spill_density        E2_spatial   spillover   1.0       0.077       0.860      0.892        0.108    0.273  0.695  0.425    840.0
+38  spill_density        E2_spatial   spillover   2.0       0.022       0.932      0.936        0.064    0.197  0.673  0.404   1500.0
+results in results/5ce9d9d5a9
+DONE

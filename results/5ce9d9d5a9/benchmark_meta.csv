@@ -1,0 +1,7 @@
+scenario,rep,seconds,n_cells,n_perturbed,n_ntc,n_misassigned,median_ntc_recipients_per_target
+spill,0,87.9,30000,3100,1400,0,73.0
+spill,1,84.0,30000,3162,1338,0,76.0
+spill_clonal,0,79.4,30000,2271,935,0,12.0
+spill_clonal,1,78.7,30000,2270,933,0,12.0
+spill_density,0,82.4,30000,3100,1400,0,73.0
+spill_density,1,83.8,30000,3162,1338,0,76.0

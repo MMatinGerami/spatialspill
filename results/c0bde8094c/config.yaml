@@ -1,0 +1,22 @@
+clean_controls: true
+control_policy: ntc
+datasets:
+- perturb_fish
+distance_bins_um:
+- 0.0
+- 20.0
+- 40.0
+- 60.0
+fdr: 0.1
+graph:
+  kind: delaunay
+  max_edge_um: 50.0
+  radius_um: 30.0
+min_cells: 5
+n_perm: 200
+seed: 0
+strata:
+- sample
+- cell_type
+- tile
+tile_um: 250
