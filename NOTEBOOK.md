@@ -509,3 +509,27 @@ The clock times in today's headings from 07:42 onward were first written as esti
 were wrong (they ran ahead of the clock by up to four hours). They have been replaced by the
 times of the git commits that first contained each entry (git log, Europe/Paris). The order
 of entries and their content are unchanged.
+
+## 2026-10-05 08:20 A7 gate result (results/b4c9dbe669) and the final configuration
+
+E2 with the stratified permutation null (with or without the spatial basis), 30,000 cells, NTC
+recipients, clean controls, 100 permutations, 2 reps:
+- autonomous: NTC false positives at p < 0.05 0.04 to 0.06 in every scenario (passes); power
+  0.75 to 0.82, FDP 0.09 to 0.20 (E1: 0.12 where identified).
+- spillover ring 2: 0.07 (no effect, spill), 0.14 to 0.15 (clonal, everything); E1 0.05 to
+  0.08. Ring 1: 0.00 to 0.01 (over-conservative; the studentized null of sparse exposures is
+  heavy-tailed relative to the observed statistic), E1 not identified. Power at ring 2 under
+  clonal assignment 0.40 to 0.45 against E1's 0.12, at FDP 0.66 to 0.67.
+Gate criterion (within [0.03, 0.08] at every ring where plain E2 or E1 exceed 0.10 under
+clonal assignment): fails at ring 2 (0.14 to 0.15). Per the 07:42 pre-registration, E2
+spillover estimates are not used for claims in any variant (A5, A6, A7). E1 with local tile
+strata remains the only calibrated spillover estimator, and on Perturb-FISH it identifies
+2,000 to 7,500 tests at 150 to 400 um tiles with zero autonomous hits and 0 to 6 spillover hits.
+
+Final configuration for the manuscript: calibrated inference = E1 with 250 um tiles (primary,
+pre-registered tile size) and E1 global as the anticonservative reference; exploratory =
+E2 with spatial basis and permutation null, reported with the NTC-scaled expectation and the
+implied false discovery proportion next to every count, labelled exploratory. The E2
+permutation run on Perturb-FISH follows (configs/e2_perturb_fish_sb40_perm.yaml). Perturb-Multi
+E2 permutation is not run: 250 targets on 750,000 cells would take many hours for an
+estimator the gate rejected.
