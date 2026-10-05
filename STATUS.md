@@ -1,6 +1,6 @@
 # STATUS
 
-Last updated: 2026-10-05 08:36
+Last updated: 2026-10-05 09:00
 
 ## Achieved
 
@@ -35,11 +35,12 @@ Last updated: 2026-10-05 08:36
 
 ## Running or next
 
-- Amendment A7 (permutation inference for E2) implemented and gated: autonomous calibration
-  nominal, outer spillover ring 0.14 to 0.15 under clonal assignment (ceiling 0.08): E2 stays
-  exploratory. Exploratory E2 permutation run on Perturb-FISH and the 150-centre Perturb-Multi
-  run are in tmux (ss_e2perm, ss_e2b); figures, tables and the manuscript are regenerated from
-  them with `make paper` when they finish.
+- Done: E2 with permutation null on Perturb-FISH (results/197e22efb1): NTC rates nominal at
+  every ring on real data, 16 autonomous calls (expectation 8) and 7 spillover calls
+  (expectation 0) at q < 0.10. Manuscript, figures and tables regenerated from it
+  (paper/main.pdf compiles, no undefined references).
+- Still running: Perturb-Multi E2 with 150 centres (sensitivity only, tmux ss_e2b), then the
+  exploratory DBiT and Stereo-seq E2 runs queued behind it.
 - Not done, by design or by data: PyPI release, Zenodo deposit and public visibility (owner's
   calls); DepMap and Open Targets plausibility checks (no calibrated spillover hit set exists to
   check); systematic ablation table; undetected-sibling model; mask-based edge distance;

@@ -218,3 +218,13 @@ sequence in NOTEBOOK.md and judge it.
 
 Objection 5. "The repository is private, so none of this is verifiable." It is private until
 the owner reviews it (ADR-001); the single command to publish is in STATUS.md.
+
+## Closing note (2026-10-05)
+
+The strongest objection to the whole project is also its main result: on public in vivo spatial
+screens, with the tools built here, no spillover claim survives a calibrated null, and the
+autonomous signal of Perturb-FISH is weak once the niche is controlled. What the project
+delivers is the machinery and the evidence that the ad hoc designs in use are not calibrated,
+plus a documented path (A1 to A7) showing how each plausible fix behaved on simulated and real
+data. Whether that is a negative result or a methods contribution depends on what the field
+does with it; the repository is written so that a reader can check every step.
