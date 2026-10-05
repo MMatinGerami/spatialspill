@@ -1,6 +1,6 @@
 # STATUS
 
-Last updated: 2026-10-05 08:47
+Last updated: 2026-10-05 09:30
 
 ## Achieved
 
@@ -39,8 +39,12 @@ Last updated: 2026-10-05 08:47
   every ring on real data, 16 autonomous calls (expectation 8) and 7 spillover calls
   (expectation 0) at q < 0.10. Manuscript, figures and tables regenerated from it
   (paper/main.pdf compiles, no undefined references).
-- Still running: Perturb-Multi E2 with 150 centres (sensitivity only, tmux ss_e2b), then the
-  exploratory DBiT and Stereo-seq E2 runs queued behind it.
+- Done: Perturb-Multi E2 with 150 centres (results/fddb2ec60c; passes H1', no signal; used for
+  the manuscript's Perturb-Multi numbers), exploratory Stereo-seq E2 (results/df5156edac; no
+  signal beyond the null).
+- Still running at close: exploratory Perturb-DBiT E2 (tmux ss_dbit, results/e2_perturb_dbit.log;
+  pixel-level, 526 targets, 23 NTC pixels, so no calibration claim is possible). When it ends,
+  run `uv run python scripts/aggregate_results.py` and add its numbers to NOTEBOOK.
 - Not done, by design or by data: PyPI release, Zenodo deposit and public visibility (owner's
   calls); DepMap and Open Targets plausibility checks (no calibrated spillover hit set exists to
   check); systematic ablation table; undetected-sibling model; mask-based edge distance;
