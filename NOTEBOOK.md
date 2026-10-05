@@ -629,3 +629,56 @@ A fresh `git clone` into a scratch directory followed by `uv sync --extra torch`
 smoke pipeline produced results/2018dbfee2, mypy clean). The full `make reproduce` was not run
 from the clone because it needs about 20 GB of downloads and many hours; its stages are the
 same Makefile targets that produced every result in this repository.
+
+## 2026-10-05 10:05 Ablation, sibling-model benchmark, first bin-sensitivity run
+
+Ablation (results/5ce9d9d5a9; 30,000 cells, NTC recipients, clean controls, 2 reps):
+- Removing cell type from the strata (E1 sample-only) leaves NTC false positives at 0.04 to
+  0.06 and power unchanged: cell-type composition in this geometry is not what drives the
+  anticonservativeness, the clone niche is.
+- 250 um tile strata (E1_tile) identified no test at all at 15% assignment with clean
+  controls on 30,000 cells: with min_cells = 5 per stratum the tiles are too small for both
+  recipients and controls. On the real Perturb-FISH section (187,000 cells) they identify
+  2,000 to 7,500 tests. Tile strata are a large-section tool.
+- Removing covariates from E2 (E2_nocov) changes little in the plain scenario (NTC 0.08 vs
+  0.08 at ring 2) and raises FDP under the density effect (0.45 vs 0.42 at ring 1, 0.43 vs
+  0.40 at ring 2); under clonal assignment both are anticonservative (0.19 vs 0.16).
+- The space-blind pseudobulk baseline (E0) has autonomous FDP 0.24 against 0.12 for E1 at
+  equal power, i.e. ignoring space doubles the false discovery proportion even for the
+  autonomous contrast.
+The pre-written expectations held except for the cell-type one, which was wrong: its removal
+did not hurt here.
+
+Sibling-model benchmark (results/7ad0de187b; 20,000 cells, 10 targets, all spilling, 2 reps):
+with 40% of guide calls detected under clonal assignment, pi_hat = 0.33 and the unassigned-
+neighbour profile correlates 0.66 with the autonomous profile and 0.59 with the planted
+spillover; after correction the correlations are -0.04 and 0.87 (sign agreement 0.86 to 0.95).
+At 70% detection pi_hat = 0.19 (0.44 to -0.04, 0.78 to 0.89); at 100% pi_hat = 0.03 and the
+correction is neutral. Under barcode misassignment alone pi_hat stays at 0.04 to 0.06 and the
+correction is neutral, as expected: misassigned cells are labelled, not unassigned, so the
+model does not address them. The model does what it was built for: it recovers spillover
+direction from unassigned recipients when the problem is undetected siblings, and it does no
+harm when there is none.
+
+Bin sensitivity 1 (results/af478b8e52; E1, 250 um tiles, bins [0, 10, 20, 40, 60] um): 2,500
+identified tests (rings 2 and 3 only), NTC p < 0.05 fraction 0.028, 0 autonomous hits, 10
+spillover hits (NTC-scaled expectation 0.7). The pre-registered criterion ("fewer than 10")
+is missed by exactly one call; the calibration and the autonomous null are unchanged. The
+second binning is running.
+
+Exploratory (declared now): apply the sibling model to Perturb-FISH (all rings within 60 um,
+NTC reference) to report pi_hat per target and whether the corrected unassigned-recipient
+spillover profiles agree in sign with the E2 permutation NTC-recipient estimates.
+
+## 2026-10-05 10:15 Sibling model on Perturb-FISH (exploratory; results/25e7711dbb)
+
+Per-target pi_hat: median 0.57, interquartile range 0.42 to 0.72, three targets at 1.0 (IRF3,
+IRF5, MAP2K6), with 2,500 to 14,000 unassigned neighbours per target within 60 um. These values
+are far above any plausible sibling fraction (a few percent at most given 125 to 400 detected
+cells per target). Corrected profiles agree in sign with the E2 permutation NTC-recipient
+estimates in 51% of 15,500 target-gene pairs (uncorrected 54%; chance 50%), correlation 0.00.
+Interpretation: on real clonal data the "autonomous profile" (detected g cells minus distant
+NTC cells) is dominated by the clone's niche, which the unassigned neighbours share, so the
+projection reads niche as contamination. The model is identified on the simulator, where the
+autonomous profile is genotype, and not on Perturb-FISH, where it is niche. Recorded as a
+limitation; the fix (autonomous profile against local controls) is future work.

@@ -1,0 +1,14 @@
+{
+  "n_targets": 34,
+  "pi_median": 0.5761070251464844,
+  "pi_iqr": [
+    0.4236489236354828,
+    0.7172685712575912
+  ],
+  "pi_max": 1.0,
+  "n_pairs_compared": 15500,
+  "sign_agreement_corrected": 0.5066451612903226,
+  "sign_agreement_uncorrected": 0.5418709677419354,
+  "r_corrected": -0.0022211437024242057,
+  "r_uncorrected": 0.039979112414266986
+}

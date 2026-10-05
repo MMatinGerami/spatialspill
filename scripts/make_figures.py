@@ -391,6 +391,16 @@ def numbers(fish: Path, multi: Path, gate: Path | None) -> None:
             add("SibRCorAuto", float(r["r_cor_auto"]), "{:.2f}")
             add("SibRUncSpill", float(r["r_unc_spill"]), "{:.2f}")
             add("SibRCorSpill", float(r["r_cor_spill"]), "{:.2f}")
+    sr = sorted(RES.glob("*/sibling_real.json"), key=lambda f: f.stat().st_mtime)
+    if sr:
+        j = json.loads(sr[-1].read_text())
+        add("SibRealNTargets", int(j.get("n_targets", 0)))
+        add("SibRealPiMedian", j.get("pi_median"), "{:.2f}")
+        iqr = j.get("pi_iqr")
+        macros["SibRealPiIqr"] = f"{iqr[0]:.2f} to {iqr[1]:.2f}" if iqr else "n/a"
+        add("SibRealAgreeCor", j.get("sign_agreement_corrected"), "{:.2f}")
+        add("SibRealAgreeUnc", j.get("sign_agreement_uncorrected"), "{:.2f}")
+        add("SibRealRCor", j.get("r_corrected"), "{:.2f}")
     lines = [f"\\newcommand{{\\{k}}}{{{v}}}" for k, v in macros.items()]
     (TAB / "numbers.tex").write_text("\n".join(lines) + "\n")
 

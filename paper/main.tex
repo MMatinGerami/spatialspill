@@ -217,6 +217,80 @@ no spillover is detectable in the 209-gene liver panel with any configuration tr
 \label{fig:ranking}
 \end{figure}
 
+
+\subsection{Ablation}
+Table~\ref{tab:ablation} removes one ingredient at a time on the simulator. Dropping cell type
+from the strata leaves calibration and power unchanged in this geometry; dropping the
+covariates from the regression raises the false discovery proportion under a planted density
+effect; tile strata identify no test at all on 30{,}000 simulated cells (they need the
+187{,}000-cell real section to work); and the space-blind pseudobulk baseline doubles the false
+discovery proportion of the autonomous contrast relative to E1 at equal power.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Ablation on the simulator (spillover, outer rings; NTC recipients, clean controls).
+Source: \texttt{paper/tables/ablation.tex}.}
+\label{tab:ablation}
+\input{tables/ablation.tex}
+\end{table}
+
+\subsection{Power: what a screen would need}
+\label{sec:power}
+Figure~\ref{fig:power} gives power at $q<0.1$ for planted outer-ring spillover as a function of
+the median number of confirmed non-target recipients per target, for the calibrated E1 with
+tiles and for E2 with permutation null, over planted log fold changes of 0.5, 1 and 2 on 20\%
+of panel genes. With the Perturb-FISH geometry and 30{,}000 cells, E2 reaches 80\% power for
+an LFC of 2 only from about \PowerETwoPermTwoMinRecipients{} confirmed recipients per target
+(maximum power observed \PowerETwoPermTwoMaxPower{} at \PowerETwoPermTwoMaxRecipients), and
+for an LFC of 1 its best power is \PowerETwoPermOneMaxPower; E1 with tiles reaches
+\PowerEOneTileTwoMaxPower{} at best. Public screens have 5 to 50 non-target recipients per
+target in the outer rings. The design recommendation is direct: a spatial screen that aims at
+spillover needs non-targeting controls as a large share of its library (not the usual few
+percent) and several hundred confirmed non-target cells adjacent to each perturbation, or a
+way to use unassigned neighbours safely, which is the next section.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig6_power.png}
+\caption{Power to detect planted outer-ring spillover against the median number of confirmed
+non-target recipients per target (simulator on Perturb-FISH geometry, 30{,}000 cells, one
+replicate per grid cell). Dashed: 80\%. Source: \texttt{paper/tables/power\_summary.csv}.}
+\label{fig:power}
+\end{figure}
+
+\subsection{Recovering spillover from unassigned neighbours: the undetected-sibling model}
+\label{sec:sibling}
+Unassigned neighbours of a perturbed cell are a mixture of undetected siblings and true
+recipients. Treating their mean profile as $\pi\,a_g + (1-\pi)\,s_g$, with $a_g$ the autonomous
+profile measured on detected $g$ cells, $\pi$ is estimated by projection and the corrected
+spillover is the rescaled residual. On the simulator with 40\% guide detection under clonal
+assignment, $\hat\pi$ = \SibPiClonalLow; the unassigned-neighbour profile correlates
+\SibRUncAuto{} with the autonomous profile and \SibRUncSpill{} with the planted spillover, and
+after correction \SibRCorAuto{} and \SibRCorSpill{} (Table~\ref{tab:sibling}). With full
+detection the correction is neutral, and it does not address labelled misassignment. Applied to
+Perturb-FISH (exploratory), the model is not identified: \SibRealNTargets{} targets have a median
+$\hat\pi$ of \SibRealPiMedian{} (interquartile range \SibRealPiIqr), values far above any plausible
+sibling fraction among thousands of unassigned cells within 60~$\mu$m, and the corrected
+profiles agree in sign with the independent NTC-recipient E2 estimates in \SibRealAgreeCor{} of
+target-gene pairs (uncorrected \SibRealAgreeUnc, chance 0.5). The reason is the same niche
+effect as everywhere in this paper: the "autonomous profile" of detected $g$ cells against
+distant NTC cells is itself mostly a niche contrast, and unassigned neighbours share that niche,
+so the projection reads niche as sibling contamination. The model works when the autonomous
+profile is genotype (simulator) and fails when it is niche (real clonal screens); a version
+that estimates $a_g$ against local controls is the obvious next step and was not done here.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Sibling model on the simulator: estimated contamination $\hat\pi$ and correlations of
+the uncorrected and corrected unassigned-neighbour profiles with the planted spillover and
+autonomous profiles, by scenario and guide detection rate. Source:
+\texttt{paper/tables/sibling.tex}.}
+\label{tab:sibling}
+\input{tables/sibling.tex}
+\end{table}
+
 \subsection{Prediction from gene embeddings fails honestly}
 Leave-one-target-out kernel ridge regression from Replogle K562 Perturb-seq embeddings
 \citep{replogle2022} or GO embeddings predicts held-out autonomous profiles with mean

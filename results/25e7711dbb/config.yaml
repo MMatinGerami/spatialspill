@@ -1,0 +1,8 @@
+bins:
+- 0
+- 15
+- 30
+- 60
+compare: results/197e22efb1
+dataset: perturb_fish
+script: sibling_real
