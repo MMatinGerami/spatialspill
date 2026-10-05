@@ -1,57 +1,45 @@
 # STATUS
 
-Last updated: 2026-10-05 01:30 (paused; background runs continue in tmux)
+Last updated: 2026-10-05 12:15
 
 ## Achieved
 
-- Repository, locked environment, CI (lint, mypy, pytest with coverage gate, smoke pipeline
-  on a bundled Perturb-DBiT subset), pre-commit hooks, Makefile.
-- Dataset access verified and recorded with URLs, sizes and licences (data/README.md).
-  Downloaded: Perturb-Multi (14.2 GB), Perturb-DBiT (GSE319277 + Xenium companion files),
-  Perturb-map (GSE193460), Perturb-FISH tumour tables (Brain Image Library), Spatial
-  Perturb-seq (GSE274447). Five loaders into one schema, each validated.
-- Audits for Perturb-Multi, Perturb-FISH, Perturb-map, bundled DBiT (reports/audit/): guide
-  call rates, targets, NTC counts, density balance, three neighbour graphs, same-target
-  adjacency against a stratified permutation null.
-- Finding: same-guide cells are spatially clustered in every in vivo dataset (clonal growth or
-  local delivery), and unassigned neighbours of perturbed cells carry the perturbed
-  signature. Recipient policy changed accordingly (ADR-003).
-- docs/estimands.md (C1): estimands, assumptions, identification, assumption tests, artifact
-  signatures; all cited DOIs verified by scripts/check_citations.py.
-- Estimators E0 (neighbour t-test, pseudobulk DE baselines), E1 (stratified difference in
-  means, studentized permutation null, permutation-calibrated z), E2 (regression adjustment
-  with robust or clustered SEs), E3 (augmented IPW with Monte Carlo exposure probabilities),
-  E4 (GNN with interventional counterfactuals; ranking only, its SEs are anticonservative).
-- Bleed-through artifact detector (projection of first-ring profile on autonomous profile).
-- Embeddings (Replogle pseudobulk PCA, GO SVD, ESM2), held-out-target prediction (kernel
-  ridge, leave-one-target-out, permuted-embedding null), ligand-receptor enrichment and
-  niche-gene ranking modules, all unit-tested; not yet run on real estimates.
-- Real-data E1 on Perturb-FISH: three documented amendments. Global strata are
-  anticonservative at ring 0 (spatial autocorrelation around clones); 250 um tile strata are
-  calibrated but identify only 8,000 of 95,000 tests and find no spillover.
-- Simulator benchmark: E1 calibrated on NTC pseudo-targets; E4 best for ranking spillover
-  (AUROC about 0.9) but uncalibrated; composition-aware truth table.
-- Simulator (C2) with planted autonomous, spillover, bleed-through, density, batch, clonal
-  and misassignment effects; benchmark scoring (null FPR, coverage, power, AUROC, FDP).
-- Pre-registered first E1 analysis of Perturb-FISH with two documented amendments.
+- Repository, locked environment, CI (lint, mypy, pytest with coverage gate about 90%, smoke
+  pipeline on a bundled Perturb-DBiT subset), pre-commit hooks, Makefile with `reproduce`,
+  `real`, `bench`, `analyze` and `paper` targets.
+- Five datasets downloaded and loaded into one schema (Perturb-Multi with exact count
+  recovery, Perturb-DBiT pixels, Perturb-map Visium, Perturb-FISH tumour, Spatial Perturb-seq
+  Stereo-seq), with audits and clonality analyses for all five (reports/audit/).
+- docs/estimands.md (C1); simulator and benchmark (C2) with composition-aware truth and NTC
+  pseudo-targets as exact nulls; estimators E0 to E4; bleed-through detector (C3);
+  embeddings, held-out-target and held-out-technology prediction (C5); niche ranking,
+  ligand-receptor enrichment and a case-study script (C6); CITATION.cff, Zenodo metadata, API
+  doc, executed tutorial notebook, manuscript draft that compiles with all numbers from
+  generated macros (C7).
+- Pre-registered real-data analyses with seven declared amendments (A1 to A7), each recorded
+  with the failure that motivated it and the superseded numbers.
 
-## Running when paused (tmux sessions ss_pow3, ss_e1_tiles, ss_e1_multi)
+## Main findings so far
 
-- results/bench_power2.log: 40,000-cell power benchmark, E0 to E3, 7 scenarios x 2 reps.
-- results/e1_fish_tile150.log, e1_fish_tile400.log: Perturb-FISH tile sensitivity.
-- results/e1_perturb_multi.log then e1_perturb_multi_tile400.log: pre-registered Perturb-Multi E1.
-Run `uv run python scripts/aggregate_results.py` after they finish.
+- Same-guide cells are spatially clustered in every in vivo screen (clonal growth or local
+  delivery); unassigned neighbours of perturbed cells carry the perturbed signature.
+  Recipients must carry a confirmed non-target guide (ADR-003).
+- Globally stratified permutation nulls and HC1 regression SEs are anticonservative because
+  exposed recipients share a clone's niche. Local tile strata restore E1's calibration but
+  remove nearly all power; in Perturb-FISH no autonomous or spillover effect survives a local
+  null, and in Perturb-Multi no spillover exceeds the non-targeting expectation.
+- On the simulator, the published neighbour-t-test design has false discovery proportions of
+  0.3 to 0.6; E4 ranks planted spillover best (AUROC about 0.9) but its intervals are unusable.
+- Gene embeddings do not predict held-out profiles beyond a permuted null; nothing transfers
+  across technologies with the available target sets.
 
-## Not yet achieved
+## Running or next
 
-- Per-dataset artifact fractions on real data (detector exists; needs the E1/E2 tables with
-  autonomous and first-ring estimates for Perturb-Multi, DBiT, Stereo-seq).
-- E2/E3/E4 on real data; cross-dataset benchmark table (C4) with all estimators.
-- Held-out gene / held-out technology prediction on real estimates (C5); biology and
-  validation (C6); packaging, tutorial, manuscript (C7).
-- Loaders for Perturb-DBiT Xenium companion; audits for DBiT full and Stereo-seq.
-- Convex-hull or mask-based tissue edge distance; undetected-sibling model; E4 uncertainty
-  (retraining ensembles or NTC-based calibration).
+- Amendment A7: permutation inference for E2 (implementation in progress), then gate, then
+  real-data reruns and regeneration of figures, tables and the manuscript (`make paper`).
+- Perturb-Multi E2 with 150 centres, exploratory DBiT and Stereo-seq E2 runs (tmux ss_e2b).
+- CRITIQUE Phase 6; final STATUS; DepMap and Open Targets checks (not run: no calibrated hit
+  set); systematic ablation table; undetected-sibling model; mask-based edge distance.
 
 ## Repository visibility
 
