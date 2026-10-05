@@ -329,3 +329,56 @@ control guide with 112 cells across 3 chips allows a weak calibration check only
 Both datasets therefore enter the cross-technology benchmark for autonomous effects and for
 the artifact detector, with spillover estimates labelled exploratory where NTC calibration
 cannot be run. Clonality analysis for these two did not run (see audit2.log); rerun pending.
+
+## 2026-10-05 08:50 Gate result for E2 with spatial basis (results/a78cc33a76)
+
+30,000 cells on Perturb-FISH geometry, NTC recipients, clean controls, 15% assigned (30% of
+them NTC), 2 reps. NTC pseudo-target false positives at p < 0.05, spillover:
+- clonal scenario: E2 0.07 / 0.08 / 0.06 and E2+basis 0.07 / 0.07 / 0.06 for rings 0 / 1 / 2;
+  E1 identifies nothing in rings 0 and 1 (no clean controls under clonal assignment) and
+  0.05 in ring 2.
+- spill scenario: ring 0 has only 120 identified tests (one target) and gives 0.15 (E2) and
+  0.10 (E2+basis); rings 1 and 2: 0.16 / 0.12 and 0.09 / 0.08.
+- no_effect: ring 0 (120 tests) 0.17 / 0.18; ring 1 0.13 / 0.12; ring 2 0.09 / 0.08.
+Autonomous: all three estimators at 0.05 to 0.08 with 92 to 95% NTC coverage.
+The basis lowers the false discovery proportion where clonal and artifact structure is present
+(ring 2 "everything": E2 0.54 vs E2+basis 0.31; autonomous "everything": 0.24 vs 0.11;
+clonal autonomous 0.20 vs 0.12) at little cost in power (0.52 vs 0.44, 0.57 vs 0.51).
+Gate verdict: passed for rings 1 and 2 under clonal assignment (the criterion's trigger
+condition, E1 or plain E2 above 0.10, did not occur there), with the explicit caveat that
+ring 0 and the sparse-exposure settings show 0.10 to 0.18 on too few tests (120 to 1,080) to
+be conclusive. Rule for the real-data reading: ring-0 results from E2 are reported with this
+caveat and are not used for claims; rings 1 and 2 are.
+
+## 2026-10-05 09:00 E2 on real data (pre-registered 08:10)
+
+Perturb-FISH tumour, E2 without spatial basis (results/b78f984897): NTC pseudo-targets at
+p < 0.05: 0.162 (autonomous), 0.134 / 0.089 / 0.197 (rings 0 / 1 / 2); at q < 0.10: 0.11,
+0.10 / 0.05 / 0.17. Fails H1' everywhere. Same niche confounding as E1 with global strata.
+
+Perturb-FISH tumour, E2 with 40-centre spatial basis (results/246b4deb3e):
+- H1': NTC at p < 0.05: 0.058 (autonomous), 0.116 (ring 0), 0.064 (ring 1), 0.070 (ring 2);
+  at q < 0.10: 0.017, 0.037, 0.019, 0.016. Passes for autonomous and rings 1 and 2; ring 0
+  fails as the gate anticipated (sparse exposure: median 69 NTC recipients per pseudo-target
+  and 7.5 per real target).
+- H2': 33 of 33 targets have at least one autonomous hit at q < 0.10 (910 hits over 16,500
+  tests, 5.5% versus 1.7% for NTC pseudo-targets). Passes. Empirical false discovery
+  proportion estimated from the NTC rate: 0.017 / 0.055 = 0.31, so about a third of the
+  autonomous hits are expected to be false even after BH, which means the BH q-values are
+  not nominal here; the manuscript reports this NTC-estimated FDP next to every hit count.
+- H3': spillover hits at q < 0.10: ring 1 837 of 12,000 (7.0%) versus NTC 1.9%, ratio 3.7;
+  ring 2 730 of 16,000 (4.6%) versus NTC 1.6%, ratio 2.9; ring 0 363 of 5,000 (7.3%) versus
+  NTC 3.7%, ratio 2.0 (not used). Pre-registered threshold 3x: passes at ring 1 (15 to 30 um),
+  borderline at ring 2 (30 to 60 um). Estimated FDP among ring-1 spillover hits: 0.27.
+- H4' (bleed-through) and the biology follow in the next entry (scripts/analyze_real.py).
+Caveat carried from the gate: ring-0 calibration is not established; ring-0 hits are listed
+but not claimed.
+
+Perturb-Multi, E2 without basis (results/a2531ecb83): NTC at p < 0.05: 0.216 (autonomous),
+0.122 / 0.134 / 0.145; q < 0.10: 0.022, 0.009 / 0.018 / 0.014. Fails H1'. Spillover hits at
+q < 0.10 (250 / 199 / 281) do not exceed the NTC-scaled expectation (about 240 / 700 / 500):
+no spillover signal. Autonomous: 333 hits in 134 of 201 targets against an NTC rate that
+predicts 924 false calls, so the autonomous hit count is below its own null expectation;
+the NTC pseudo-target autonomous test (one NTC guide's cells versus the other NTC guides')
+is anticonservative here, consistent with guide-specific clonal clusters sitting in their own
+niches (same-guide adjacency 260x). The spatial-basis run is in progress.
