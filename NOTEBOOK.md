@@ -574,3 +574,13 @@ The 150-centre run is the Perturb-Multi configuration used for the manuscript's 
 numbers (it is the one that passes H1'); the conclusion is identical for both: no autonomous
 or spillover signal exceeds the non-targeting expectation in the 209-gene liver panel with
 NTC recipients.
+
+## 2026-10-05 08:56 Exploratory E2 on Spatial Perturb-seq (results/df5156edac)
+
+Chip B03018A2 only, 2,000 most detected genes, any_other_guide recipients (one safe-harbour
+guide, 112 cells), 40-centre basis, analytic SEs, no clean-control restriction. NTC
+pseudo-target rates at p < 0.05: 0.068 (autonomous), 0.148 / 0.054 / 0.059 (rings 0 / 1 / 2).
+305 autonomous and 3,014 spillover calls at q < 0.10, both below their NTC-scaled
+expectations (FDP 1.0). With 3.4% guide-positive cells, 57% of them at a single guide UMI, and
+one control guide, this dataset cannot support a spillover claim; it enters the
+cross-technology table as "no signal beyond the null, exploratory".
