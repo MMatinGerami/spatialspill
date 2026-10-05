@@ -89,13 +89,20 @@ def main() -> int:
             ty = np.floor(xy[:, 1] / tile_um).astype(int)
             adata.obs["tile"] = [f"{a}_{b}" for a, b in zip(tx, ty)]
         exp = compute_exposure(adata, bins)
-        Y = lognorm(adata)
-        if "max_outcomes" in cfg and cfg.max_outcomes and Y.shape[1] > int(cfg.max_outcomes):
+        if "max_outcomes" in cfg and cfg.max_outcomes and adata.n_vars > int(cfg.max_outcomes):
+            # whole-transcriptome assays: keep the most detected genes before normalisation so
+            # the dense outcome matrix stays small (size factors use all genes)
+            tot_cells = np.asarray(adata.X.sum(axis=1)).ravel()
             tot = np.asarray(adata.X.sum(axis=0)).ravel()
             keep = np.sort(np.argsort(-tot)[: int(cfg.max_outcomes)])
-            Y = Y[:, keep]
-            names = [str(v) for v in adata.var_names[keep]]
+            sub = adata[:, keep].copy()
+            target_sum = float(np.median(tot_cells[tot_cells > 0]))
+            Xs = sub.X.toarray() if hasattr(sub.X, "toarray") else np.asarray(sub.X)
+            sf = np.where(tot_cells > 0, target_sum / np.maximum(tot_cells, 1e-12), 0.0)
+            Y = np.log1p(Xs * sf[:, None]).astype(np.float32)
+            names = [str(v) for v in sub.var_names]
         else:
+            Y = lognorm(adata)
             names = [str(v) for v in adata.var_names]
         gcfg = GroupConfig(
             control_policy=str(cfg.get("control_policy", "ntc")),
