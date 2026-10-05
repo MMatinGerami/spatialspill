@@ -118,6 +118,8 @@ def main() -> int:
                 groups=gcfg,
                 spatial_basis=int(cfg.get("spatial_basis", 0)),
                 cluster_tile_um=float(cfg.get("cluster_tile_um", 0.0)),
+                n_perm=int(cfg.get("n_perm", 0) or 0),
+                seed=rng_seed,
             )
         else:
             raise KeyError(est_name)

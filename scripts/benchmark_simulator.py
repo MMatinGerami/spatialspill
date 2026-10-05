@@ -101,6 +101,21 @@ def main() -> int:
                     )
                 elif est_name == "E2":
                     est = E2GLM(min_cells=int(cfg.min_cells), groups=gcfg)
+                elif est_name == "E2_spatial_perm":
+                    est = E2GLM(
+                        min_cells=int(cfg.min_cells),
+                        groups=gcfg,
+                        spatial_basis=int(cfg.get("spatial_basis", 30)),
+                        n_perm=int(cfg.n_perm),
+                        seed=sc.seed,
+                    )
+                elif est_name == "E2_perm":
+                    est = E2GLM(
+                        min_cells=int(cfg.min_cells),
+                        groups=gcfg,
+                        n_perm=int(cfg.n_perm),
+                        seed=sc.seed,
+                    )
                 elif est_name == "E2_spatial_cl":
                     est = E2GLM(
                         min_cells=int(cfg.min_cells),

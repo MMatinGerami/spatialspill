@@ -113,3 +113,19 @@ def test_e2_cluster_tiles_give_larger_se_for_clustered_recipients():
     m = m[m["identified_p"] & m["identified_c"]]
     assert np.isfinite(m["se_c"]).all()
     assert abs(m["estimate_p"] - m["estimate_c"]).max() < 1e-9  # same point estimates
+
+
+def test_e2_permutation_null_is_calibrated_on_toy():
+    a = make_toy(n=3000, n_genes=20, n_samples=3, seed=41, field_um=2500.0, p_perturbed=0.3)
+    exp = compute_exposure(a, [0, 20, 40])
+    Y = lognorm(a)
+    g = GroupConfig(control_policy="unperturbed", clean_controls=False)
+    df = (
+        E2GLM(min_cells=5, groups=g, spatial_basis=10, n_perm=60, min_valid_perm=30)
+        .fit(a, exp, Y, list(a.var_names))
+        .df
+    )
+    i = df[df.identified & (df.cell_type == "all")]
+    assert len(i) > 100
+    assert 0.01 < (i.pvalue < 0.05).mean() < 0.12
+    assert "pvalue_perm" in df.columns and i["pvalue_perm"].between(0, 1).all()

@@ -14,6 +14,10 @@ distribution (cluster degrees of freedom when at least ``min_clusters`` samples 
 else HC1 with residual degrees of freedom); the permutation null of E1 is not repeated here, so the mandatory NTC
 calibration check for E2 is the empirical false-positive rate over NTC pseudo-targets.
 
+``n_perm`` > 0 (amendment A7) replaces the analytic t-test by the stratified permutation
+null used in E1: labels are permuted within strata, exposures and regressions recomputed, and
+the studentized coefficient is compared with its permutation distribution (permutation-
+calibrated z p-value, exact permutation p in ``pvalue_perm``, CI rescaled by the null sd of t).
 ``cluster_tile_um`` > 0 clusters the robust standard errors by sample x spatial tile instead
 of by sample, so that recipients sharing a niche are one cluster (amendment A6).
 ``spatial_basis`` > 0 adds, per sample, that many Gaussian radial basis functions centred on
@@ -33,7 +37,7 @@ from scipy import stats
 from spatialspill.estimators.base import EstimateTable, Estimator
 from spatialspill.estimators.groups import GroupConfig, eligible_recipients
 from spatialspill.exposure import Exposure
-from spatialspill.permutation import strata_codes
+from spatialspill.permutation import permute_within_strata, strata_codes
 
 
 def _ols_multi(
@@ -82,7 +86,13 @@ class E2GLM(Estimator):
         spatial_basis: int = 0,
         spatial_bandwidth_um: float | None = None,
         cluster_tile_um: float = 0.0,
+        n_perm: int = 0,
+        seed: int = 0,
+        min_valid_perm: int | None = None,
     ) -> None:
+        self.n_perm = n_perm
+        self.seed = seed
+        self.min_valid_perm = min_valid_perm if min_valid_perm is not None else max(20, n_perm // 2)
         self.cluster_tile_um = cluster_tile_um
         self.spatial_basis = spatial_basis
         self.spatial_bandwidth_um = spatial_bandwidth_um
@@ -138,28 +148,64 @@ class E2GLM(Estimator):
             blocks.append(B)
         return np.concatenate(blocks, axis=1)
 
+    def _fit_one(
+        self,
+        idx: np.ndarray,
+        own: np.ndarray,
+        M: np.ndarray,
+        strata: np.ndarray,
+        W_all: np.ndarray,
+        Y_all: np.ndarray,
+        cluster_all: np.ndarray,
+    ) -> tuple[np.ndarray, np.ndarray, int, int, int, list[int]]:
+        """OLS for one target and one selection; returns (B_coef, SE_coef, df, n_t, n_c, ring_n)
+        where the coefficient rows are [own, ring_0, ..., ring_{B-1}]."""
+        st = strata[idx]
+        st_codes, st_inv = np.unique(st, return_inverse=True)
+        S = np.zeros((len(idx), len(st_codes)))
+        S[np.arange(len(idx)), st_inv] = 1.0
+        W = W_all[idx]
+        if W.shape[1]:
+            means = (S.T @ W) / np.maximum(S.sum(0)[:, None], 1)
+            W = W - S @ means
+        X = np.column_stack([S, own[idx].astype(float), M[idx], W])
+        n_t = int(own[idx].sum())
+        n_c = int((~own[idx]).sum())
+        ring_n = [int((M[idx][:, b] >= 1).sum()) for b in range(M.shape[1])]
+        cluster: np.ndarray | None = cluster_all[idx] if self.cluster_by_sample else None
+        if cluster is not None and len(np.unique(cluster)) < self.min_clusters:
+            cluster = None
+        B, SE, df = _ols_multi(X, Y_all[idx], cluster)
+        p_own = S.shape[1]
+        cols = [p_own, *range(p_own + 1, p_own + 1 + M.shape[1])]
+        return B[cols], SE[cols], df, n_t, n_c, ring_n
+
+    def _state(
+        self, adata: AnnData, exposure: Exposure, labels: np.ndarray
+    ) -> tuple[np.ndarray, np.ndarray, np.ndarray, list[np.ndarray], np.ndarray]:
+        """Label-dependent quantities for the current ``exposure`` state."""
+        is_ntc = np.array([t.startswith("NTC:") for t in labels])
+        is_pert = np.array([exposure.is_perturbed_label.get(t, False) for t in labels])
+        elig = eligible_recipients(exposure, is_ntc, is_pert, self.groups)
+        Z = exposure.label_matrix(labels).toarray() > 0
+        tot = exposure.total_count_matrix().toarray()
+        rings = [C.toarray() for C in exposure.counts]
+        return elig, Z, tot, rings, exposure.any_perturbed_within.copy()
+
     def fit(
         self, adata: AnnData, exposure: Exposure, outcomes: np.ndarray, outcome_names: list[str]
     ) -> EstimateTable:
         obs = adata.obs
         Y_all = np.asarray(outcomes, dtype=np.float64)
+        G = Y_all.shape[1]
         strata = strata_codes(obs, self.strata_keys)
-        is_ntc = obs["is_ntc"].to_numpy()
-        is_pert = obs["is_perturbed"].to_numpy()
-        elig = eligible_recipients(exposure, is_ntc, is_pert, self.groups)
         W_all = np.column_stack([self._covariates(adata, exposure), self._spatial_basis(adata)])
-        Z = exposure.label_matrix(exposure.labels).tocsc()
-        tot = exposure.total_count_matrix().tocsc()
-        ring_counts = [C.tocsc() for C in exposure.counts]
-        any_pert = exposure.any_perturbed_within
         is_pert_target = np.array(
             [exposure.is_perturbed_label.get(t, False) for t in exposure.targets]
         )
         ct = obs["cell_type"].astype(str).to_numpy()
         sample = obs["sample"].astype(str).to_numpy()
         if self.cluster_tile_um > 0:
-            # spatially clustered standard errors: cells in the same sample and tile form a
-            # cluster, so correlated recipients around one clone are not treated as independent
             xy_all = np.asarray(adata.obsm["spatial"], dtype=float)
             tx = np.floor(xy_all[:, 0] / self.cluster_tile_um).astype(int)
             ty = np.floor(xy_all[:, 1] / self.cluster_tile_um).astype(int)
@@ -167,74 +213,127 @@ class E2GLM(Estimator):
         else:
             cluster_all = sample
         groups_out = [*sorted(set(ct)), "all"] if self.report_by_cell_type else ["all"]
-        rows: list[dict[str, object]] = []
         n_bins = exposure.n_bins
+        n_coef = 1 + n_bins
+        K, n_grp = len(exposure.targets), len(groups_out)
 
-        for k, target in enumerate(exposure.targets):
-            own = np.asarray(Z[:, k].todense()).ravel() > 0
-            tk = np.asarray(tot[:, k].todense()).ravel()
-            other = any_pert - (tk if is_pert_target[k] else 0.0)
-            clean = other <= 0 if self.groups.clean_controls else np.ones(adata.n_obs, dtype=bool)
-            # own-target cells are never recipients or controls for their own target
-            use = (own | (elig & ~own)) & clean
-            if use.sum() < 2 * self.min_cells or own.sum() < self.min_cells:
-                continue
-            M = np.column_stack(
-                [np.asarray(C[:, k].todense()).ravel() for C in ring_counts]
-            )  # n x B
-            # ring coefficients are identified from recipients only: a target cell's own
-            # neighbours (its clone) must not inform the spillover coefficient (amendment A5)
-            M[own] = 0.0
-            for grp in groups_out:
-                sel = use if grp == "all" else (use & (ct == grp))
-                if sel.sum() < 2 * self.min_cells:
+        def all_fits(
+            labels: np.ndarray,
+        ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+            """Fit every (target, group); returns est, se, t, df, counts arrays
+            with shapes (K, n_grp, n_coef, G) and counts (K, n_grp, n_coef, 2)."""
+            elig, Z, tot, rings, any_pert = self._state(adata, exposure, labels)
+            est = np.full((K, n_grp, n_coef, G), np.nan)
+            se = np.full_like(est, np.nan)
+            dfs = np.full((K, n_grp), np.nan)
+            counts = np.zeros((K, n_grp, n_coef, 2), dtype=int)
+            for k in range(K):
+                own = Z[:, k]
+                tk = tot[:, k]
+                other = any_pert - (tk if is_pert_target[k] else 0.0)
+                clean = (
+                    other <= 0 if self.groups.clean_controls else np.ones(adata.n_obs, dtype=bool)
+                )
+                use = (own | (elig & ~own)) & clean
+                if use.sum() < 2 * self.min_cells or own.sum() < self.min_cells:
                     continue
-                idx = np.flatnonzero(sel)
-                st = strata[idx]
-                st_codes, st_inv = np.unique(st, return_inverse=True)
-                S = np.zeros((len(idx), len(st_codes)))
-                S[np.arange(len(idx)), st_inv] = 1.0
-                W = W_all[idx]
-                # centre covariates within stratum
-                if W.shape[1]:
-                    means = (S.T @ W) / np.maximum(S.sum(0)[:, None], 1)
-                    W = W - S @ means
-                X = np.column_stack([S, own[idx].astype(float), M[idx], W])
-                n_t = int(own[idx].sum())
-                n_c = int((~own[idx]).sum())
-                ring_n = [int((M[idx][:, b] >= 1).sum()) for b in range(n_bins)]
-                cluster = cluster_all[idx] if self.cluster_by_sample else None
-                if cluster is not None and len(np.unique(cluster)) < self.min_clusters:
-                    cluster = None  # too few clusters for a cluster-robust SE; fall back to HC1
-                B, SE, df = _ols_multi(X, Y_all[idx], cluster)
-                p_own = S.shape[1]
-                coefs = {"autonomous": (p_own, -1, n_t, n_c)}
-                for b in range(n_bins):
-                    coefs[f"ring{b}"] = (p_own + 1 + b, b, ring_n[b], n_c - ring_n[b])
-                for kind, (col, ring, nt, nc) in coefs.items():
-                    ident = nt >= self.min_cells and nc >= self.min_cells
-                    est = B[col]
-                    se = SE[col]
-                    with np.errstate(divide="ignore", invalid="ignore"):
-                        tstat = est / se
-                    pv = 2 * stats.t.sf(np.abs(tstat), df)
+                M = np.column_stack([R[:, k] for R in rings])
+                M[own] = 0.0  # ring coefficients from recipients only (A5)
+                for gi, grp in enumerate(groups_out):
+                    sel = use if grp == "all" else (use & (ct == grp))
+                    if sel.sum() < 2 * self.min_cells:
+                        continue
+                    idx = np.flatnonzero(sel)
+                    B, SE, df, n_t, n_c, ring_n = self._fit_one(
+                        idx, own, M, strata, W_all, Y_all, cluster_all
+                    )
+                    est[k, gi] = B
+                    se[k, gi] = SE
+                    dfs[k, gi] = df
+                    counts[k, gi, 0] = (n_t, n_c)
+                    for b in range(n_bins):
+                        counts[k, gi, 1 + b] = (ring_n[b], n_c - ring_n[b])
+            with np.errstate(divide="ignore", invalid="ignore"):
+                t = est / se
+            return est, se, t, dfs, counts
+
+        labels0 = exposure.labels.copy()
+        est, se, t_obs, dfs, counts = all_fits(labels0)
+        pvals = np.full_like(est, np.nan)
+        null_sd = np.ones_like(est)
+        enough = np.ones(est.shape[:3], dtype=bool)
+        if self.n_perm > 0:
+            rng = np.random.default_rng(self.seed)
+            exceed = np.zeros_like(est)
+            n_valid = np.zeros_like(est)
+            s1 = np.zeros_like(est)
+            s2 = np.zeros_like(est)
+            for _ in range(self.n_perm):
+                perm = permute_within_strata(labels0, strata, rng)
+                exposure.recompute(perm)
+                _, _, t_p, _, _ = all_fits(perm)
+                fin = np.isfinite(t_p) & np.isfinite(t_obs)
+                exceed += fin & (np.abs(t_p) >= np.abs(t_obs))
+                n_valid += fin
+                t0 = np.where(fin, t_p, 0.0)
+                s1 += t0
+                s2 += t0 * t0
+            exposure.recompute(labels0)
+            with np.errstate(invalid="ignore", divide="ignore"):
+                mu = s1 / n_valid
+                null_sd = np.sqrt(
+                    np.maximum(s2 / n_valid - mu**2, 0) * n_valid / np.maximum(n_valid - 1, 1)
+                )
+                z = (t_obs - mu) / null_sd
+            pvals = 2 * stats.norm.sf(np.abs(z))
+            pvals_perm = (exceed + 1) / (n_valid + 1)
+            enough = np.asarray((n_valid >= self.min_valid_perm).all(axis=3), dtype=bool)
+            se = se * np.where(np.isfinite(null_sd), null_sd, 1.0)
+            crit = np.full(dfs.shape, 1.96)
+        else:
+            for k in range(K):
+                for gi in range(n_grp):
+                    if np.isfinite(dfs[k, gi]):
+                        pvals[k, gi] = 2 * stats.t.sf(np.abs(t_obs[k, gi]), dfs[k, gi])
+            pvals_perm = np.full_like(est, np.nan)
+            crit = np.where(
+                np.isfinite(dfs), stats.t.ppf(0.975, np.where(np.isfinite(dfs), dfs, 1)), 1.96
+            )
+
+        rows: list[dict[str, object]] = []
+        for k, target in enumerate(exposure.targets):
+            for gi, grp in enumerate(groups_out):
+                if not np.isfinite(dfs[k, gi]):
+                    continue
+                for ci in range(n_coef):
+                    nt, nc = counts[k, gi, ci]
+                    ident_base = (
+                        nt >= self.min_cells and nc >= self.min_cells and bool(enough[k, gi, ci])
+                    )
+                    kind = "autonomous" if ci == 0 else "spillover"
+                    ring = -1 if ci == 0 else ci - 1
                     for g, oname in enumerate(outcome_names):
+                        e_ = float(est[k, gi, ci, g])
+                        s_ = float(se[k, gi, ci, g])
+                        pv = float(pvals[k, gi, ci, g])
+                        ident = ident_base and np.isfinite(pv)
                         rows.append(
                             {
                                 "estimator": self.name,
                                 "target": target,
-                                "kind": "autonomous" if kind == "autonomous" else "spillover",
+                                "kind": kind,
                                 "ring": ring,
                                 "cell_type": grp,
                                 "outcome": oname,
-                                "estimate": float(est[g]),
-                                "se": float(se[g]),
-                                "ci_low": float(est[g] - stats.t.ppf(0.975, df) * se[g]),
-                                "ci_high": float(est[g] + stats.t.ppf(0.975, df) * se[g]),
-                                "pvalue": float(pv[g]) if ident and np.isfinite(pv[g]) else np.nan,
-                                "n_treated": nt,
-                                "n_control": nc,
-                                "identified": bool(ident and np.isfinite(pv[g])),
+                                "estimate": e_,
+                                "se": s_,
+                                "ci_low": e_ - float(crit[k, gi]) * s_,
+                                "ci_high": e_ + float(crit[k, gi]) * s_,
+                                "pvalue": pv if ident else np.nan,
+                                "pvalue_perm": float(pvals_perm[k, gi, ci, g]) if ident else np.nan,
+                                "n_treated": int(nt),
+                                "n_control": int(nc),
+                                "identified": bool(ident),
                             }
                         )
         tab = EstimateTable()
