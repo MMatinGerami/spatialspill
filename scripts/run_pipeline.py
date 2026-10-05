@@ -20,7 +20,7 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from spatialspill.config import load_config, results_dir
-from spatialspill.estimators import E1Stratified
+from spatialspill.estimators import E2GLM, E1Stratified
 from spatialspill.estimators.groups import GroupConfig
 from spatialspill.exposure import compute_exposure
 from spatialspill.loaders.registry import load_dataset
@@ -78,19 +78,32 @@ def main() -> int:
             names = [str(v) for v in adata.var_names[keep]]
         else:
             names = [str(v) for v in adata.var_names]
-        est = E1Stratified(
-            n_perm=int(cfg.n_perm),
-            seed=rng_seed,
-            strata_keys=tuple(cfg.strata),
-            min_cells=int(cfg.get("min_cells", 5)),
-            groups=GroupConfig(
-                control_policy=str(cfg.get("control_policy", "ntc")),
-                clean_controls=bool(cfg.get("clean_controls", True)),
-            ),
+        gcfg = GroupConfig(
+            control_policy=str(cfg.get("control_policy", "ntc")),
+            clean_controls=bool(cfg.get("clean_controls", True)),
         )
+        est_name = str(cfg.get("estimator", "E1"))
+        est: E1Stratified | E2GLM
+        if est_name == "E1":
+            est = E1Stratified(
+                n_perm=int(cfg.n_perm),
+                seed=rng_seed,
+                strata_keys=tuple(cfg.strata),
+                min_cells=int(cfg.get("min_cells", 5)),
+                groups=gcfg,
+            )
+        elif est_name == "E2":
+            est = E2GLM(
+                strata_keys=tuple(cfg.strata),
+                min_cells=int(cfg.get("min_cells", 5)),
+                groups=gcfg,
+                spatial_basis=int(cfg.get("spatial_basis", 0)),
+            )
+        else:
+            raise KeyError(est_name)
         tab = est.fit(adata, exp, Y, names)
         df = tab.with_fdr()
-        df.to_csv(out / f"{name}_e1_estimates.csv", index=False)
+        df.to_csv(out / f"{name}_{est_name.lower()}_estimates.csv", index=False)
         summ = calibration_summary(df, float(cfg.fdr))
         summ["dataset"] = name
         summ["targets"] = len(exp.targets)

@@ -52,3 +52,19 @@ def test_e2_without_samples_uses_hc1():
         .df
     )
     assert np.isfinite(df.loc[df["identified"], "se"]).all()
+
+
+def test_e2_spatial_basis_runs_and_absorbs_smooth_field():
+    a = make_toy(n=2000, n_genes=4, n_samples=2, seed=12, field_um=1500.0)
+    # a smooth spatial field on G0 that is unrelated to guides
+    xy = a.obsm["spatial"]
+    a.X[:, 0] = a.X[:, 0] + np.round(5 * (1 + np.sin(xy[:, 0] / 300) * np.cos(xy[:, 1] / 300)))
+    exp = compute_exposure(a, [0, 20, 40])
+    Y = lognorm(a)
+    g = GroupConfig(control_policy="unperturbed", clean_controls=False)
+    plain = E2GLM(min_cells=3, groups=g).fit(a, exp, Y, list(a.var_names)).df
+    spatial = E2GLM(min_cells=3, groups=g, spatial_basis=25).fit(a, exp, Y, list(a.var_names)).df
+    assert spatial["identified"].sum() > 0
+    s0 = spatial[(spatial.outcome == "G0") & spatial.identified]["se"].median()
+    p0 = plain[(plain.outcome == "G0") & plain.identified]["se"].median()
+    assert s0 <= p0 * 1.05  # absorbing the field should not inflate uncertainty

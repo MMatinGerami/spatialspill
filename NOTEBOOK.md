@@ -293,3 +293,22 @@ basis (k-means centres on coordinates, Gaussian bumps) entering the regression a
 so controls stay available everywhere while niche variation is absorbed. Pre-registration for
 its real-data use follows below once the simulator shows it is calibrated under clonal
 assignment.
+
+## 2026-10-05 08:10 Pre-registration: E2 with spatial basis on real data
+
+E2 (regression adjustment) with strata sample x cell type, covariates local density, log area,
+edge distance, and a per-sample Gaussian radial basis of 40 k-means centres (bandwidth =
+median centre spacing), recipients and controls = NTC cells (ADR-003), clean-control
+restriction, D_max 60 um with bins [0, 15], (15, 30], (30, 60] um, HC1 or cluster-robust SEs.
+Datasets: Perturb-FISH tumour (all cells) and Perturb-Multi (sections 4, 5, 8, 9, 10).
+Simulator gate (run first, results/bench_spatial): E2 with the basis must keep NTC
+pseudo-target false positives at p < 0.05 within [0.03, 0.08] in the clonal scenario at every
+ring where E2 without the basis or E1 exceed 0.10; otherwise it is not used on real data.
+H1' (calibration): NTC pseudo-targets at p < 0.05 in [0.03, 0.08] overall and per ring; at
+q < 0.10 at most 0.10.
+H2' (autonomous): at least 20% of targets with one autonomous hit at q < 0.10 pooled.
+H3' (spillover beyond artifacts): spillover hits at q < 0.10 exceed 3x the NTC-scaled count.
+H4' (bleed-through): artifact detector on the E2 autonomous and ring profiles; first-ring R2
+minus last-ring R2 is the artifact fraction, reported per dataset whether or not H3' holds.
+The real-data runs are launched in parallel with the gate for time reasons; their results are
+not read before the gate result is recorded here.

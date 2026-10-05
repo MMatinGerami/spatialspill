@@ -1,0 +1,102 @@
+{
+  "dataset": "perturb_dbit",
+  "technology": "Perturb-DBiT",
+  "units": "pixel",
+  "n_units": 22421,
+  "n_features": 181749,
+  "n_samples": 6,
+  "guide_call_rate": 0.21649346594710317,
+  "n_perturbed": 4831,
+  "n_ntc": 23,
+  "n_ntc_guides": 14,
+  "n_targets": 526,
+  "cells_per_target": {
+    "count": 526.0,
+    "mean": 9.2,
+    "std": 55.4,
+    "min": 1.0,
+    "25%": 1.0,
+    "50%": 2.0,
+    "75%": 4.8,
+    "max": 1032.0
+  },
+  "cell_types": {
+    "pixel": 22421
+  },
+  "area_um2": null,
+  "total_counts": {
+    "count": 22421.0,
+    "mean": 3241.0,
+    "std": 5645.2,
+    "min": 0.0,
+    "25%": 153.0,
+    "50%": 1167.0,
+    "75%": 4260.0,
+    "max": 96609.0
+  },
+  "guides_per_unit": {
+    "0": 15988,
+    "1": 3640,
+    "2": 1592,
+    "3": 718,
+    "4": 311,
+    "5": 113,
+    "6": 37,
+    "7": 13
+  },
+  "local_density": {
+    "radius": 1.5,
+    "count": 22421.0,
+    "mean": 7.79,
+    "std": 0.76,
+    "min": 2.0,
+    "25%": 8.0,
+    "50%": 8.0,
+    "75%": 8.0,
+    "max": 8.0
+  },
+  "density_by_group": {
+    "perturbed": 7.735044504243428,
+    "ntc": 7.826086956521739,
+    "unassigned": 7.805202937325667
+  },
+  "graphs": {
+    "delaunay_pruned": {
+      "mean_degree": 5.866018464832077,
+      "isolated_fraction": 0.0,
+      "median_edge_length": 1.0,
+      "same_target_edges_observed": 2734.0,
+      "same_target_edges_null_mean": 1866.61,
+      "same_target_edges_null_sd": 34.10011583558038,
+      "clonality_z": 25.436570485046776
+    },
+    "radius": {
+      "mean_degree": 7.790107488515231,
+      "isolated_fraction": 0.0,
+      "median_edge_length": 1.0,
+      "same_target_edges_observed": 3599.0,
+      "same_target_edges_null_mean": 2464.76,
+      "same_target_edges_null_sd": 34.5650459279313,
+      "clonality_z": 32.814653345605535
+    },
+    "knn8": {
+      "mean_degree": 8.08179831408055,
+      "isolated_fraction": 0.0,
+      "median_edge_length": 1.4142135623730951,
+      "same_target_edges_observed": 3810.0,
+      "same_target_edges_null_mean": 2640.11,
+      "same_target_edges_null_sd": 35.55499824215999,
+      "clonality_z": 32.90367199660782
+    }
+  },
+  "batch_structure": {
+    "pixel": {
+      "Brie.LU.1": 2500,
+      "Bru.LC.1.33.3": 2490,
+      "Bru.LC.6": 2500,
+      "Bru.LC.8": 10000,
+      "mTSG.LV.2": 2500,
+      "mTSG.LV.3": 2431
+    }
+  }
+}

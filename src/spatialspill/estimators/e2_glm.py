@@ -14,8 +14,11 @@ distribution (cluster degrees of freedom when at least ``min_clusters`` samples 
 else HC1 with residual degrees of freedom); the permutation null of E1 is not repeated here, so the mandatory NTC
 calibration check for E2 is the empirical false-positive rate over NTC pseudo-targets.
 
-Rings beyond D_max (far field) can be added through ``far_bins_um`` as a built-in negative
-control: their coefficients must be null.
+``spatial_basis`` > 0 adds, per sample, that many Gaussian radial basis functions centred on
+k-means centres of the coordinates (bandwidth = median centre spacing unless given). This is
+the pre-registered "spatial random effect" in spline form: it absorbs smooth niche variation
+so that a clone's recipients are compared with controls at the same local level, without
+splitting the data into tiles.
 """
 
 from __future__ import annotations
@@ -74,7 +77,11 @@ class E2GLM(Estimator):
         cluster_by_sample: bool = True,
         min_clusters: int = 5,
         report_by_cell_type: bool = True,
+        spatial_basis: int = 0,
+        spatial_bandwidth_um: float | None = None,
     ) -> None:
+        self.spatial_basis = spatial_basis
+        self.spatial_bandwidth_um = spatial_bandwidth_um
         self.strata_keys = strata_keys
         self.covariates = covariates
         self.min_cells = min_cells
@@ -102,6 +109,31 @@ class E2GLM(Estimator):
             cols.append(v)
         return np.column_stack(cols) if cols else np.zeros((adata.n_obs, 0))
 
+    def _spatial_basis(self, adata: AnnData) -> np.ndarray:
+        """Per-sample Gaussian radial basis on k-means centres (the spatial random effect)."""
+        if self.spatial_basis <= 0:
+            return np.zeros((adata.n_obs, 0))
+        from sklearn.cluster import KMeans
+
+        xy = np.asarray(adata.obsm["spatial"], dtype=float)
+        samples = adata.obs["sample"].astype(str).to_numpy()
+        blocks = []
+        for s in np.unique(samples):
+            idx = np.flatnonzero(samples == s)
+            k = min(self.spatial_basis, max(1, len(idx) // 20))
+            km = KMeans(n_clusters=k, n_init=1, random_state=0).fit(xy[idx])
+            c = km.cluster_centers_
+            d2 = ((xy[idx, None, :] - c[None, :, :]) ** 2).sum(-1)
+            if self.spatial_bandwidth_um is None:
+                cc = np.sort(((c[:, None, :] - c[None, :, :]) ** 2).sum(-1), axis=1)
+                bw2 = float(np.median(cc[:, 1])) if k > 1 else float(d2.max())
+            else:
+                bw2 = self.spatial_bandwidth_um**2
+            B = np.zeros((adata.n_obs, k))
+            B[idx] = np.exp(-d2 / (2 * max(bw2, 1e-9)))
+            blocks.append(B)
+        return np.concatenate(blocks, axis=1)
+
     def fit(
         self, adata: AnnData, exposure: Exposure, outcomes: np.ndarray, outcome_names: list[str]
     ) -> EstimateTable:
@@ -111,7 +143,7 @@ class E2GLM(Estimator):
         is_ntc = obs["is_ntc"].to_numpy()
         is_pert = obs["is_perturbed"].to_numpy()
         elig = eligible_recipients(exposure, is_ntc, is_pert, self.groups)
-        W_all = self._covariates(adata, exposure)
+        W_all = np.column_stack([self._covariates(adata, exposure), self._spatial_basis(adata)])
         Z = exposure.label_matrix(exposure.labels).tocsc()
         tot = exposure.total_count_matrix().tocsc()
         ring_counts = [C.tocsc() for C in exposure.counts]

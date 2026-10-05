@@ -1,0 +1,99 @@
+{
+  "dataset": "spatial_perturbseq",
+  "technology": "Spatial Perturb-seq (Stereo-seq)",
+  "units": "um",
+  "n_units": 229775,
+  "n_features": 28990,
+  "n_samples": 3,
+  "guide_call_rate": 0.020694157327820695,
+  "n_perturbed": 3557,
+  "n_ntc": 112,
+  "n_ntc_guides": 1,
+  "n_targets": 17,
+  "cells_per_target": {
+    "count": 17.0,
+    "mean": 209.2,
+    "std": 145.7,
+    "min": 53.0,
+    "25%": 101.0,
+    "50%": 165.0,
+    "75%": 253.0,
+    "max": 508.0
+  },
+  "cell_types": {
+    "unknown": 229775
+  },
+  "area_um2": {
+    "count": 229775.0,
+    "mean": 301.0,
+    "std": 120.7,
+    "min": 2.0,
+    "25%": 212.0,
+    "50%": 289.0,
+    "75%": 374.8,
+    "max": 5393.8
+  },
+  "total_counts": null,
+  "guides_per_unit": {
+    "0": 225020,
+    "1": 3669,
+    "2": 632,
+    "3": 257,
+    "4": 104,
+    "5": 49,
+    "6": 27,
+    "7": 7
+  },
+  "local_density": {
+    "radius": 30.0,
+    "count": 229775.0,
+    "mean": 5.97,
+    "std": 2.98,
+    "min": 0.0,
+    "25%": 4.0,
+    "50%": 6.0,
+    "75%": 8.0,
+    "max": 23.0
+  },
+  "density_by_group": {
+    "perturbed": 6.018273826258083,
+    "ntc": 5.866071428571429,
+    "unassigned": 5.966220780375078
+  },
+  "graphs": {
+    "delaunay_pruned": {
+      "mean_degree": 5.717140681101077,
+      "isolated_fraction": 0.0005178979436405178,
+      "median_edge_length": 21.828879952943073,
+      "same_target_edges_observed": 148.0,
+      "same_target_edges_null_mean": 19.11,
+      "same_target_edges_null_sd": 4.1806578429716055,
+      "clonality_z": 30.830076232305384
+    },
+    "radius": {
+      "mean_degree": 5.9655053857034055,
+      "isolated_fraction": 0.012063975628332065,
+      "median_edge_length": 21.840329667841555,
+      "same_target_edges_observed": 157.0,
+      "same_target_edges_null_mean": 21.25,
+      "same_target_edges_null_sd": 4.7966133886316085,
+      "clonality_z": 28.301217755372846
+    },
+    "knn10": {
+      "mean_degree": 11.231683168316831,
+      "isolated_fraction": 0.0,
+      "median_edge_length": 29.300170647967224,
+      "same_target_edges_observed": 268.0,
+      "same_target_edges_null_mean": 37.01,
+      "same_target_edges_null_sd": 5.5614656341651525,
+      "clonality_z": 41.534015526587815
+    }
+  },
+  "batch_structure": {
+    "unknown": {
+      "A03599E2": 65992,
+      "B03018A2": 123921,
+      "C02943C3": 39862
+    }
+  }
+}

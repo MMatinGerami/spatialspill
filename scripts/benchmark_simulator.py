@@ -101,6 +101,12 @@ def main() -> int:
                     )
                 elif est_name == "E2":
                     est = E2GLM(min_cells=int(cfg.min_cells), groups=gcfg)
+                elif est_name == "E2_spatial":
+                    est = E2GLM(
+                        min_cells=int(cfg.min_cells),
+                        groups=gcfg,
+                        spatial_basis=int(cfg.get("spatial_basis", 30)),
+                    )
                 elif est_name == "E3":
                     est = E3DoublyRobust(
                         n_draws=int(cfg.n_perm),
