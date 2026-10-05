@@ -109,6 +109,11 @@ def main() -> int:
 
         # misassignment signature: unassigned neighbours of g-cells vs of NTC cells
         sig: dict[str, float] = {}
+        if (
+            adata.n_vars > 500
+        ):  # whole-transcriptome assays: restrict to the 500 most detected genes
+            tot = np.asarray(adata.X.sum(axis=0)).ravel()
+            adata = adata[:, np.sort(np.argsort(-tot)[:500])].copy()
         Y = lognorm(adata)
         A1 = adata.obsp["spatial_connectivities"].tocsr()
         unassigned = ~assigned

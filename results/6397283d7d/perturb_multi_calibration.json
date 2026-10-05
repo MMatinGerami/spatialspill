@@ -1,4 +1,3 @@
-[perturb_multi] 750000 units x 209 features
 {
   "n_tests": 335892,
   "n_ntc_tests": 45144,
@@ -12,5 +11,3 @@
   "dataset": "perturb_multi",
   "targets": 252
 }
-results in results/6397283d7d
-DONE_E2

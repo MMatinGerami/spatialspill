@@ -45,6 +45,8 @@ def perturbseq_embedding(
     )
     genes = np.char.upper(genes.astype(str))
     ctrl = names.str.contains(control_pattern, case=False).to_numpy()
+    # drop genes (columns) with any missing value, then centre on controls if present
+    X = X[:, np.isfinite(X).all(axis=0)]
     if ctrl.any():
         X = X - X[ctrl].mean(0, keepdims=True)
     keep = ~ctrl

@@ -382,3 +382,44 @@ predicts 924 false calls, so the autonomous hit count is below its own null expe
 the NTC pseudo-target autonomous test (one NTC guide's cells versus the other NTC guides')
 is anticonservative here, consistent with guide-specific clonal clusters sitting in their own
 niches (same-guide adjacency 260x). The spatial-basis run is in progress.
+
+## 2026-10-05 09:30 H4', biology and prediction on Perturb-FISH (results/246b4deb3e); Perturb-Multi with basis
+
+H4' (bleed-through detector, scripts/analyze_real.py): projection of spillover profiles on the
+autonomous profile gives alpha_hat with median -0.04 (ring 0, 13 targets), -0.02 (ring 1, 27),
+0.00 (ring 2, 35) and R2 means 0.015 / 0.027 / 0.041. First-ring minus last-ring R2 is -0.04:
+no bleed-through signature. The Perturb-FISH spillover profiles are not diluted copies of the
+autonomous profiles, so segmentation spill is not what drives the ring-1 excess. Caveat: the
+detector only sees proportional transfer; a non-proportional artifact would pass.
+
+Ligand-receptor enrichment: only 8 of 28,000 (target, outcome) pairs are known LR axes
+(OmniPath ligrecextra + CellPhoneDB) because the library targets intracellular TLR/NF-kB
+signalling and the 500-gene panel is immuno-oncology; 0 of 1,567 hits fall on them.
+Uninformative, reported as such.
+
+Niche ranking (rings 1 and 2, score = mean z^2 - 1): MYD88 2.10, MAP3K7 1.91, LBP 1.51,
+RELA 1.44, LY96 1.43, TBK1 1.43, JUN 1.43, IKBKB 1.31, TAB2 1.18, TRAM1 1.17; the 95th
+percentile of NTC pseudo-target scores is 0.56, so 14 of 33 targets exceed it. The ranking is
+dominated by core TLR4/NF-kB adaptors, which is the expected biology of a tumour-cell NF-kB
+knockout changing cytokine output to neighbours, and also what a shared niche confound would
+produce if the basis under-corrects; the two are separated only by the NTC calibration above.
+
+Held-out-target prediction (kernel ridge, leave-one-target-out): Replogle K562 gwps embedding
+covers 25 of 35 targets, GO covers 33. Mean r against observed z-profiles: autonomous 0.09
+(null 0.10), spillover 0.21 (null 0.21) for Replogle; 0.07 (0.09) and 0.19 (0.20) for GO.
+No embedding predicts either autonomous or spillover profiles beyond a permuted-embedding
+null (z between -1.4 and 0.2). Reported as a negative finding (C5): with 33 targets from one
+pathway there is nothing to generalise from.
+
+Perturb-Multi, E2 with 40-centre basis (results/6397283d7d): autonomous NTC p < 0.05 fraction
+0.072 (passes marginally), spillover 0.135 / 0.128 / 0.129 (fails), q < 0.10: 0.016 and 0.044 /
+0.039 / 0.035. Spillover hits (667 / 569 / 605) are below the NTC-scaled expectation (about
+1,070 / 1,500 / 1,270); autonomous hits 200 in 103 of 201 targets against an expectation of
+670 false calls. No signal beyond the null in Perturb-Multi with this configuration. Forty
+centres per 15 mm liver section (about 2 mm spacing) cannot follow lobular zonation at the
+25 um scale of hepatocyte neighbourhoods.
+
+Amendment A4 (declared before running): basis-size sensitivity on Perturb-Multi with 150 and
+400 centres per section; H1' is re-evaluated per size. Exploratory E2 runs (labelled as such,
+no NTC calibration possible) on Perturb-DBiT (unperturbed-pixel controls) and Spatial
+Perturb-seq (any_other_guide controls, 112 mSafe cells) for the cross-technology table.
