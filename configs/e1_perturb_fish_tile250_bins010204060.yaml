@@ -1,0 +1,23 @@
+seed: 0
+tile_um: 250
+datasets:
+- perturb_fish
+graph:
+  kind: delaunay
+  max_edge_um: 50.0
+  radius_um: 30.0
+distance_bins_um:
+- 0.0
+- 10.0
+- 20.0
+- 40.0
+- 60.0
+strata:
+- sample
+- cell_type
+- tile
+control_policy: ntc
+clean_controls: true
+min_cells: 5
+n_perm: 200
+fdr: 0.1

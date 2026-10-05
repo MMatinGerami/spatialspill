@@ -1,0 +1,36 @@
+clean_controls: true
+control_policy: ntc
+distance_bins_um:
+- 0
+- 15
+- 30
+- 60
+estimators:
+- E1
+- E1_sample_strata
+- E1_tile
+- E2_spatial
+- E2_nocov
+- E0_pseudobulk
+fdr: 0.1
+frac_assigned: 0.15
+geometry: perturb_fish
+min_cells: 5
+n_cells: 30000
+n_genes: 60
+n_perm: 100
+n_reps: 2
+n_targets: 15
+scenarios:
+- spill
+- spill_clonal
+- spill_density
+seed: 3
+sim_overrides:
+  frac_ntc_of_assigned: 0.3
+  frac_spill_genes: 0.2
+  frac_spill_targets: 0.5
+  spill_lfc_sd: 1.5
+  spill_scale_um: 30.0
+spatial_basis: 40
+tile_um: 250

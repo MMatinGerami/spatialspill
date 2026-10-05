@@ -1,0 +1,19 @@
+# Ablation (pre-registered 2026-10-05 09:35): strata, tiles, covariates, space.
+seed: 3
+geometry: perturb_fish
+n_cells: 30000
+n_genes: 60
+n_targets: 15
+frac_assigned: 0.15
+sim_overrides: {spill_lfc_sd: 1.5, frac_spill_genes: 0.2, frac_spill_targets: 0.5, spill_scale_um: 30.0, frac_ntc_of_assigned: 0.3}
+n_reps: 2
+scenarios: [spill, spill_clonal, spill_density]
+estimators: [E1, E1_sample_strata, E1_tile, E2_spatial, E2_nocov, E0_pseudobulk]
+spatial_basis: 40
+tile_um: 250
+distance_bins_um: [0, 15, 30, 60]
+control_policy: ntc
+clean_controls: true
+min_cells: 5
+n_perm: 100
+fdr: 0.1

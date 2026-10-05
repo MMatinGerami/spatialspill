@@ -12,6 +12,7 @@ import sys
 import time
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
@@ -77,6 +78,12 @@ def main() -> int:
             sc.seed = int(cfg.seed) * 1000 + rep
             t0 = time.time()
             sim = simulate(geom, sc)
+            tile = float(cfg.get("tile_um", 250.0))
+            xy = np.asarray(sim.obsm["spatial"], dtype=float)
+            sim.obs["tile"] = [
+                f"{int(a)}_{int(b)}"
+                for a, b in zip(np.floor(xy[:, 0] / tile), np.floor(xy[:, 1] / tile))
+            ]
             exp = compute_exposure(sim, list(cfg.distance_bins_um))
             Y = lognorm(sim)
             for est_name in cfg.estimators:
@@ -91,6 +98,24 @@ def main() -> int:
                         min_cells=int(cfg.min_cells),
                         groups=gcfg,
                     )
+                elif est_name == "E1_tile":
+                    est = E1Stratified(
+                        n_perm=int(cfg.n_perm),
+                        seed=sc.seed,
+                        min_cells=int(cfg.min_cells),
+                        groups=gcfg,
+                        strata_keys=("sample", "cell_type", "tile"),
+                    )
+                elif est_name == "E1_sample_strata":
+                    est = E1Stratified(
+                        n_perm=int(cfg.n_perm),
+                        seed=sc.seed,
+                        min_cells=int(cfg.min_cells),
+                        groups=gcfg,
+                        strata_keys=("sample",),
+                    )
+                elif est_name == "E2_nocov":
+                    est = E2GLM(min_cells=int(cfg.min_cells), groups=gcfg, covariates=())
                 elif est_name == "E1_analytic":
                     est = E1Stratified(
                         n_perm=int(cfg.n_perm),
@@ -151,6 +176,13 @@ def main() -> int:
                 sc_df.insert(0, "rep", rep)
                 sc_df.insert(0, "scenario", name)
                 all_scores.append(sc_df)
+            ntc_mask = sim.obs["is_ntc"].to_numpy()
+            tot_counts = exp.total_count_matrix().toarray()
+            tgt_cols = [i for i, t in enumerate(exp.targets) if not t.startswith("NTC:")]
+            rec_per_target = [(tot_counts[ntc_mask, k] > 0).sum() for k in tgt_cols]
+            median_ntc_recipients = (
+                float(np.median(rec_per_target)) if rec_per_target else float("nan")
+            )
             meta.append(
                 {
                     "scenario": name,
@@ -160,6 +192,7 @@ def main() -> int:
                     "n_perturbed": int(sim.obs.is_perturbed.sum()),
                     "n_ntc": int(sim.obs.is_ntc.sum()),
                     "n_misassigned": int(sim.uns["truth"]["n_misassigned"]),
+                    "median_ntc_recipients_per_target": median_ntc_recipients,
                 }
             )
             print(json.dumps(meta[-1]), flush=True)

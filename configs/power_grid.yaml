@@ -1,0 +1,14 @@
+# Power analysis grid (pre-registered 2026-10-05 09:35).
+seed: 5
+geometry: perturb_fish
+n_cells: 30000
+n_genes: 60
+n_targets: 15
+frac_assigned: [0.05, 0.15, 0.30]
+frac_ntc: [0.1, 0.3, 0.6]
+spill_lfc_sd: [0.5, 1.0, 2.0]
+spatial_basis: 40
+tile_um: 250
+distance_bins_um: [0, 15, 30, 60]
+clean_controls: true
+n_perm: 100
