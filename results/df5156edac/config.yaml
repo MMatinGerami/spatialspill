@@ -1,0 +1,26 @@
+clean_controls: false
+control_policy: any_other_guide
+dataset_kwargs:
+  spatial_perturbseq:
+    chips:
+    - B03018A2
+datasets:
+- spatial_perturbseq
+distance_bins_um:
+- 0
+- 15
+- 30
+- 60
+estimator: E2
+fdr: 0.1
+graph:
+  kind: delaunay
+  max_edge_um: 50.0
+  radius_um: 30.0
+max_outcomes: 2000
+min_cells: 5
+seed: 0
+spatial_basis: 40
+strata:
+- sample
+- cell_type

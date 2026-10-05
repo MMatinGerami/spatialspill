@@ -1,0 +1,22 @@
+clean_controls: false
+control_policy: unperturbed
+datasets:
+- perturb_dbit
+distance_bins_um:
+- 0
+- 1.5
+- 2.5
+- 3.5
+estimator: E2
+fdr: 0.1
+graph:
+  kind: delaunay
+  max_edge_um: 50.0
+  radius_um: 30.0
+max_outcomes: 2000
+min_cells: 5
+seed: 0
+spatial_basis: 10
+strata:
+- sample
+- cell_type

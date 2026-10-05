@@ -559,3 +559,18 @@ the non-targeting expectation at the current sample size; Perturb-Multi shows ne
 manuscript, figures and tables are regenerated from results/197e22efb1 (Perturb-FISH) and
 results/6397283d7d (Perturb-Multi, analytic E2 with basis, exploratory; the 150-centre run is
 still in progress and is a sensitivity analysis only).
+
+## 2026-10-05 09:05 Perturb-Multi basis-size sensitivity (amendment A4) and corrected sb40
+
+Both runs use the A5 code (recipients-only ring identification), analytic SEs, NTC recipients,
+clean controls. With clean controls only ring 2 (30 to 60 um) reaches positivity in Perturb-Multi.
+- 40 centres per section (results/6397283d7d, overwritten by the A5 rerun): 70,015 identified
+  tests; NTC p < 0.05: 0.063 (autonomous), 0.096 (ring 2); 223 autonomous and 667 spillover
+  calls at q < 0.10 against NTC-scaled expectations that exceed them (FDP 1.0 and 0.62).
+- 150 centres (results/fddb2ec60c): NTC p < 0.05: 0.054 (autonomous), 0.032 (ring 2); H1'
+  passes for both. 134 autonomous calls against an expectation of about 670 and 154 spillover
+  calls against about 180: nothing beyond the null.
+The 150-centre run is the Perturb-Multi configuration used for the manuscript's exploratory
+numbers (it is the one that passes H1'); the conclusion is identical for both: no autonomous
+or spillover signal exceeds the non-targeting expectation in the 209-gene liver panel with
+NTC recipients.

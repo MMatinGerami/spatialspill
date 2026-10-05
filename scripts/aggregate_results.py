@@ -110,7 +110,7 @@ def main() -> int:
         bench.to_markdown(index=False) if len(bench) else "(none)",
         "",
     ]
-    (OUT / "summary.md").write_text("\n".join(md) + "\n")
+    (OUT / "summary.md").write_text("\n".join(md).rstrip() + "\n")
 
     fig, axes = plt.subplots(1, 2, figsize=(12, 4.5))
     if len(real):
