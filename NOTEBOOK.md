@@ -682,3 +682,24 @@ NTC cells) is dominated by the clone's niche, which the unassigned neighbours sh
 projection reads niche as contamination. The model is identified on the simulator, where the
 autonomous profile is genotype, and not on Perturb-FISH, where it is niche. Recorded as a
 limitation; the fix (autonomous profile against local controls) is future work.
+
+## 2026-10-05 10:30 Power grid and second bin-sensitivity run
+
+Power grid (results/cf961ebbd1; 30,000 cells on Perturb-FISH geometry, 1 rep per cell, 27
+cells): E1 with 250 um tiles identified no test in any cell (as in the ablation: tiles need
+the full 187,000-cell section). E2 with spatial basis and permutation null: NTC false
+positives 0.03 to 0.06 throughout; power at q < 0.10 in the outer rings never reaches 0.80.
+Best cells: LFC sd 2.0, 30% assigned, 60% of them NTC (347 confirmed recipients per target):
+power 0.54, FDP 0.12; LFC 1.0 at 343 recipients: 0.32, FDP 0.16; LFC 0.5: at most 0.06.
+With 5 to 11 recipients per target (the regime of the public screens: Perturb-FISH ring 1 has a
+median of 5.5 NTC recipients per real target) power is 0 to 0.06 at every effect size.
+Design conclusion: detecting outer-ring spillover of large size (LFC 2 on a fifth of the panel)
+with calibrated inference needs several hundred confirmed non-target recipients per target and
+still falls short of 80% power at 30,000 cells; the public screens are one to two orders of
+magnitude below that.
+
+Bin sensitivity 2 (results/c0bde8094c; bins [0, 20, 40, 60]): identical to run 1 because the
+identified rings coincide (20 to 40 and 40 to 60 um in both); 2,500 tests, NTC p < 0.05
+fraction 0.028, 0 autonomous hits, 10 spillover hits. The pre-registered criterion of fewer
+than 10 spillover hits is missed by one call in both binnings; calibration and the autonomous
+null are unchanged. Conclusion unchanged.

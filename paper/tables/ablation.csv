@@ -1,0 +1,13 @@
+scenario,estimator,ntc_fpr_p05,power_q,fdp_q,n_tests
+spill,E1,0.05,0.16,0.32,1050.0
+spill,E1_sample_strata,0.06,0.16,0.28,1065.0
+spill,E2_nocov,0.1,0.28,0.39,1170.0
+spill,E2_spatial,0.08,0.25,0.38,1170.0
+spill_clonal,E1,0.06,0.2,0.52,840.0
+spill_clonal,E1_sample_strata,0.04,0.19,0.44,900.0
+spill_clonal,E2_nocov,0.19,0.46,0.71,585.0
+spill_clonal,E2_spatial,0.16,0.44,0.63,585.0
+spill_density,E1,0.05,0.17,0.34,1050.0
+spill_density,E1_sample_strata,0.06,0.18,0.32,1065.0
+spill_density,E2_nocov,0.1,0.27,0.44,1170.0
+spill_density,E2_spatial,0.09,0.24,0.41,1170.0

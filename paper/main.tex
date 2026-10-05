@@ -240,11 +240,12 @@ Source: \texttt{paper/tables/ablation.tex}.}
 Figure~\ref{fig:power} gives power at $q<0.1$ for planted outer-ring spillover as a function of
 the median number of confirmed non-target recipients per target, for the calibrated E1 with
 tiles and for E2 with permutation null, over planted log fold changes of 0.5, 1 and 2 on 20\%
-of panel genes. With the Perturb-FISH geometry and 30{,}000 cells, E2 reaches 80\% power for
-an LFC of 2 only from about \PowerETwoPermTwoMinRecipients{} confirmed recipients per target
-(maximum power observed \PowerETwoPermTwoMaxPower{} at \PowerETwoPermTwoMaxRecipients), and
-for an LFC of 1 its best power is \PowerETwoPermOneMaxPower; E1 with tiles reaches
-\PowerEOneTileTwoMaxPower{} at best. Public screens have 5 to 50 non-target recipients per
+of panel genes. With the Perturb-FISH geometry and 30{,}000 cells, no grid cell reaches 80\% power: E2 with
+permutation null attains at most \PowerETwoPermTwoMaxPower{} for an LFC of 2 at
+\PowerETwoPermTwoMaxRecipients{} confirmed recipients per target, \PowerETwoPermOneMaxPower{} for
+an LFC of 1 and \PowerETwoPermHalfMaxPower{} for an LFC of 0.5, while its non-targeting false
+positives stay at 0.03 to 0.06; E1 with 250~$\mu$m tiles identifies no test at all on 30{,}000
+simulated cells (it needs the 187{,}000-cell real section). Public screens have 5 to 50 non-target recipients per
 target in the outer rings. The design recommendation is direct: a spatial screen that aims at
 spillover needs non-targeting controls as a large share of its library (not the usual few
 percent) and several hundred confirmed non-target cells adjacent to each perturbation, or a

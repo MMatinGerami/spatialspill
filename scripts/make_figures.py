@@ -360,6 +360,10 @@ def numbers(fish: Path, multi: Path, gate: Path | None) -> None:
                 add(f"{tag}ClonRatio", float(c.loc[ds, "ratio"]), "{:.0f}")
                 add(f"{tag}ClonZ", float(c.loc[ds, "clonality_z"]), "{:.0f}")
                 add(f"{tag}MisCor", float(c.loc[ds, "misassign_cor"]), "{:.2f}")
+    for tag in ("EOneTile", "ETwoPerm"):
+        for sdtag in ("Half", "One", "Two"):
+            for suffix in ("MinRecipients", "MaxPower", "MaxRecipients"):
+                macros.setdefault(f"Power{tag}{sdtag}{suffix}", "n/a")
     pw = TAB / "power_summary.csv"
     if pw.exists():
         ps = pd.read_csv(pw)
