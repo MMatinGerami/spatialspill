@@ -53,6 +53,7 @@ def real_data_rows() -> pd.DataFrame:
                     "ntc_p05": r["ntc_fraction_p_below_0.05"],
                     "ntc_q10": r["ntc_fraction_q_below_fdr"],
                     "ntc_p05_auto": r.get("ntc_p05_autonomous"),
+                    "ntc_p05_r0": r.get("ntc_p05_ring0"),
                     "ntc_p05_r1": r.get("ntc_p05_ring1"),
                     "ntc_p05_r2": r.get("ntc_p05_ring2"),
                     "autonomous_hits": r["n_autonomous_hits"],

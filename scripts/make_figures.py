@@ -235,6 +235,30 @@ def numbers(fish: Path, multi: Path, gate: Path | None) -> None:
             add(f"{tag}NtcScoreQ", float(df["ntc_score_q95"].iloc[0]), "{:.2f}")
             add(f"{tag}NAboveNtc", int((df["score"] > df["ntc_score_q95"]).sum()))
             add(f"{tag}NRanked", len(df))
+    # calibrated E1 runs on Perturb-FISH: global strata and 250 um tiles (pre-registered primary)
+    summ = pd.read_csv(ROOT / "results" / "summary" / "real_data_calibration.csv")
+    e1 = summ[(summ["dataset"] == "perturb_fish") & (summ["estimator"] == "E1")]
+    for tile, tag in ((0, "E1Global"), (250, "E1Tile")):
+        r = e1[e1["tile_um"] == tile]
+        if len(r):
+            r = r.iloc[-1]
+            add(f"{tag}NTests", int(r["n_tests"]))
+            add(f"{tag}NtcP", float(r["ntc_p05"]))
+            add(
+                f"{tag}NtcPRingZero",
+                float(r["ntc_p05_r0"])
+                if "ntc_p05_r0" in r and np.isfinite(r["ntc_p05_r0"])
+                else None,
+            )
+            add(f"{tag}AutoHits", int(r["autonomous_hits"]))
+            add(f"{tag}SpillHits", int(r["spillover_hits"]))
+    m1 = summ[
+        (summ["dataset"] == "perturb_multi") & (summ["estimator"] == "E1") & (summ["tile_um"] == 0)
+    ]
+    if len(m1):
+        r = m1.iloc[-1]
+        add("MultiE1NtcP", float(r["ntc_p05"]))
+        add("MultiE1NTests", int(r["n_tests"]))
     ht = ROOT / "results" / "summary" / "heldout_technology.json"
     if ht.exists():
         h = json.loads(ht.read_text())

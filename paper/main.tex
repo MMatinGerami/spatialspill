@@ -33,18 +33,23 @@ spatially clustered far beyond a stratified permutation null (\FishClonRatio x i
 \MultiClonRatio x in Perturb-Multi on adjacent pairs), and unlabelled neighbours of perturbed
 cells carry the perturbed expression signature (median $r$ = \FishMisCor{} and \MultiMisCor),
 so a missing guide call is not evidence of an unperturbed cell; recipients of spillover must
-carry a confirmed non-target guide. Second, the standard stratified permutation null is
-anticonservative because exposed recipients share the niche of one clone; non-targeting
-pseudo-targets, run through every estimator as mandatory calibration, exceed the nominal
-false-positive rate until a per-sample spatial basis is included in the outcome model, after
-which calibration holds in the 15 to 60~$\mu$m rings on Perturb-FISH (\FishNtcPRingOne{} and
-\FishNtcPRingTwo{} at $p<0.05$) but not in Perturb-Multi (\MultiNtcPRingOne). Third, with
-calibration in hand, Perturb-FISH shows an excess of spillover calls over the non-targeting
-expectation in the 15 to 30~$\mu$m ring with an NTC-estimated false discovery proportion of
-\FishSpillFdp{} among \FishSpillHits{} calls, no bleed-through signature (first-ring variance
-explained by the autonomous profile minus last ring: \FishArtifactFrac), and a ranking of
-niche-remodelling knockouts led by \FishTopTarget; Perturb-Multi shows no spillover beyond the
-null. Gene embeddings (Perturb-seq, GO, ESM2) do not predict held-out spillover profiles
+carry a confirmed non-target guide. Second, the standard stratified permutation null and heteroskedasticity-robust regression
+standard errors are both anticonservative because exposed recipients share the niche of one
+clone; non-targeting pseudo-targets, run through every estimator as mandatory calibration,
+exceed the nominal false-positive rate (\E1GlobalNtcPRingZero{} at the first ring in Perturb-FISH,
+\MultiE1NtcP{} in Perturb-Multi). Local spatial tiles as strata restore calibration
+(\E1TileNtcP{} at $p<0.05$) but identify only \E1TileNTests{} of \E1GlobalNTests{} tests, and
+with them no autonomous (\E1TileAutoHits) and \E1TileSpillHits{} spillover calls survive: in a
+clonal screen even the "autonomous" contrast of a clone against distant controls is a niche
+contrast. Regression adjustment with a spatial basis, with or without a permutation null,
+keeps power but fails the pre-registered calibration gate on the simulator under clonal
+assignment (first-ring and outer-ring false positives 0.14 to 0.29), so its Perturb-FISH
+spillover calls (\FishSpillHits{} at $q<0.1$, NTC-estimated false discovery proportion
+\FishSpillFdp) are reported as exploratory, with no bleed-through signature
+(\FishArtifactFrac) and a hypothesis ranking led by \FishTopTarget. Third, the published
+neighbour $t$-test design has false discovery proportions of 0.3 to 0.6 on the simulator, and a
+graph neural network ranks planted spillover well (AUROC about 0.9) with unusable intervals.
+Gene embeddings (Perturb-seq, GO, ESM2) do not predict held-out spillover profiles
 beyond a permuted-embedding null, and nothing transfers across technologies (Spearman
 \HeldoutRho, null \HeldoutNull). We release \texttt{spatialspill}, the simulator, loaders for
 all five datasets and a lab notebook with pre-registrations and amendments.
@@ -119,13 +124,17 @@ strata restore calibration (2.5 to 3.8\% at $p<0.05$ at 150 to 400~$\mu$m) at th
 almost all identified tests, including the autonomous ones: in a clonal tumour screen the
 "autonomous" contrast of a clone against distant control cells is as confounded by niche as
 the spillover contrast. Regression adjustment (E2) with a per-sample Gaussian radial basis of
-40 centres as the spatial random effect keeps positivity and yields \FishNtcPAuto{} (autonomous),
-\FishNtcPRingOne{} (15 to 30~$\mu$m) and \FishNtcPRingTwo{} (30 to 60~$\mu$m) of NTC tests at
-$p<0.05$ on Perturb-FISH; the 0 to 15~$\mu$m ring remains anticonservative
-(\FishNtcPRingZero) and is not used for claims. On Perturb-Multi the same basis leaves the
-spillover rings at \MultiNtcPRingOne{} and \MultiNtcPRingTwo{} (autonomous \MultiNtcPAuto);
-forty centres per 15~mm liver section cannot follow lobular zonation at the scale of
-hepatocyte neighbourhoods, and finer bases are reported in the sensitivity analysis.
+40 centres as the spatial random effect keeps positivity. On Perturb-FISH its NTC pseudo-target
+rates at $p<0.05$ are \FishNtcPAuto{} (autonomous), \FishNtcPRingOne{} (15 to 30~$\mu$m) and
+\FishNtcPRingTwo{} (30 to 60~$\mu$m) but \FishNtcPRingZero{} in the first ring, and on the
+simulator the same configuration fails the pre-registered gate under clonal assignment
+(Section~\ref{sec:bench}): identifying the ring coefficients from recipients only (amendment
+A5), clustering standard errors by spatial tile (A6) and replacing the analytic test by the
+stratified permutation null (A7) each changed the picture without bringing the outer rings
+below the 0.08 ceiling (0.14 to 0.29). On Perturb-Multi the basis leaves the spillover rings at
+\MultiNtcPRingOne{} and \MultiNtcPRingTwo{} (autonomous \MultiNtcPAuto). E2 is therefore an
+exploratory estimator in this paper: its counts are shown with the NTC-scaled expectation and
+the implied false discovery proportion, never alone.
 
 \begin{figure}[t]
 \centering
@@ -137,6 +146,7 @@ configuration. Dashed line: nominal 0.05. Source: \texttt{results/summary/real\_
 \end{figure}
 
 \subsection{Simulator benchmark}
+\label{sec:bench}
 Figure~\ref{fig:bench} and Table~\ref{tab:bench} report, on geometry copied from the
 Perturb-FISH tumour section, the NTC false-positive rate, power and false discovery
 proportion of the estimators for planted spillover under null, plain, bleed-through,
@@ -161,23 +171,25 @@ $q<0.1$ and false discovery proportion, by scenario and estimator. Source:
 \end{figure}
 
 \subsection{What survives in Perturb-FISH, and what does not in Perturb-Multi}
-With the calibrated configuration (E2 with spatial basis, NTC recipients, clean controls),
-Perturb-FISH gives \FishAutoHits{} autonomous calls at $q<0.1$ over \FishNTests{} identified
-tests with an NTC-estimated false discovery proportion of \FishAutoFdp, and \FishSpillHits{}
-spillover calls with an NTC-estimated false discovery proportion of \FishSpillFdp{} (pooled over
-rings; ring-level numbers in the notebook). The bleed-through detector finds no proportional
-transfer of the autonomous profile into the first ring (variance explained in the first ring
-minus the last ring: \FishArtifactFrac; projection coefficient \FishAlphaRingZero), so
-segmentation spill does not explain the ring-1 excess at the resolution of this detector.
-Ranking targets by their outer-ring spillover evidence (Figure~\ref{fig:ranking}),
-\FishNAboveNtc{} of \FishNRanked{} knockouts exceed the 95th percentile of NTC pseudo-target
-scores (\FishNtcScoreQ), led by \FishTopTarget{} (score \FishTopScore). The list is dominated by
-TLR4/NF-$\kappa$B adaptors, which is both the expected biology of a tumour-cell NF-$\kappa$B
-knockout changing cytokine output and what residual niche confounding would produce; only
-the calibration above separates the two. In Perturb-Multi, \MultiSpillHits{} spillover calls
-over \MultiNTests{} tests do not exceed the NTC-scaled expectation (NTC-estimated false
-discovery proportion \MultiSpillFdp): no spillover is detectable in the 209-gene liver panel
-with this design.
+Under the calibrated configuration (E1, 250~$\mu$m tiles, NTC recipients, clean controls),
+Perturb-FISH yields \E1TileAutoHits{} autonomous and \E1TileSpillHits{} spillover calls at
+$q<0.1$ over \E1TileNTests{} identified tests; the pre-registered hypotheses H2 and H3 are not
+supported. Under the exploratory configuration (E2 with spatial basis), the same dataset gives
+\FishAutoHits{} autonomous calls over \FishNTests{} tests with an NTC-estimated false discovery
+proportion of \FishAutoFdp, and \FishSpillHits{} spillover calls with \FishSpillFdp{} (pooled over
+rings; ring-level numbers in the notebook). The bleed-through detector applied to the E2
+profiles finds no proportional transfer of the autonomous profile into the first ring
+(variance explained in the first ring minus the last ring: \FishArtifactFrac; projection
+coefficient \FishAlphaRingZero), so whatever the ring-1 excess is, it is not segmentation
+spill of the autonomous programme. Ranking targets by their outer-ring E2 evidence
+(Figure~\ref{fig:ranking}), \FishNAboveNtc{} of \FishNRanked{} knockouts exceed the 95th
+percentile of NTC pseudo-target scores (\FishNtcScoreQ), led by \FishTopTarget{} (score
+\FishTopScore). The list is dominated by TLR4/NF-$\kappa$B adaptors, which is both the expected
+biology of a tumour-cell NF-$\kappa$B knockout changing cytokine output and what residual
+niche confounding produces; given the gate failure, it is a hypothesis list. In
+Perturb-Multi, \MultiSpillHits{} exploratory spillover calls over \MultiNTests{} tests do not
+exceed the NTC-scaled expectation (NTC-estimated false discovery proportion \MultiSpillFdp):
+no spillover is detectable in the 209-gene liver panel with any configuration tried.
 
 \begin{figure}[t]
 \centering
@@ -227,8 +239,10 @@ spillover profiles with 95\% intervals, and the autonomous profile. Source:
 of in vivo spatial screens. It invalidates "unassigned neighbour" designs and, through niche
 sharing, biases autonomous estimates as well. We handle it by recipient eligibility and a
 spatial basis; an explicit undetected-sibling model is future work.
-\item Calibration was reached on one dataset and in two of three rings. The first ring (0 to
-15~$\mu$m) remains anticonservative everywhere we could test it. We make no first-ring claims.
+\item No estimator in the ladder is both calibrated and powered under clonal assignment: E1
+with local tiles is calibrated and finds nothing; E2 variants keep power and fail the
+simulator gate. The first ring (0 to 15~$\mu$m) is anticonservative for every estimator.
+We make no spillover claim from these data.
 \item BH $q$-values are not nominal under residual confounding; every hit count is reported
 with the NTC-scaled expectation and the implied false discovery proportion (0.3 to 0.4 here).
 \item The estimators changed after the first real-data runs (amendments A1 to A5 in the
