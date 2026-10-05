@@ -93,3 +93,43 @@ Objection 5. "A positivity failure is silently set to zero somewhere." Resolutio
 min_valid_perm valid permutations, is flagged `identified = False`, excluded from BH, and
 counted in the calibration JSON (`n_tests`). The number of identified tests per run is in
 every results directory and in the notebook (95,000 global vs 8,000 at 250 um tiles).
+
+## Phase 3 (estimators and simulator), 2026-10-05
+
+Objection 1. "The simulator shares the estimators' assumptions, so good benchmark numbers are
+circular." Resolution: the simulator generates negative-binomial counts with multiplicative
+effects, exponential-kernel dose-dependent spillover, transcript relocation for bleed-through,
+density and batch log-offsets, clonal assignment and barcode misassignment; the estimators
+work on log-normalised means with ring indicators or counts and know nothing about kernels.
+The benchmark exposed estimator failures (anticonservative ring 0, compositional bias of
+normalisation, E3 anticonservative with small exposed groups, E4 uncalibrated), which is what
+a non-circular simulator should do. Remaining gap: no simulated segmentation errors beyond
+proportional transfer, no cell-type-specific responders in the default scenarios.
+
+Objection 2. "You changed the test statistic twice after seeing real data." Conceded and
+recorded (amendments A1, A2, A3; A4 for E2). Each change was declared before the rerun, the
+discarded results are kept in `results/` and described in NOTEBOOK, and each statistic's
+calibration was checked on a pure null before use. The honest summary is that the first
+pre-registered design (E1, exact permutation p, global strata) was both underpowered and
+confounded, and the project documents the path to a calibrated estimator rather than hiding
+it.
+
+Objection 3. "Your q-values are not nominal: the NTC pseudo-target hit rate at q < 0.10 is
+1.6 to 4.4%, and you estimate FDPs of 0.27 to 0.31 among hits." Conceded. BH assumes p-values
+that are uniform under the null; the residual niche confounding leaves them mildly
+anticonservative. The manuscript reports, next to every hit count, the NTC-scaled expectation
+and the implied FDP, which is the empirical null the data themselves provide. Hits are never
+listed without that column.
+
+Objection 4. "The GNN is a black box with made-up error bars." Conceded; E4's intervals are
+not reported as inference (NOTEBOOK 2026-10-05, benchmark: null FPR above 0.9). E4 is used for
+ranking only, where it outperforms E1 and E2 on the simulator (AUROC about 0.9 versus 0.6 at
+10,000 cells). Fixing its uncertainty (retraining ensembles or NTC calibration) is future work.
+
+Objection 5. "Comparison with published tools is unfair: you implemented the neighbour t-test
+yourself." Partly conceded. E0 reproduces the design of the published analyses (control cells
+with versus without a perturbed neighbour, per-gene test, no strata, no permutation) rather
+than their exact code (Perturb-FISH used FR-Perturb on neighbour design matrices). On the
+simulator this design has the highest apparent power and FDP 0.27 to 0.59; its NTC false
+positive rate reaches 10% under clonal assignment. The manuscript states that E0 is a
+re-implementation of the design, not the authors' software.

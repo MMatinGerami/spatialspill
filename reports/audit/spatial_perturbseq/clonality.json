@@ -1,0 +1,64 @@
+{
+  "dataset": "spatial_perturbseq",
+  "d_max": 100.0,
+  "n_assigned": 3669,
+  "pair_counts_observed": {
+    "(-0.001, 15.0]": {
+      "different_target": 212,
+      "same_guide": 17
+    },
+    "(15.0, 30.0]": {
+      "different_target": 1335,
+      "same_guide": 145
+    },
+    "(30.0, 50.0]": {
+      "different_target": 2749,
+      "same_guide": 255
+    },
+    "(50.0, 75.0]": {
+      "different_target": 4791,
+      "same_guide": 427
+    },
+    "(75.0, 100.0]": {
+      "different_target": 6118,
+      "same_guide": 501
+    }
+  },
+  "pair_ratio_obs_over_null": {
+    "(-0.001, 15.0]": {
+      "different_target": 6.65,
+      "same_guide": 8.72
+    },
+    "(15.0, 30.0]": {
+      "different_target": 6.19,
+      "same_guide": 7.55
+    },
+    "(30.0, 50.0]": {
+      "different_target": 5.92,
+      "same_guide": 6.18
+    },
+    "(50.0, 75.0]": {
+      "different_target": 5.55,
+      "same_guide": 5.5
+    },
+    "(75.0, 100.0]": {
+      "different_target": 5.16,
+      "same_guide": 4.88
+    }
+  },
+  "same_guide_components": {
+    "n_components": 3519,
+    "fraction_assigned_in_components_ge2": 0.07740528754428999,
+    "size_distribution": {
+      "1": 3385,
+      "2": 121,
+      "3": 10,
+      "4": 3
+    }
+  },
+  "misassignment_signature": {
+    "median_cor": 0.16917348769599008,
+    "n_targets": 17,
+    "frac_cor_above_0.3": 0.058823529411764705
+  }
+}
