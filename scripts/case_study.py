@@ -123,6 +123,8 @@ def main() -> int:
     out["ring1_hits_also_autonomous"] = sorted(a1 & au)
     fig.tight_layout()
     fig.savefig(d / f"case_{target}.png", dpi=130)
+    if a.target is None:  # the current top-ranked target also goes to a stable name
+        fig.savefig(d / "case_top.png", dpi=130)
     (d / f"case_{target}.json").write_text(json.dumps(out, indent=2) + "\n")
     print(json.dumps({k: v for k, v in out.items() if not k.endswith("_top")}, indent=2))
     return 0

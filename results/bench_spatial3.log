@@ -1,0 +1,4 @@
+{"scenario": "no_effect", "rep": 0, "seconds": 6.9, "n_cells": 30000, "n_perturbed": 3123, "n_ntc": 1377, "n_misassigned": 0}
+{"scenario": "no_effect", "rep": 1, "seconds": 6.5, "n_cells": 30000, "n_perturbed": 3183, "n_ntc": 1317, "n_misassigned": 0}
+{"scenario": "spill", "rep": 0, "seconds": 6.7, "n_cells": 30000, "n_perturbed": 3123, "n_ntc": 1377, "n_misassigned": 0}
+{"scenario": "spill", "rep": 1, "seconds": 6.5, "n_cells": 30000, "n_perturbed": 3183, "n_ntc": 1317, "n_misassigned": 0}

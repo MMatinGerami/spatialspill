@@ -50,7 +50,7 @@ analyze: ## downstream analysis on the latest E2 runs
 
 paper: ## figures, tables and the PDF
 	$(PY) scripts/make_figures.py --fish $(FISH_RUN) --multi $(MULTI_RUN) --bench $(shell ls -td results/*/ | xargs -I{} sh -c 'test -f {}benchmark_summary.csv && echo {}' | head -1)
-	cp $(FISH_RUN)/case_*.png paper/figures/fig5_case.png
+	cp $(FISH_RUN)/case_top.png paper/figures/fig5_case.png
 	cd paper && latexmk -pdf -interaction=nonstopmode main.tex >/dev/null 2>&1 || pdflatex -interaction=nonstopmode main.tex >/dev/null
 	$(PY) scripts/check_citations.py paper docs
 
