@@ -1,0 +1,15 @@
+scenario,rep,seconds,n_cells,n_perturbed,n_ntc,n_misassigned
+no_effect,0,199.9,40000,9587,2413,0
+no_effect,1,197.3,40000,9547,2453,0
+spill,0,182.8,40000,9587,2413,0
+spill,1,176.5,40000,9547,2453,0
+spill_bleed,0,155.5,40000,9587,2413,0
+spill_bleed,1,158.1,40000,9547,2453,0
+spill_density,0,158.4,40000,9587,2413,0
+spill_density,1,158.2,40000,9547,2453,0
+spill_clonal,0,83.1,40000,7765,1677,0
+spill_clonal,1,81.1,40000,7575,1883,0
+spill_misassign,0,157.2,40000,10822,2712,1534
+spill_misassign,1,156.5,40000,10738,2794,1532
+everything,0,82.3,40000,7956,1721,235
+everything,1,82.8,40000,7757,1930,229

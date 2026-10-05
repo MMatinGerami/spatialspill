@@ -1,0 +1,31 @@
+clean_controls: true
+control_policy: ntc
+dataset_kwargs:
+  perturb_multi:
+    batches:
+    - '4'
+    - '5'
+    - '8'
+    - '9'
+    - '10'
+    max_cells_per_batch: 150000
+datasets:
+- perturb_multi
+distance_bins_um:
+- 0
+- 15
+- 30
+- 60
+fdr: 0.1
+graph:
+  kind: delaunay
+  max_edge_um: 50.0
+  radius_um: 30.0
+min_cells: 5
+n_perm: 200
+seed: 0
+strata:
+- sample
+- cell_type
+- tile
+tile_um: 400

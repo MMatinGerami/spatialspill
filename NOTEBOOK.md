@@ -254,3 +254,42 @@ Conclusion so far: ranking and inference need different tools; E4 for ranking, E
 strata for calibrated claims. The 40,000-cell power benchmark with E0 to E3 (results/bench_power2.log),
 the Perturb-FISH tile sensitivity runs (150 and 400 um) and the Perturb-Multi E1 runs
 (global and 400 um tiles) were still running in tmux when work paused on 2026-10-05 at 01:30.
+
+## 2026-10-05 07:40 Overnight results
+
+Perturb-FISH tile sensitivity (E1, NTC recipients):
+- 150 um (results/a16b3fdbc3): 4,000 identified tests, NTC p < 0.05 fraction 0.025, 0 hits.
+- 250 um (results/8c106a7091): 8,000 tests, 0.036, 0 autonomous, 4 spillover hits.
+- 400 um (results/055d929ee0): 15,000 tests, 0.038, 0 autonomous, 6 spillover hits.
+- global (results/5d30bb4682): 95,000 tests, 0.083 (ring 0: 0.134), 1,052 autonomous, 637 spillover.
+With local nulls the autonomous hits vanish too: a perturbed clone compared with NTC cells
+elsewhere in the section differs by niche as much as by genotype. In a clonal tumour screen
+"autonomous effect" estimates that are not locally controlled are confounded, not only the
+spillover ones. H2 as pre-registered therefore fails under A3; the honest statement is that
+E1 cannot separate genotype from niche in this dataset at this sample size.
+
+Perturb-Multi (sections 4, 5, 8, 9, 10; 5 sections, 9 cell types, 50 NTC guides):
+- global strata (results/53c85fb53d): 66,044 tests, NTC p < 0.05 fraction 0.111, q < 0.10
+  fraction 0.025; 1,579 autonomous and 94 spillover hits. Anticonservative; H1 fails.
+- 400 um tiles (results/7c7029afd1): 0 identified tests. With 3,828 NTC cells over 5 sections
+  x 9 cell types x tiles, no stratum reaches 5 recipients and 5 controls. Tile strata are not
+  viable where cell types are many; the spatial adjustment has to be a covariate, not a stratum.
+
+Power benchmark, 40,000 cells on Perturb-FISH geometry, any_other_guide recipients, no clean
+restriction (results/a0b119699d): for spillover the neighbour t-test (the published approach)
+has the highest apparent power (0.6 to 0.7 at ring 0) but FDP 0.27 to 0.59 and 10% NTC false
+positives under clonal assignment; E1 and E2 keep NTC false positives at 4 to 7% except E1
+in the clonal scenario at ring 1 (14 to 15%), where E2 stays at 6 to 7% (its density and area
+covariates absorb part of the clustering); E3 is anticonservative at ring 0 (13 to 16%),
+likely from the ridge outcome model and small exposed groups. Spillover power at q < 0.10 is
+0.3 to 0.5 in rings 1 and 2 for E1/E2 with strong planted effects (LFC sd 1.5 on 20% of genes),
+AUROC 0.8 to 0.87. Autonomous NTC "false positives" of 0.2 to 0.3 under any_other_guide are a
+property of that policy: controls then include perturbed cells with their own autonomous
+effects, so the NTC-vs-control contrast is not null; under the ntc policy (bench_small_a2) the
+NTC rate is nominal. This is recorded as a policy caveat, not an estimator failure.
+
+Decision: implement the pre-registered spatial random effect in E2 as a per-sample radial
+basis (k-means centres on coordinates, Gaussian bumps) entering the regression as covariates,
+so controls stay available everywhere while niche variation is absorbed. Pre-registration for
+its real-data use follows below once the simulator shows it is calibrated under clonal
+assignment.
