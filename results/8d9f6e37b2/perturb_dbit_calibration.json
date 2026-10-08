@@ -1,4 +1,3 @@
-[perturb_dbit] 22421 units x 181749 features
 {
   "fdr": 0.1,
   "n_tests": 1064000,
@@ -46,5 +45,3 @@
   "dataset": "perturb_dbit",
   "targets": 540
 }
-results in results/8d9f6e37b2
-DONE

@@ -216,7 +216,13 @@ biology of a tumour-cell NF-$\kappa$B knockout changing cytokine output and what
 niche confounding produces; given the gate failure, it is a hypothesis list. In
 Perturb-Multi, \MultiSpillHits{} exploratory spillover calls over \MultiNTests{} tests do not
 exceed the NTC-scaled expectation (NTC-estimated false discovery proportion \MultiSpillFdp):
-no spillover is detectable in the 209-gene liver panel with any configuration tried.
+no spillover is detectable in the 209-gene liver panel with any configuration tried. On Perturb-DBiT
+(exploratory: pixel units, unperturbed pixels as controls), the same E2 configuration is not
+calibrated: of the NTC pseudo-target tests, a fraction \DbitNtcP{} have $p < 0.05$ and
+\DbitNtcQ{} pass the 10\% FDR threshold, so the NTC-estimated false discovery proportions of
+the autonomous and spillover calls are \DbitAutoFdp{} and \DbitSpillFdp{} over \DbitNTests{}
+tests. Each 20 to 50~$\mu$m pixel mixes several cells and their guides, so this is the expected
+failure of a pixel-level design rather than evidence about spillover.
 
 \begin{figure}[t]
 \centering

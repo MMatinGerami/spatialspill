@@ -1,5 +1,6 @@
 run,dataset,estimator,spatial_basis,strata,tile_um,control_policy,clean_controls,n_perm,n_tests,n_ntc_tests,ntc_p05,ntc_q10,ntc_p05_auto,ntc_p05_r0,ntc_p05_r1,ntc_p05_r2,autonomous_hits,auto_fdp_ntc,spillover_hits,spill_fdp_ntc
 2018dbfee2,bundled,E1,0,sample+cell_type,0,unperturbed,False,20.0,9000,200,0.06,0.005,,0.02,0.04,0.09,19,0.0,60,0.6208333333333333
+8d9f6e37b2,perturb_dbit,E2,10,sample+cell_type,0,unperturbed,False,,1064000,8000,0.09275,0.091625,0.0975,0.0955,0.0895,0.0885,62192,0.41175713918188833,186572,0.38134339557918656
 055d929ee0,perturb_fish,E1,0,sample+cell_type+tile,400,ntc,True,200.0,7500,1500,0.038,0.0,,,0.024,0.045,0,,3,0.0
 5d30bb4682,perturb_fish,E1,0,sample+cell_type,0,ntc,True,200.0,47500,5500,0.08327272727272728,0.009818181818181818,0.08066666666666666,0.134,0.06133333333333333,0.074,527,0.3845667299177735,319,0.7131661442006271
 8c106a7091,perturb_fish,E1,0,sample+cell_type+tile,250,ntc,True,200.0,4000,1000,0.036,0.0,,,,0.036,0,,2,0.0

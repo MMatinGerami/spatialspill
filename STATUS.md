@@ -1,6 +1,6 @@
 # STATUS
 
-Last updated: 2026-10-05 10:40
+Last updated: 2026-10-09 00:03
 
 ## Achieved
 
@@ -48,7 +48,9 @@ Last updated: 2026-10-05 10:40
 
 ## Running or next
 
-- Exploratory Perturb-DBiT E2 still in tmux (ss_dbit); pixel-level, no calibration possible.
+- Exploratory Perturb-DBiT E2 finished (results/8d9f6e37b2): not calibrated (NTC q < 0.10
+  fraction 0.092, NTC-estimated FDP about 0.4), as expected for pixel units; in the manuscript
+  and NOTEBOOK.
 - Not done, by design or by data: PyPI release, Zenodo deposit and public visibility (owner's
   calls); DepMap and Open Targets checks (no calibrated hit set); sibling model with local
   autonomous profiles; mask-based edge distance; E4 uncertainty.

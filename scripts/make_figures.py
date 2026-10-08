@@ -276,6 +276,15 @@ def numbers(fish: Path, multi: Path, gate: Path | None) -> None:
         else:
             macros[name] = fmt.format(value)
 
+    # exploratory pixel-level E2 run on Perturb-DBiT (unperturbed-pixel controls, A4)
+    dbit = sorted(RES.glob("*/perturb_dbit_calibration.json"), key=lambda q: q.stat().st_mtime)
+    r = json.loads(dbit[-1].read_text()) if dbit else {}
+    add("DbitNTests", int(r.get("n_tests", 0)))
+    add("DbitNtcP", r.get("ntc_fraction_p_below_0.05"))
+    add("DbitNtcQ", r.get("ntc_fraction_q_below_fdr"))
+    add("DbitAutoFdp", r.get("ntc_fdp_autonomous"), "{:.2f}")
+    add("DbitSpillFdp", r.get("ntc_fdp_spillover"), "{:.2f}")
+
     for tag, d in (("Fish", fish), ("Multi", multi)):
         cal = glob.glob(str(d / "*_calibration.json"))
         r = json.loads(Path(cal[0]).read_text()) if cal else {}

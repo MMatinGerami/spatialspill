@@ -703,3 +703,14 @@ identified rings coincide (20 to 40 and 40 to 60 um in both); 2,500 tests, NTC p
 fraction 0.028, 0 autonomous hits, 10 spillover hits. The pre-registered criterion of fewer
 than 10 spillover hits is missed by one call in both binnings; calibration and the autonomous
 null are unchanged. Conclusion unchanged.
+
+## 2026-10-09 00:03 Perturb-DBiT exploratory E2 (A4) completed
+
+Run results/8d9f6e37b2 (configs/e2_perturb_dbit.yaml; finished 2026-10-05 10:48 in tmux,
+recorded now). 22,421 pixels, 540 targets, 1,064,000 tests of which 8,000 on NTC
+pseudo-targets. NTC p < 0.05 fraction 0.093 (rings -1 to 2: 0.098, 0.096, 0.090, 0.089);
+NTC q < 0.10 fraction 0.092. NTC-estimated FDP 0.41 for the 62,192 autonomous calls and 0.38
+for the 186,572 spillover calls. As declared in A4 this run is exploratory: pixel units mix
+cells and guides, and the unperturbed-pixel controls carry the clonal niche. It is reported
+in the cross-technology table and the manuscript only as a calibration failure. Conclusions
+unchanged.
