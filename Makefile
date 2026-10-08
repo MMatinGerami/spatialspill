@@ -31,6 +31,11 @@ audit: data ## per-dataset audit reports
 FISH_RUN ?= $(shell ls -td results/*/ 2>/dev/null | xargs -I{} sh -c 'test -f {}perturb_fish_e2_estimates.csv && echo {}' | head -1)
 MULTI_RUN ?= $(shell ls -td results/*/ 2>/dev/null | xargs -I{} sh -c 'test -f {}perturb_multi_e2_estimates.csv && echo {}' | head -1)
 
+# Simulator runs shown in the manuscript (NOTEBOOK 2026-10-05). Pinned: picking the newest
+# benchmark by date picked up the later ablation and power runs instead.
+BENCH_RUN ?= results/a0b119699d
+GATE_RUN ?= results/b4c9dbe669
+
 real: ## pre-registered real-data runs (E1 and E2 configs)
 	for c in e1_perturb_fish e1_perturb_fish_tile250 e2_perturb_fish_sb0 e2_perturb_fish_sb40 e1_perturb_multi e2_perturb_multi_sb40 e2_perturb_multi_sb150 e2_spatial_perturbseq e2_perturb_dbit; do \
 	  $(PY) scripts/run_pipeline.py --config configs/$$c.yaml || exit 1; done
@@ -49,7 +54,7 @@ analyze: ## downstream analysis on the latest E2 runs
 	$(PY) scripts/aggregate_results.py
 
 paper: ## figures, tables and the PDF
-	$(PY) scripts/make_figures.py --fish $(FISH_RUN) --multi $(MULTI_RUN) --bench $(shell ls -td results/*/ | xargs -I{} sh -c 'test -f {}benchmark_summary.csv && echo {}' | head -1)
+	$(PY) scripts/make_figures.py --fish $(FISH_RUN) --multi $(MULTI_RUN) --bench $(BENCH_RUN) --gate $(GATE_RUN)
 	cp $(FISH_RUN)/case_top.png paper/figures/fig5_case.png
 	cd paper && latexmk -pdf -interaction=nonstopmode main.tex >/dev/null 2>&1 || pdflatex -interaction=nonstopmode main.tex >/dev/null
 	$(PY) scripts/check_citations.py paper docs
