@@ -60,9 +60,9 @@ Nothing in `data/raw` is tracked by git.
 - Paper: Shen K et al., Spatial perturb-seq: single-cell functional genomics within intact tissue
   architecture. Nat Commun 2026. doi:10.1038/s41467-026-69677-6. Preprint doi:10.1101/2024.12.19.628843.
 - GEO GSE274447: 3 Stereo-seq cellbin GEF files (mouse hippocampus, AAV library of 18 targets),
-  RAW tar 2.1 GB. Whether guide barcodes are stored as features inside the GEF is unverified
-  until download. Code: github.com/kimberle9/spatialperturbseq, Zenodo doi:10.5281/zenodo.17959756.
-- Role here: candidate fourth technology if the GEF carries guide features.
+  RAW tar 2.1 GB. Guide barcodes are stored as 18 `sgrna_<target>` features in the gene table
+  of each GEF (verified after download, reports/audit/spatial_perturbseq_inspection.md). Code: github.com/kimberle9/spatialperturbseq, Zenodo doi:10.5281/zenodo.17959756.
+- Role here: fourth technology (Stereo-seq cell bins); exploratory E2 and clonality analyses.
 
 ### Combinatorial functional genomics + spatial transcriptomics (Gerstung and Tschaharganeh labs), Nat Biomed Eng 2025. Accessible: yes
 - Paper: Breinig M et al. doi:10.1038/s41551-025-01437-1 (CC BY 4.0). Zenodo record 10986436

@@ -42,8 +42,8 @@ exceed the nominal false-positive rate (\EOneGlobalNtcPRingZero{} at the first r
 with them no autonomous (\EOneTileAutoHits) and \EOneTileSpillHits{} spillover calls survive: in a
 clonal screen even the "autonomous" contrast of a clone against distant controls is a niche
 contrast. Regression adjustment with a spatial basis, with or without a permutation null,
-fails the pre-registered calibration gate on the simulator under clonal assignment with
-analytic standard errors (outer-ring false positives 0.14 to 0.29); with a stratified
+fails the pre-registered calibration gate on the simulator under clonal assignment
+(false positives of 0.15 to 0.29 in the 30 to 60~$\mu$m ring across its variants); with a stratified
 permutation null its non-targeting rates on Perturb-FISH are nominal at every ring
 (\FishNtcPAuto, \FishNtcPRingZero, \FishNtcPRingOne, \FishNtcPRingTwo) and its calls collapse
 to \FishAutoHits{} autonomous and \FishSpillHits{} spillover at $q<0.1$ (non-targeting
@@ -52,9 +52,10 @@ explained minus last ring \FishArtifactFrac) and a hypothesis ranking led by \Fi
 neighbour $t$-test design has false discovery proportions of 0.3 to 0.6 on the simulator, a
 graph neural network ranks planted spillover well (AUROC about 0.9) with unusable intervals,
 and a power analysis on the Perturb-FISH geometry shows that calibrated detection of even large
-outer-ring spillover (log fold change 2 on a fifth of the panel) reaches at most
+outer-ring spillover (log fold changes with standard deviation 2 on a fifth of the panel, for
+half of the targets) reaches at most
 \PowerETwoPermTwoMaxPower{} power with \PowerETwoPermTwoMaxRecipients{} confirmed non-target
-recipients per target, one to two orders of magnitude more than public screens provide. A
+recipients per target, about ten times more than Perturb-FISH provides in its outer rings. A
 mixture model that recovers spillover from unassigned neighbours works on the simulator
 (contamination estimated at \SibPiClonalLow{} with 40\% guide detection, corrected profiles
 correlating \SibRCorSpill{} with truth) but is not identified on real clonal data, where the
@@ -82,8 +83,8 @@ We ask which intercellular effects in public spatial screens survive a formal tr
 interference, mandatory non-targeting calibration, and explicit artifact modelling. The
 answer is sobering and, we argue, useful: the dominant structure in every in vivo dataset is
 clonal or delivery-driven clustering of same-guide cells, which confounds both autonomous and
-spillover estimates unless the null is local; once it is, one dataset retains a modest,
-calibrated spillover signal and the other does not.
+spillover estimates unless the null is local; once it is, neither dataset shows spillover
+that can be distinguished from the non-targeting null at the available sample sizes.
 
 \section{Results}
 \label{sec:results}
@@ -104,11 +105,12 @@ adjacent cells sharing a target are \FishClonRatio{} times more frequent than un
 stratified permutation null in Perturb-FISH ($z$ = \FishClonZ), \MultiClonRatio{} times in
 Perturb-Multi ($z$ = \MultiClonZ), with Perturb-map lesions (by construction), Perturb-DBiT
 pixels and Spatial Perturb-seq showing the same pattern at lower magnitude. The excess is
-guide-specific (same-target-other-guide pairs are not enriched) and, in Perturb-FISH, flat
+guide-specific (same-target-other-guide pairs are enriched 1.2 to 1.5 times in Perturb-FISH,
+against 4 to 5 times for the same guide) and, in Perturb-FISH, flat
 over 0 to 100~$\mu$m, the signature of clonal growth of transduced tumour cells rather than of
 first-ring barcode misassignment. Unassigned cells adjacent to cells of target $g$ are shifted
 towards $g$'s autonomous profile (median correlation \FishMisCor{} over 30 targets in
-Perturb-FISH, \MultiMisCor{} over 60 in Perturb-Multi). With guide-call rates of 4 to 5\%,
+Perturb-FISH, \MultiMisCor{} over 60 in Perturb-Multi). With guide-call rates of 5\% (Perturb-FISH) and 10\% (Perturb-Multi),
 most unassigned neighbours of a perturbed cell are undetected siblings. Spillover recipients
 and controls must therefore carry a confirmed guide other than $g$ (non-targeting by default).
 
@@ -126,8 +128,8 @@ Source: \texttt{reports/audit/*/clonality.json}.}
 \subsection{Global permutation nulls are anticonservative; a spatial basis restores calibration}
 Figure~\ref{fig:calib} shows the non-targeting calibration of each estimator configuration on
 the two single-cell MERFISH datasets. The stratified difference in means (E1) with strata
-sample $\times$ cell type and a studentized permutation null gives \FishNtcPRingZero{} of
-first-ring NTC tests at $p<0.05$ in Perturb-FISH and \MultiNtcPAuto{} of autonomous NTC
+sample $\times$ cell type and a studentized permutation null gives \EOneGlobalNtcPRingZero{} of
+first-ring NTC tests at $p<0.05$ in Perturb-FISH and \MultiEOneNtcP{} of autonomous NTC
 tests in Perturb-Multi. The mechanism is spatial autocorrelation of expression: the few
 recipients exposed to a given target sit around one clone and share its niche, while the
 permutation null compares them with NTC cells anywhere in the section. Spatial tiles as
@@ -135,14 +137,15 @@ strata restore calibration (2.5 to 3.8\% at $p<0.05$ at 150 to 400~$\mu$m) at th
 almost all identified tests, including the autonomous ones: in a clonal tumour screen the
 "autonomous" contrast of a clone against distant control cells is as confounded by niche as
 the spillover contrast. Regression adjustment (E2) with a per-sample Gaussian radial basis of
-40 centres as the spatial random effect keeps positivity. On Perturb-FISH its NTC pseudo-target
-rates at $p<0.05$ are \FishNtcPAuto{} (autonomous), \FishNtcPRingOne{} (15 to 30~$\mu$m) and
-\FishNtcPRingTwo{} (30 to 60~$\mu$m) but \FishNtcPRingZero{} in the first ring, and on the
+40 centres as the spatial random effect keeps positivity. With analytic standard errors its NTC
+pseudo-target rates at $p<0.05$ on Perturb-FISH are \FishAnalyticNtcPAuto{} (autonomous),
+\FishAnalyticNtcPRingOne{} (15 to 30~$\mu$m) and \FishAnalyticNtcPRingTwo{} (30 to 60~$\mu$m)
+but \FishAnalyticNtcPRingZero{} in the first ring, and on the
 simulator the same configuration fails the pre-registered gate under clonal assignment
 (Section~\ref{sec:bench}): identifying the ring coefficients from recipients only (amendment
 A5), clustering standard errors by spatial tile (A6) and replacing the analytic test by the
-stratified permutation null (A7) each changed the picture without bringing the outer rings
-below the 0.08 ceiling (0.14 to 0.29). On Perturb-Multi, where only the 30 to 60~$\mu$m ring reaches positivity with clean
+stratified permutation null (A7) each changed the picture without bringing the 30 to
+60~$\mu$m ring below the 0.08 ceiling (0.15 to 0.29). On Perturb-Multi, where only the 30 to 60~$\mu$m ring reaches positivity with clean
 controls, the 150-centre basis gives \MultiNtcPRingTwo{} for that ring and \MultiNtcPAuto{} for
 the autonomous contrast. E2 is therefore an
 exploratory estimator in this paper: its counts are shown with the NTC-scaled expectation and
@@ -165,10 +168,11 @@ proportion of the estimators for planted spillover under null, plain, bleed-thro
 density, batch, clonal and misassignment scenarios. The neighbour $t$-test (E0, the design of
 published analyses) has the highest apparent power and false discovery proportions of 0.27 to
 0.59, with 10\% NTC false positives under clonal assignment. E1 and E2 hold NTC false positives
-at 4 to 7\% in the outer rings except E1 under clonal assignment; the doubly robust estimator
+at 5 to 6\% in the null and single-artifact scenarios, and at 7 to 9\% under clonal assignment
+and with all artifacts combined (Table~\ref{tab:bench}); the doubly robust estimator
 (E3) is anticonservative in the first ring; the graph neural network (E4) ranks planted
 spillover best (AUROC about 0.9 versus 0.6 for E1 and E2 at 10{,}000 cells) but its bootstrap
-intervals are not usable for inference (null false-positive rate above 0.9). Normalisation
+intervals are not usable for inference (null false-positive rate 0.87 to 0.97). Normalisation
 induces a compositional shift on every gene when a perturbation changes 10 to 20\% of a small
 panel; the benchmark truth is corrected for it and the effect is itself a caveat for
 panel-based assays.
@@ -178,7 +182,10 @@ panel-based assays.
 \small
 \caption{Simulator benchmark for spillover in the outer rings (mean over rings 1 and 2 and
 over replicates): non-targeting false positives at $p<0.05$, power at $q<0.1$, AUROC and false
-discovery proportion at $q<0.1$, by scenario and estimator. Source:
+discovery proportion at $q<0.1$, by scenario and estimator. Rows combine the main benchmark
+(results/a0b119699d: controls with any other guide, 40{,}000 cells) and the calibration-gate
+run (results/b4c9dbe669: non-targeting controls, 30{,}000 cells); where both contain an
+estimator and scenario, the value is their mean. Source:
 \texttt{paper/tables/benchmark\_spillover.tex}.}
 \label{tab:bench}
 \input{tables/benchmark_spillover.tex}
@@ -239,8 +246,9 @@ Table~\ref{tab:ablation} removes one ingredient at a time on the simulator. Drop
 from the strata leaves calibration and power unchanged in this geometry; dropping the
 covariates from the regression raises the false discovery proportion under a planted density
 effect; tile strata identify no test at all on 30{,}000 simulated cells (they need the
-187{,}000-cell real section to work); and the space-blind pseudobulk baseline doubles the false
-discovery proportion of the autonomous contrast relative to E1 at equal power.
+187{,}000-cell real section to work); and the space-blind pseudobulk baseline roughly doubles
+the false discovery proportion of the autonomous contrast relative to E1 (0.24 versus 0.12) at
+somewhat higher power (0.88 versus 0.75).
 
 \begin{table}[t]
 \centering
@@ -255,14 +263,14 @@ Source: \texttt{paper/tables/ablation.tex}.}
 \label{sec:power}
 Figure~\ref{fig:power} gives power at $q<0.1$ for planted outer-ring spillover as a function of
 the median number of confirmed non-target recipients per target, for the calibrated E1 with
-tiles and for E2 with permutation null, over planted log fold changes of 0.5, 1 and 2 on 20\%
-of panel genes. With the Perturb-FISH geometry and 30{,}000 cells, no grid cell reaches 80\% power: E2 with
+tiles and for E2 with permutation null, over planted log fold changes drawn with standard
+deviation 0.5, 1 and 2 on 20\% of panel genes, for half of the targets. With the Perturb-FISH geometry and 30{,}000 cells, no grid cell reaches 80\% power: E2 with
 permutation null attains at most \PowerETwoPermTwoMaxPower{} for an LFC of 2 at
 \PowerETwoPermTwoMaxRecipients{} confirmed recipients per target, \PowerETwoPermOneMaxPower{} for
 an LFC of 1 and \PowerETwoPermHalfMaxPower{} for an LFC of 0.5, while its non-targeting false
-positives stay at 0.03 to 0.06; E1 with 250~$\mu$m tiles identifies no test at all on 30{,}000
-simulated cells (it needs the 187{,}000-cell real section). Public screens have 5 to 50 non-target recipients per
-target in the outer rings. The design recommendation is direct: a spatial screen that aims at
+positives stay at or below 0.065; E1 with 250~$\mu$m tiles identifies no test at all on 30{,}000
+simulated cells (it needs the 187{,}000-cell real section). In Perturb-FISH the median number of confirmed non-target recipients per target is 5.5 in the
+first ring and 10.5 to 32 in the outer rings. The design recommendation is direct: a spatial screen that aims at
 spillover needs non-targeting controls as a large share of its library (not the usual few
 percent) and several hundred confirmed non-target cells adjacent to each perturbation, or a
 way to use unassigned neighbours safely, which is the next section.
@@ -346,14 +354,17 @@ spillover profiles with 95\% intervals, and the autonomous profile. Source:
 \item Clonal and delivery-driven clustering of same-guide cells is the first-order structure
 of in vivo spatial screens. It invalidates "unassigned neighbour" designs and, through niche
 sharing, biases autonomous estimates as well. We handle it by recipient eligibility and a
-spatial basis; an explicit undetected-sibling model is future work.
+spatial basis; the undetected-sibling model of Section~\ref{sec:sibling} works on the
+simulator but is not identified on these data.
 \item No estimator in the ladder is both calibrated and powered under clonal assignment: E1
 with local tiles is calibrated and finds nothing; E2 variants keep power and fail the
-simulator gate. The first ring (0 to 15~$\mu$m) is anticonservative for every estimator.
+simulator gate. The first ring (0 to 15~$\mu$m) is anticonservative for E1 with global strata,
+for E2 with analytic standard errors and for E3; only the permutation null brings it to the
+nominal rate on Perturb-FISH.
 We make no spillover claim from these data.
 \item BH $q$-values are not nominal under residual confounding; every hit count is reported
-with the NTC-scaled expectation and the implied false discovery proportion (0.3 to 0.4 here).
-\item The estimators changed after the first real-data runs (amendments A1 to A5 in the
+with the NTC-scaled expectation and the implied false discovery proportion (from 0 to 1 across the runs reported here).
+\item The estimators changed after the first real-data runs (amendments A1 to A7 in the
 notebook, each declared before its rerun). The discarded results are kept.
 \item Pixel-level (Perturb-DBiT) and spot-level (Perturb-map) technologies cannot separate
 intra-unit mixing from intercellular effects; their spillover analyses are exploratory.
@@ -390,7 +401,22 @@ identified tests per dataset.
 effects; scoring on null, non-null and composition-shifted pairs; NTC pseudo-targets as exact
 nulls.
 \paragraph{Reproducibility.} \texttt{make reproduce} regenerates every result from a clean
-clone; results are keyed by configuration hash; all DOIs are checked against Crossref.
+clone; results are keyed by configuration hash; all DOIs are checked against Crossref and DataCite.
+
+\section*{Code and data availability}
+Code, configuration files, the dated lab notebook with pre-registrations and amendments, and
+every generated table are available at \url{https://github.com/MMatinGerami/spatialspill}
+under the MIT licence. \texttt{make paper} rebuilds the figures, tables and every number quoted
+in the text from the committed results. All datasets are public; accessions and download
+scripts are listed in \texttt{data/README.md} of the repository.
+
+\section*{Competing interests}
+The author declares no competing interests.
+
+\section*{Use of AI tools}
+Code, analyses and manuscript text were developed with the assistance of an AI coding assistant
+(Claude, Anthropic). Every design decision and amendment is recorded with its date in the
+repository. The author takes responsibility for the content.
 
 \bibliographystyle{plainnat}
 \bibliography{refs}

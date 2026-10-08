@@ -714,3 +714,34 @@ for the 186,572 spillover calls. As declared in A4 this run is exploratory: pixe
 cells and guides, and the unperturbed-pixel controls carry the clonal niche. It is reported
 in the cross-technology table and the manuscript only as a calibration failure. Conclusions
 unchanged.
+
+## 2026-10-09 00:40 Pre-publication audit: corrections to prose (no analysis changed)
+
+Every number in README, STATUS and the manuscript was checked against the generated results
+before the repository was made public. No run, estimator or result changed; these are
+reporting corrections.
+
+- Macro sources. `make_figures.py` took the last row per setting from the summary table, so
+  the 250 um tile macros came from bin-sensitivity run c0bde8094c (2,500 tests, NTC 0.028,
+  10 spillover calls) instead of the pre-registered primary run 8c106a7091 (bins 0/15/30/60:
+  4,000 tests, NTC 0.036, 0 autonomous, 2 spillover calls). The runs quoted in the prose are
+  now pinned by hash. `make paper` had the same problem for the simulator runs (Makefile
+  now pins a0b119699d and b4c9dbe669, which reproduce the committed Table 1 exactly).
+- Wrong macros in Results: the E1 global-strata sentence printed the final E2-permutation
+  rates (0.039, 0.054) instead of E1's (0.134, 0.111); the analytic-SE E2 sentence printed
+  permutation-run rates instead of run 246b4deb3e (0.078, 0.171, 0.079, 0.067).
+- Imprecise statements corrected: clonal-gate outer-ring rates (0.15 to 0.29, ring 2);
+  benchmark NTC rates of E1 and E2 (5 to 6%, 7 to 9% under clonal and combined artifacts);
+  E4 null false-positive rate (0.87 to 0.97); pseudobulk ablation (FDP 0.24 vs 0.12 at power
+  0.88 vs 0.75); power grid (planted LFC standard deviation, half of targets; NTC at most
+  0.065); recipients per target (Perturb-FISH medians 5.5 and 10.5 to 32; the earlier "5 to
+  50" had no generated source); guide-call rates (5% and 10%); same-target-other-guide
+  enrichment in Perturb-FISH (1.2 to 1.5 times); implied FDP range; amendments A1 to A7.
+- Stale framing removed: the introduction's "one dataset retains a modest, calibrated
+  spillover signal" contradicted the abstract; the sibling model is no longer called future
+  work; the first-ring limitation names the estimators it applies to.
+- Earlier notebook entries quote all-groups test counts (for example 95,000 tests and 8,000
+  for 8c106a7091) where the tables use primary-group counts (47,500 and 4,000). Both are
+  correct for their scope; the tables and manuscript use the primary group.
+- Table 1 caption now states that rows combine the main benchmark and the gate run.
+- Added to the manuscript: code and data availability, competing interests, use of AI tools.

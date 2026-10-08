@@ -3,26 +3,33 @@
 Calibrated estimation of cell-autonomous and non-cell-autonomous (spillover) effects in
 spatial CRISPR screens, with artifact detection and cross-technology benchmarking.
 
-Status: first complete pass done (2026-10-05). See [STATUS.md](STATUS.md) for what was and
+Status: two complete analysis passes done (2026-10-05); Perturb-DBiT run recorded
+2026-10-09. See [STATUS.md](STATUS.md) for what was and
 was not achieved, [NOTEBOOK.md](NOTEBOOK.md) for the dated lab notebook with pre-registrations
 and amendments, [DECISIONS.md](DECISIONS.md) for design decisions, [CRITIQUE.md](CRITIQUE.md)
-for the red-team record per phase, `paper/main.tex` for the manuscript draft and
-`results/summary/` for the aggregated tables.
+for the red-team record per phase, `paper/main.tex` for the manuscript draft (`make paper`
+rebuilds it, with every number generated from the committed results) and `results/summary/`
+for the aggregated tables.
 
 ## Findings in one paragraph
 
 In every public in vivo spatial CRISPR screen examined (Perturb-FISH tumour, Perturb-Multi
 liver, Perturb-map, Perturb-DBiT, Spatial Perturb-seq), cells carrying the same guide are
-spatially clustered far beyond a stratified permutation null, and unassigned neighbours of
-perturbed cells carry the perturbed expression signature. This makes the common "control
+spatially clustered beyond a stratified permutation null (15 and 137 times the expected
+same-guide adjacency in the two MERFISH screens, 7.7 times in Spatial Perturb-seq and about 1.5
+times in the pixel- and spot-based Perturb-DBiT and Perturb-map), and in the MERFISH screens unassigned neighbours of perturbed cells carry the
+perturbed expression signature (median correlation 0.7). This makes the common "control
 cells with versus without a perturbed neighbour" design invalid (recipients must carry a
 confirmed non-target guide) and makes global permutation nulls and robust regression standard
 errors anticonservative, because exposed recipients share one clone's niche. Local tile strata
-restore calibration on non-targeting pseudo-targets but leave no detectable autonomous or
-spillover effect in Perturb-FISH; regression adjustment with a spatial basis keeps power but
+restore calibration on non-targeting pseudo-targets but leave 0 autonomous and 2 spillover
+calls in Perturb-FISH; regression adjustment with a spatial basis keeps power but
 fails the simulator calibration gate under clonal assignment and is reported as exploratory
 with its non-targeting-estimated false discovery proportion. Perturb-Multi shows no spillover
-beyond the null in any configuration. Gene embeddings do not predict held-out effect profiles,
+beyond the null in any calibrated configuration. At pixel level (Perturb-DBiT) the same
+estimator is not calibrated (about 40% of calls expected false). A power analysis shows that
+calibrated detection of spillover needs roughly ten times more confirmed non-target recipients
+per target than these screens provide. Gene embeddings do not predict held-out effect profiles,
 and nothing transfers across technologies with the available targets.
 
 ## Question
@@ -34,7 +41,9 @@ intercellular effects with ad hoc statistics. This project asks: which of those 
 survive a formal treatment of interference, calibration against non-targeting guides, and
 explicit modelling of segmentation bleed-through, density, batch and tissue-edge artifacts?
 
-## Contributions (planned)
+## Contributions
+
+Planned as C1 to C7; what was achieved and what was not is in [STATUS.md](STATUS.md).
 
 - C1 Estimands and identification for spillover under network interference
   ([docs/estimands.md](docs/estimands.md)).
@@ -42,11 +51,12 @@ explicit modelling of segmentation bleed-through, density, batch and tissue-edge
   batch effects; estimators benchmarked on bias, interval coverage, power and AUROC.
 - C3 An artifact detector separating true spillover from segmentation bleed-through, density,
   batch and tissue-edge effects, with a per-dataset artifact fraction.
-- C4 A benchmark of estimators E1 to E4 plus space-blind baselines across at least three
-  spatial-screen technologies.
+- C4 A benchmark of estimators E1 to E4 plus space-blind baselines on the simulator, and
+  calibration on five datasets from four technologies (calibrated inference was possible only
+  on the two single-cell MERFISH screens).
 - C5 Held-out-gene and held-out-technology prediction of spillover from gene embeddings.
-- C6 A ranked, independently checked list of niche-remodelling genes with mechanistic
-  hypotheses and proposed wet-lab validation.
+- C6 A ranked list of niche-remodelling genes with mechanistic hypotheses and proposed
+  wet-lab validation (a hypothesis list: the DepMap and Open Targets checks were not run).
 - C7 An installable `spatialspill` package, tutorial, manuscript draft and Zenodo metadata.
 
 ## Layout

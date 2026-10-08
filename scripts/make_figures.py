@@ -324,13 +324,18 @@ def numbers(fish: Path, multi: Path, gate: Path | None) -> None:
             add(f"{tag}NtcScoreQ", float(df["ntc_score_q95"].iloc[0]), "{:.2f}")
             add(f"{tag}NAboveNtc", int((df["score"] > df["ntc_score_q95"]).sum()))
             add(f"{tag}NRanked", len(df))
-    # calibrated E1 runs on Perturb-FISH: global strata and 250 um tiles (pre-registered primary)
+    # Runs quoted in the prose, pinned by hash (NOTEBOOK 2026-10-05). Picking the last row per
+    # setting took a bin-sensitivity rerun instead of the pre-registered primary tile run.
     summ = pd.read_csv(ROOT / "results" / "summary" / "real_data_calibration.csv")
-    e1 = summ[(summ["dataset"] == "perturb_fish") & (summ["estimator"] == "E1")]
-    for tile, tag in ((0, "EOneGlobal"), (250, "EOneTile")):
-        r = e1[e1["tile_um"] == tile]
+    pinned = {
+        "EOneGlobal": "5d30bb4682",  # Perturb-FISH E1, global strata
+        "EOneTile": "8c106a7091",  # Perturb-FISH E1, 250 um tiles, bins 0/15/30/60 (primary)
+        "FishAnalytic": "246b4deb3e",  # Perturb-FISH E2, 40-centre basis, analytic SEs
+    }
+    for tag, run in pinned.items():
+        r = summ[(summ["run"] == run) & (summ["dataset"] == "perturb_fish")]
         if len(r):
-            r = r.iloc[-1]
+            r = r.iloc[0]
             add(f"{tag}NTests", int(r["n_tests"]))
             add(f"{tag}NtcP", float(r["ntc_p05"]))
             add(
@@ -341,11 +346,16 @@ def numbers(fish: Path, multi: Path, gate: Path | None) -> None:
             )
             add(f"{tag}AutoHits", int(r["autonomous_hits"]))
             add(f"{tag}SpillHits", int(r["spillover_hits"]))
-    m1 = summ[
-        (summ["dataset"] == "perturb_multi") & (summ["estimator"] == "E1") & (summ["tile_um"] == 0)
-    ]
+            for col, name in (
+                ("ntc_p05_auto", "Auto"),
+                ("ntc_p05_r1", "RingOne"),
+                ("ntc_p05_r2", "RingTwo"),
+            ):
+                v = float(r[col]) if np.isfinite(r[col]) else None
+                add(f"{tag}NtcP{name}", v)
+    m1 = summ[(summ["run"] == "53c85fb53d") & (summ["dataset"] == "perturb_multi")]  # E1 global
     if len(m1):
-        r = m1.iloc[-1]
+        r = m1.iloc[0]
         add("MultiEOneNtcP", float(r["ntc_p05"]))
         add("MultiEOneNTests", int(r["n_tests"]))
     ht = ROOT / "results" / "summary" / "heldout_technology.json"

@@ -28,8 +28,11 @@ data: ## download raw data (idempotent, md5-checked)
 audit: data ## per-dataset audit reports
 	$(PY) scripts/audit_datasets.py --config $(CONFIG)
 
-FISH_RUN ?= $(shell ls -td results/*/ 2>/dev/null | xargs -I{} sh -c 'test -f {}perturb_fish_e2_estimates.csv && echo {}' | head -1)
-MULTI_RUN ?= $(shell ls -td results/*/ 2>/dev/null | xargs -I{} sh -c 'test -f {}perturb_multi_e2_estimates.csv && echo {}' | head -1)
+# Real-data runs reported in the manuscript (final configuration, NOTEBOOK 2026-10-05).
+# Pinned so that `make paper` works from a clean clone, where the large estimate files
+# are not present; override with FISH_RUN=... after a new `make real`.
+FISH_RUN ?= results/197e22efb1
+MULTI_RUN ?= results/fddb2ec60c
 
 # Simulator runs shown in the manuscript (NOTEBOOK 2026-10-05). Pinned: picking the newest
 # benchmark by date picked up the later ablation and power runs instead.

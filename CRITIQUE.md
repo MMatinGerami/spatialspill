@@ -216,8 +216,8 @@ was the test statistic and the null, each time because a calibration check faile
 change declared before the rerun, each superseded result preserved. A reader can follow the
 sequence in NOTEBOOK.md and judge it.
 
-Objection 5. "The repository is private, so none of this is verifiable." It is private until
-the owner reviews it (ADR-001); the single command to publish is in STATUS.md.
+Objection 5. "The repository is private, so none of this is verifiable." It was private until
+the owner reviewed it (ADR-001) and has been public since 2026-10-09.
 
 ## Closing note (2026-10-05)
 
