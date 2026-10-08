@@ -1,8 +1,10 @@
-"""Verify that every DOI mentioned in the repository resolves on Crossref.
+"""Verify that every DOI mentioned in the repository resolves.
 
 Usage: uv run python scripts/check_citations.py [paths...]
 Scans markdown, tex and bib files for ``doi:`` / ``10.xxxx/...`` patterns and queries
-https://api.crossref.org/works/<doi>. Exits non-zero if any DOI fails.
+https://api.crossref.org/works/<doi>. Dataset DOIs (Zenodo, figshare) are registered with
+DataCite, not Crossref, so a Crossref miss falls back to the DataCite API. Exits non-zero if
+any DOI fails both.
 """
 
 from __future__ import annotations
@@ -43,17 +45,19 @@ def collect(paths: list[str]) -> set[str]:
     return dois
 
 
+HEADERS = {"User-Agent": "spatialspill-citation-check (mailto:mmatin.gerami@gmail.com)"}
+
+
 def check(doi: str) -> tuple[bool, str]:
-    r = requests.get(
-        f"https://api.crossref.org/works/{doi}",
-        timeout=30,
-        headers={"User-Agent": "spatialspill-citation-check (mailto:mmatin.gerami@gmail.com)"},
-    )
-    if r.status_code != 200:
-        return False, f"HTTP {r.status_code}"
-    msg = r.json()["message"]
-    title = (msg.get("title") or [""])[0]
-    return True, title[:90]
+    r = requests.get(f"https://api.crossref.org/works/{doi}", timeout=30, headers=HEADERS)
+    if r.status_code == 200:
+        title = (r.json()["message"].get("title") or [""])[0]
+        return True, title[:90]
+    d = requests.get(f"https://api.datacite.org/dois/{doi}", timeout=30, headers=HEADERS)
+    if d.status_code == 200:
+        titles = d.json()["data"]["attributes"].get("titles") or [{}]
+        return True, "[DataCite] " + titles[0].get("title", "")[:80]
+    return False, f"HTTP {r.status_code} (Crossref), {d.status_code} (DataCite)"
 
 
 def main() -> int:
